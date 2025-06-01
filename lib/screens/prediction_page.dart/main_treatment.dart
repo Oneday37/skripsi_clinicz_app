@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/screens/detail_treatment.dart';
 
 class MainTreatmentPage extends StatefulWidget {
@@ -58,14 +59,14 @@ class _MainTreatmentPageState extends State<MainTreatmentPage> {
                     children: [
                       // NAME OF DISEASE
                       Text(
-                        "Bodrex Migra",
+                        AppDummyText().dummyDrugTitle,
                         style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 20),
 
                       // DESCRIPTION OF DISEASE
                       Text(
-                        "Bodrex migra merupakan obat kaplet yang mengandung paracetamol, propyphenazone, dan kafein yang dapat digunakan untuk meringankan sakit kepala. Kandungan dari obat ini juga dapat digunakan untuk meredakan sakit ringan hingga sedang hingga menurunkan demam. Obat ini akan bekerja pada pusat pengontrol suhu tubuh di bagian otak dan mengurangi produksi prostaglandin, sehingga dapat menurunkan suhu tubuh saat demam dan meredakan nyeri. Obat ini dapat dibeli pada apotek-apotek terdekat. Namun, obat ini masih belum diproduksi secara teerbatas",
+                        AppDummyText().dummyDrugDesc,
                         style: GoogleFonts.roboto(),
                         textAlign: TextAlign.justify,
                       ),

@@ -18,10 +18,7 @@ class _CustomProfileState extends State<CustomProfile> {
       children: [
         Text(
           widget.label,
-          style: GoogleFonts.roboto(
-            color: Colors.grey,
-            fontWeight: FontWeight.bold,
-          ),
+          style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10),
         Container(

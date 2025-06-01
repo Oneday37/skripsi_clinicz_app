@@ -39,12 +39,22 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
-            //
-            CircleAvatar(
-              radius: 100,
-              child: Image.asset(
-                "assets/clinicz_logo_2.png",
-                fit: BoxFit.cover,
+            // PHOTO PROFILE
+            Center(
+              child: Container(
+                height: MediaQuery.of(context).size.width / 2.5,
+                width: MediaQuery.of(context).size.width / 2.5,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(130),
+                  border: Border.all(color: Colors.black, width: 2),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(120),
+                  child: Image.asset(
+                    "assets/dummy_profile.png",
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 30),
