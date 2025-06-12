@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
-import 'package:skripsi_clinicz_app/screens/prediction_page.dart/main_treatment.dart';
+import 'package:skripsi_clinicz_app/screens/prediction_section/main_treatment_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
 class PredictionResult extends StatefulWidget {

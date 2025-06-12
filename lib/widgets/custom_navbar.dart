@@ -2,14 +2,13 @@ import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/bi.dart';
-import 'package:iconify_flutter_plus/icons/carbon.dart';
-import 'package:iconify_flutter_plus/icons/heroicons.dart';
+import 'package:iconify_flutter_plus/icons/ci.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/screens/home_page.dart';
-import 'package:skripsi_clinicz_app/screens/medicine_page.dart';
-import 'package:skripsi_clinicz_app/screens/prediction_page.dart/prediction_disease_page.dart';
+import 'package:skripsi_clinicz_app/screens/prediction_section/prediction_disease_page.dart';
 import 'package:skripsi_clinicz_app/screens/profile_page.dart';
+import 'package:skripsi_clinicz_app/screens/settings_page.dart';
 
 class CustomNavBar extends StatefulWidget {
   const CustomNavBar({super.key});
@@ -23,8 +22,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
   List bodyPage = [
     HomePage(),
     PredictionDiseasePage(),
-    MedicinePage(),
     ProfilePage(),
+    SettingPage(),
   ];
 
   @override
@@ -38,26 +37,26 @@ class _CustomNavBarState extends State<CustomNavBar> {
         items: [
           FlashyTabBarItem(
             activeColor: AppColors.primaryColor,
-            icon: Iconify(Heroicons.home_solid, color: AppColors.primaryColor),
+            icon: Iconify(Mdi.home_outline, color: AppColors.primaryColor),
             title: Text("Home"),
           ),
           FlashyTabBarItem(
             activeColor: AppColors.primaryColor,
             icon: Iconify(
-              Carbon.reminder_medical,
+              Mdi.clipboard_text_history_outline,
               color: AppColors.primaryColor,
             ),
             title: Text("Prediction"),
           ),
           FlashyTabBarItem(
             activeColor: AppColors.primaryColor,
-            icon: Iconify(Mdi.medicine_bottle, color: AppColors.primaryColor),
-            title: Text("Medicine"),
+            icon: Iconify(Bi.person_fill, color: AppColors.primaryColor),
+            title: Text("Profile"),
           ),
           FlashyTabBarItem(
             activeColor: AppColors.primaryColor,
-            icon: Iconify(Bi.person_fill, color: AppColors.primaryColor),
-            title: Text("Profile"),
+            icon: Iconify(Ci.settings, color: AppColors.primaryColor),
+            title: Text("Settings"),
           ),
         ],
         onItemSelected: (index) {

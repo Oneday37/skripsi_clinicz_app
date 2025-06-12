@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 
-class DetailArticle extends StatefulWidget {
-  const DetailArticle({super.key});
+class DetailArticlePage extends StatefulWidget {
+  const DetailArticlePage({super.key});
 
   @override
-  State<DetailArticle> createState() => _DetailArticleState();
+  State<DetailArticlePage> createState() => _DetailArticlePageState();
 }
 
-class _DetailArticleState extends State<DetailArticle> {
+class _DetailArticlePageState extends State<DetailArticlePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -5,14 +5,14 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_detail_drug.dart';
 
-class DetailTreatment extends StatefulWidget {
-  const DetailTreatment({super.key});
+class DetailTreatmentPage extends StatefulWidget {
+  const DetailTreatmentPage({super.key});
 
   @override
-  State<DetailTreatment> createState() => _DetailTreatmentState();
+  State<DetailTreatmentPage> createState() => _DetailTreatmentPageState();
 }
 
-class _DetailTreatmentState extends State<DetailTreatment> {
+class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

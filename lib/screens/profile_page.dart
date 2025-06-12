@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
-import 'package:iconify_flutter_plus/icons/ci.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
-import 'package:skripsi_clinicz_app/screens/opening_section/login_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_profile.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -21,19 +18,11 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         automaticallyImplyLeading: false,
-        title: Text("Profile"),
+        title: Text(
+          "Profile",
+          style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: GestureDetector(
-              child: Iconify(Ci.log_out, size: 30),
-              onTap: () {
-                Get.to(LoginPage());
-              },
-            ),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -60,18 +49,22 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(height: 30),
 
             // CONTAINER FOR USERNAME
-            CustomProfile(label: "Username:", content: "Muhammad Ridho"),
+            CustomProfile(label: "Username", content: "Muhammad Ridho"),
             SizedBox(height: 20),
 
             // CONTAINER FOR E-MAIL
             CustomProfile(
-              label: "E - mail:",
+              label: "E-mail",
               content: "ridhosan_bebanhok@gmail.com",
             ),
             SizedBox(height: 20),
 
+            // CONTAINER FOR GENDER
+            CustomProfile(label: "Jenis Kelamin", content: "Laki-Laki"),
+            SizedBox(height: 20),
+
             // CONTAINER FOR BIRTH OF DATE
-            CustomProfile(label: "Tanggal Lahir:", content: "12 Desember 2012"),
+            CustomProfile(label: "Tanggal Lahir", content: "12 Desember 2012"),
           ],
         ),
       ),

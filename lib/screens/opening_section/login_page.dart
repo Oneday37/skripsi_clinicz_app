@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/screens/opening_section/signup_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_outside.dart';
+import 'package:skripsi_clinicz_app/widgets/custom_field_input.dart';
+import 'package:skripsi_clinicz_app/widgets/custom_field_input_pass.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_navbar.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,13 +18,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool visibilityButton = true;
-
-  void visibilityPass() {
-    setState(() {
-      visibilityButton = !visibilityButton;
-    });
-  }
 
   @override
   void dispose() {
@@ -39,95 +34,53 @@ class _LoginPageState extends State<LoginPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // CONTAINER WELCOME
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text("Hello!", style: TextStyle(fontSize: 40)),
-                Text("Selamt Data di Clinicz", style: TextStyle(fontSize: 20)),
+                Text(
+                  "Selamat Datang di Clinicz",
+                  style: TextStyle(fontSize: 20),
+                ),
               ],
             ),
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
 
           // CONTAINER FOR INPUT NAME ACCOUNT & PASSWORD
           Expanded(
             child: Container(
-              width: double.infinity,
               decoration: BoxDecoration(
                 color: AppColors.bgColor,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(50),
                   topRight: Radius.circular(50),
                 ),
               ),
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.all(25),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Login", style: TextStyle(fontSize: 40)),
-                    SizedBox(height: 30),
+                    const Text("Login", style: TextStyle(fontSize: 40)),
+                    const SizedBox(height: 30),
 
                     // CONTAINER FOR INPUT USERNAME
-                    TextFormField(
-                      controller: usernameController,
-                      cursorColor: AppColors.thirdColor,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.account_circle_outlined),
-                        prefixIconColor: AppColors.iconColor,
-                        hintText: "Username",
-                        hintStyle: TextStyle(color: AppColors.iconColor),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.thirdColor,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
+                    CustomFieldInput(
+                      fieldIcon: const Icon(Icons.account_circle_outlined),
+                      inputController: usernameController,
+                      hintText: "Username",
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 20),
 
                     // CONTAINER FOR INPUT PASSWORD
-                    TextFormField(
-                      controller: passwordController,
-                      cursorColor: AppColors.thirdColor,
-                      obscureText: visibilityButton == true ? true : false,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock_outline),
-                        prefixIconColor: AppColors.iconColor,
-                        hintText: "Password",
-                        hintStyle: TextStyle(color: AppColors.iconColor),
-                        suffixIcon: GestureDetector(
-                          child:
-                              visibilityButton == true
-                                  ? Icon(Icons.visibility_off)
-                                  : Icon(Icons.visibility),
-                          onTap: () {
-                            visibilityPass();
-                          },
-                        ),
-                        suffixIconColor: AppColors.iconColor,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.thirdColor,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
+                    CustomFieldInputPass(
+                      inputController: passwordController,
+                      hintText: "Password",
                     ),
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
 
                     // BUTTON FOR LOGIN
                     CustomButtonOutside(
@@ -136,27 +89,24 @@ class _LoginPageState extends State<LoginPage> {
                         Get.to(CustomNavBar());
                       },
                     ),
-
+                    Container(height: 370),
                     // CONTAINER FOR SING UP
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: RichText(
-                          text: TextSpan(
-                            text: "Don't have any account? ",
-                            style: TextStyle(color: Colors.black),
-                            children: [
-                              TextSpan(
-                                text: "Sing Up",
-                                style: TextStyle(color: AppColors.thirdColor),
-                                recognizer:
-                                    TapGestureRecognizer()
-                                      ..onTap = () {
-                                        Get.to(SignUpPage());
-                                      },
-                              ),
-                            ],
-                          ),
+                    Center(
+                      child: RichText(
+                        text: TextSpan(
+                          text: "Don't have any account? ",
+                          style: const TextStyle(color: Colors.black),
+                          children: [
+                            TextSpan(
+                              text: "Sign Up",
+                              style: TextStyle(color: AppColors.thirdColor),
+                              recognizer:
+                                  TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Get.to(SignUpPage());
+                                    },
+                            ),
+                          ],
                         ),
                       ),
                     ),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/widgets/custom_button_outside.dart';
+import 'package:skripsi_clinicz_app/widgets/custom_field_input.dart';
+import 'package:skripsi_clinicz_app/widgets/custom_field_input_pass.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -11,8 +14,11 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController dateOfBirthController = TextEditingController();
+  String? selectedItem;
   bool visibilityButton = true;
   bool visibilityConfirmPassButton = true;
 
@@ -50,14 +56,14 @@ class _SignUpPageState extends State<SignUpPage> {
             SizedBox(height: MediaQuery.of(context).size.width / 7),
             Expanded(
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50),
                     topRight: Radius.circular(50),
                   ),
                 ),
-                child: Padding(
+                child: SingleChildScrollView(
                   padding: const EdgeInsets.all(25),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,124 +80,103 @@ class _SignUpPageState extends State<SignUpPage> {
                           Get.back();
                         },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20),
                         child: Text("Sign Up", style: TextStyle(fontSize: 40)),
                       ),
 
                       // CONTAINER FOR INPUT USERNAME
-                      TextFormField(
-                        controller: usernameController,
-                        cursorColor: AppColors.thirdColor,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.account_circle_outlined),
-                          prefixIconColor: AppColors.iconColor,
-                          hintText: "Username",
-                          hintStyle: TextStyle(color: AppColors.iconColor),
-                          border: OutlineInputBorder(
+                      CustomFieldInput(
+                        fieldIcon: const Icon(Icons.account_circle_outlined),
+                        inputController: usernameController,
+                        hintText: "Username",
+                      ),
+                      const SizedBox(height: 20),
+
+                      // CONTAINER FOR INPUT E-MAIL
+                      CustomFieldInput(
+                        fieldIcon: const Icon(Icons.email_outlined),
+                        inputController: emailController, // Ganti controller
+                        hintText: "E-mail",
+                      ),
+                      const SizedBox(height: 20),
+
+                      // CONTAINER FOR INPUT DATE OF BIRTH
+                      CustomFieldInput(
+                        fieldIcon: const Icon(Icons.calendar_month_outlined),
+                        inputController: dateOfBirthController,
+                        hintText: "TANGGAL / BULAN / TAHUN",
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // CONTAINER FOR INPUT GENDER
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: selectedItem,
+                            isExpanded: true,
                             borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.thirdColor,
-                              width: 2,
+                            dropdownColor: AppColors.bgColor,
+                            icon: const Icon(Icons.arrow_drop_down),
+                            hint: const Row(
+                              children: [
+                                Icon(Icons.wc, color: Colors.grey),
+                                SizedBox(width: 10),
+                                Text(
+                                  "Pilih Jenis Kelamin",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
                             ),
-                            borderRadius: BorderRadius.circular(15),
+                            items: const [
+                              DropdownMenuItem(
+                                value: "Laki-laki",
+                                child: Text("Laki-laki"),
+                              ),
+                              DropdownMenuItem(
+                                value: "Perempuan",
+                                child: Text("Perempuan"),
+                              ),
+                            ],
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedItem = newValue!;
+                              });
+                            },
                           ),
                         ),
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 20),
 
                       // CONTAINER FOR INPUT PASSWORD
-                      TextFormField(
-                        controller: passwordController,
-                        cursorColor: AppColors.thirdColor,
-                        obscureText: visibilityButton == true ? true : false,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock_outline),
-                          prefixIconColor: AppColors.iconColor,
-                          hintText: "Password",
-                          hintStyle: TextStyle(color: AppColors.iconColor),
-                          suffixIcon: GestureDetector(
-                            child:
-                                visibilityButton == true
-                                    ? Icon(Icons.visibility_off)
-                                    : Icon(Icons.visibility),
-                            onTap: () {
-                              visibilityPass();
-                            },
-                          ),
-                          suffixIconColor: AppColors.iconColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.thirdColor,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
+                      CustomFieldInputPass(
+                        inputController: passwordController,
+                        hintText: "Password",
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 20),
 
                       // CONTAINER FOR CONFIRM PASSWORD
-                      TextFormField(
-                        controller: confirmPasswordController,
-                        cursorColor: AppColors.thirdColor,
-                        obscureText:
-                            visibilityConfirmPassButton == true ? true : false,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock_outline),
-                          prefixIconColor: AppColors.iconColor,
-                          hintText: "Confirm Password",
-                          hintStyle: TextStyle(color: AppColors.iconColor),
-                          suffixIcon: GestureDetector(
-                            child:
-                                visibilityConfirmPassButton == true
-                                    ? Icon(Icons.visibility_off)
-                                    : Icon(Icons.visibility),
-                            onTap: () {
-                              confirmVisibilityPass();
-                            },
-                          ),
-                          suffixIconColor: AppColors.iconColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.thirdColor,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
+                      CustomFieldInputPass(
+                        inputController: confirmPasswordController,
+                        hintText: "Confirm Password",
                       ),
-                      SizedBox(height: 50),
+                      const SizedBox(height: 50),
 
                       // BUTTON FOR SIGN UP
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppColors.thirdColor,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Center(
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
+                      CustomButtonOutside(
+                        label: "Sign Up",
+                        onTap: () {
+                          print("Anda menekan tombol Sign Up");
+                        },
                       ),
                     ],
                   ),

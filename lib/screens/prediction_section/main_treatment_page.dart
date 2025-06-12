@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
-import 'package:skripsi_clinicz_app/screens/detail_treatment.dart';
+import 'package:skripsi_clinicz_app/screens/detail_treatment_page.dart';
 
 class MainTreatmentPage extends StatefulWidget {
   const MainTreatmentPage({super.key});
@@ -100,7 +100,7 @@ class _MainTreatmentPageState extends State<MainTreatmentPage> {
             ],
           ),
           onTap: () {
-            Get.to(DetailTreatment());
+            Get.to(DetailTreatmentPage());
           },
         ),
       ),
