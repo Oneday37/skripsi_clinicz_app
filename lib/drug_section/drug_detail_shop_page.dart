@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/la.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_detail_drug.dart';
 
-class DetailTreatmentPage extends StatefulWidget {
-  const DetailTreatmentPage({super.key});
+class DrugDetailShopPage extends StatefulWidget {
+  const DrugDetailShopPage({super.key});
 
   @override
-  State<DetailTreatmentPage> createState() => _DetailTreatmentPageState();
+  State<DrugDetailShopPage> createState() => _DrugDetailShopPageState();
 }
 
-class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
+class _DrugDetailShopPageState extends State<DrugDetailShopPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,20 +22,14 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
       appBar: AppBar(
         backgroundColor: AppColors.thirdColor,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: AppColors.primaryColor,
-          ),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
             Get.back();
           },
         ),
 
         // NAME OF DISEASE
-        title: Text(
-          AppDummyText().dummyDrugTitle,
-          style: TextStyle(color: AppColors.primaryColor),
-        ),
+        title: Text(AppDummyText().dummyDrugTitle, style: AppFonts().titleFont),
         centerTitle: true,
       ),
 
@@ -46,40 +42,37 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
               aspectRatio: 16 / 9,
               child: Image.asset("assets/drug_sample.png"),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
 
             // DESCRIPTION OF TREATMENT
             CustomDetailDrug(
               label: "Deskripsi Obat:",
               content: AppDummyText().dummyDrugDesc,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
 
             // MEDICINE INGREDIENTS
             CustomDetailDrug(
               label: "Kandungan:",
               content: AppDummyText().dummyDrugIngredients,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
 
             // TREATMENT DOSAGE
             CustomDetailDrug(
               label: "Dosis Penggunaan:",
               content: AppDummyText().dummyDrugDosage,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
 
             // TERMS OF USE
             CustomDetailDrug(
               label: "Aturan Pakai:",
               content: AppDummyText().dummyDrugTermsofUse,
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 30),
 
-            Text(
-              "Obat yang serupa",
-              style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
-            ),
+            Text("Obat yang serupa", style: AppFonts().subTitleFont),
             SizedBox(height: 5),
 
             // LIST OF DRUG RECOMMENDATION
@@ -87,12 +80,12 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
               height: 200,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 4,
+                itemCount: 2,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     child: Padding(
                       padding:
-                          index == 3
+                          index == 1
                               ? const EdgeInsets.all(0)
                               : const EdgeInsets.only(right: 20),
                       child: Container(
@@ -112,12 +105,16 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                   scale: 2.5,
                                 ),
                                 // SizedBox(width: 10),
-                                Text(AppDummyText().dummyDrugTitle),
+                                Text(
+                                  AppDummyText().dummyDrugTitle,
+                                  style: AppFonts().normalBlackFont,
+                                ),
                               ],
                             ),
                             SizedBox(height: 5),
                             Text(
                               AppDummyText().dummyDrugDesc,
+                              style: AppFonts().normalBlackFont,
                               textAlign: TextAlign.justify,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
@@ -132,6 +129,41 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                   );
                 },
               ),
+            ),
+            SizedBox(height: 40),
+
+            // BUTTON FOR REDIRECT SHOP
+            GestureDetector(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 20,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Go To Market",
+                          style: AppFonts().normalWhiteBoldFont,
+                        ),
+                      ),
+                      Iconify(La.shopping_cart, size: 35, color: Colors.white),
+                    ],
+                  ),
+                ),
+              ),
+              onTap: () {
+                print(
+                  "Anda menekan button Go To Market yang akan mengarahkan anda ke link toko online",
+                );
+              },
             ),
           ],
         ),

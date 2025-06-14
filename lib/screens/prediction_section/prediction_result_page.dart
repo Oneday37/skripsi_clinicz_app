@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
-import 'package:skripsi_clinicz_app/screens/prediction_section/main_treatment_page.dart';
+import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
+import 'package:skripsi_clinicz_app/drug_section/drug_recommendation_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
 class PredictionResult extends StatefulWidget {
@@ -19,18 +21,12 @@ class _PredictionResultState extends State<PredictionResult> {
       appBar: AppBar(
         backgroundColor: AppColors.thirdColor,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: AppColors.primaryColor,
-          ),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
             Get.back();
           },
         ),
-        title: Text(
-          "Hasil Prediksi",
-          style: TextStyle(color: AppColors.primaryColor),
-        ),
+        title: Text("Hasil Prediksi", style: AppFonts().titleFont),
         centerTitle: true,
       ),
 
@@ -58,34 +54,82 @@ class _PredictionResultState extends State<PredictionResult> {
                   children: [
                     // NAME OF DISEASE
                     Text(
-                      "Migrain",
-                      style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+                      AppDummyText().dummyDiseaseTitle,
+                      style: AppFonts().subTitleFont,
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
 
                     // DESCRIPTION OF DISEASE
                     Text(
-                      "Migrain merupakan jenis sakit kepala yang terasa seperti berdenyut, dan umumnya hanya terjadi pada satu sisi kepala. Gejala sakit kepala lain yang sering menyertai migrain adalah rasa mual, muntah, pucat, rasa dingin pada ekstremitas, dan sensitif terhadap cahaya dan suara. Penyakit migrain biasanya akan mereda dalam kurun waktu 4 - 72 jam. Belum ada penyebab pasti mengapa seseorang mengalami penyakit migrain. Namun, penyakit ini dapat timbul melalui stress, kelelahan, mengkonsumsi makanan yang mengandung MSG, cokelat, keju.",
-                      style: GoogleFonts.roboto(),
+                      AppDummyText().dummyDiseaseDesc,
+                      style: AppFonts().normalBlackFont,
                       textAlign: TextAlign.justify,
                     ),
-                    SizedBox(height: 50),
+                    SizedBox(height: 30),
+
+                    Text("Penyebab", style: AppFonts().subTitleFont),
+                    SizedBox(height: 10),
+
+                    // CAUSE OF DISEASE
+                    Text(
+                      AppDummyText().dummyDiseaseCause,
+                      style: AppFonts().normalBlackFont,
+                      textAlign: TextAlign.justify,
+                    ),
+                    SizedBox(height: 30),
+
+                    Text("Pencegahan", style: AppFonts().subTitleFont),
+                    SizedBox(height: 10),
+
+                    // PREVENTION OF DISEASE
+                    Text(
+                      AppDummyText().dummyDiseasePrevention,
+                      style: AppFonts().normalBlackFont,
+                      textAlign: TextAlign.justify,
+                    ),
+                    SizedBox(height: 40),
 
                     // ALERT MESSAGE !!!
                     RichText(
                       textAlign: TextAlign.justify,
                       text: TextSpan(
                         text: "Note: ",
-                        style: GoogleFonts.roboto(
+                        style: GoogleFonts.robotoCondensed(
                           color: Colors.black,
+                          fontSize: 17,
                           fontWeight: FontWeight.bold,
                         ),
                         children: [
                           TextSpan(
                             text:
                                 "Untuk pemeriksaan lebih lanjut, diharapkan untuk menghubungi dokter",
-                            style: GoogleFonts.roboto(
+                            style: GoogleFonts.robotoCondensed(
                               color: Colors.black,
+                              fontSize: 17,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 40),
+
+                    // SOURCE OF DATA
+                    RichText(
+                      textAlign: TextAlign.justify,
+                      text: TextSpan(
+                        text: "Sumber: ",
+                        style: GoogleFonts.robotoCondensed(
+                          color: Colors.black,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: AppDummyText().dummyDiseaseource,
+                            style: GoogleFonts.robotoCondensed(
+                              color: Colors.black,
+                              fontSize: 17,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
@@ -96,7 +140,8 @@ class _PredictionResultState extends State<PredictionResult> {
                 ),
               ),
             ),
-            SizedBox(height: 100),
+
+            SizedBox(height: 70),
 
             // BUTTON FOR GET MAIN TREATMENT
             Align(
@@ -104,7 +149,7 @@ class _PredictionResultState extends State<PredictionResult> {
               child: CustomButtonInside(
                 label: "Rekomendasi Obat",
                 onTap: () {
-                  Get.to(MainTreatmentPage());
+                  Get.to(DrugRecommendationPage());
                 },
               ),
             ),

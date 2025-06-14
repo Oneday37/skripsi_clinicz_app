@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/articles_section/detail_article_page.dart';
+import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
 class ArticlesPage extends StatefulWidget {
   const ArticlesPage({super.key});
@@ -23,10 +24,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
         leading: Image.asset("assets/clinicz_logo_2.png"),
         title: Row(
           children: [
-            Text(
-              "Clinicz",
-              style: GoogleFonts.roboto(color: AppColors.primaryColor),
-            ),
+            Text("DiagnoCare", style: AppFonts().normalGreetingFontInside),
             SizedBox(width: 20),
 
             // SEARCH BAR FOR ARTICLE
@@ -72,10 +70,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
               itemBuilder: (_, index) {
                 return GestureDetector(
                   child: Padding(
-                    padding:
-                        index == 4
-                            ? const EdgeInsets.all(0)
-                            : const EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: 20),
                     child: Container(
                       decoration: BoxDecoration(
                         color: AppColors.thirdColor,
@@ -102,6 +97,13 @@ class _ArticlesPageState extends State<ArticlesPage> {
                             Text(
                               AppDummyText().dummyArticleTitle,
                               textAlign: TextAlign.justify,
+                            ),
+                            SizedBox(height: 10),
+                            CustomButtonInside(
+                              label: "Baca Artikel",
+                              onTap: () {
+                                Get.to(DetailArticlePage());
+                              },
                             ),
                           ],
                         ),

@@ -5,8 +5,8 @@ import 'package:iconify_flutter_plus/icons/bi.dart';
 import 'package:iconify_flutter_plus/icons/ci.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/screens/history_prediction.dart';
 import 'package:skripsi_clinicz_app/screens/home_page.dart';
-import 'package:skripsi_clinicz_app/screens/prediction_section/prediction_disease_page.dart';
 import 'package:skripsi_clinicz_app/screens/profile_page.dart';
 import 'package:skripsi_clinicz_app/screens/settings_page.dart';
 
@@ -21,7 +21,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
   int selectedPage = 0;
   List bodyPage = [
     HomePage(),
-    PredictionDiseasePage(),
+    HistoryPrediction(),
     ProfilePage(),
     SettingPage(),
   ];
@@ -46,7 +46,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
               Mdi.clipboard_text_history_outline,
               color: AppColors.primaryColor,
             ),
-            title: Text("Prediction"),
+            title: Text("History"),
           ),
           FlashyTabBarItem(
             activeColor: AppColors.primaryColor,

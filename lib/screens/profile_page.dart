@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_profile.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -18,10 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         automaticallyImplyLeading: false,
-        title: Text(
-          "Profile",
-          style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
-        ),
+        title: Text("Profile", style: AppFonts().titleFont),
         centerTitle: true,
       ),
       body: Padding(

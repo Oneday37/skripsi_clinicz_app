@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/prediction_section/prediction_result_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
@@ -21,18 +21,12 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: AppColors.primaryColor,
-          ),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
             Get.back();
           },
         ),
-        title: Text(
-          "Prediksi Penyakit",
-          style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
-        ),
+        title: Text("Prediksi Penyakit", style: AppFonts().titleFont),
         centerTitle: true,
       ),
       body: Padding(
@@ -46,12 +40,16 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                   aspectRatio: 3 / 2,
                   child: Image.asset("assets/clinicz_logo_2.png"),
                 ),
-                Text("Prediksi Penyakitmu Sekarang !"),
-                SizedBox(height: 50),
+                Text(
+                  "Prediksi Penyakitmu Sekarang !",
+                  style: AppFonts().subTitleFont,
+                ),
+                SizedBox(height: 40),
 
                 // DISEASE PREDICTION SECTION
                 Text(
                   "Tuliskan gejala anda secara spesifik yang sedang anda alami!",
+                  style: AppFonts().normalBlackFont,
                 ),
                 SizedBox(height: 20),
 

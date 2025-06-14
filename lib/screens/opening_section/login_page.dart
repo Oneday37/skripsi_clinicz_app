@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/opening_section/signup_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_outside.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_input.dart';
@@ -30,7 +31,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.thirdColor,
-      appBar: AppBar(backgroundColor: AppColors.thirdColor),
+      appBar: AppBar(
+        backgroundColor: AppColors.thirdColor,
+        automaticallyImplyLeading: false,
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -38,11 +42,11 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text("Hello!", style: TextStyle(fontSize: 40)),
+              children: [
+                Text("Hello!", style: AppFonts().greetingFontOutside),
                 Text(
-                  "Selamat Datang di Clinicz",
-                  style: TextStyle(fontSize: 20),
+                  "Selamat Datang di DiagnoCare",
+                  style: AppFonts().normalGreetingFontOutside,
                 ),
               ],
             ),
@@ -64,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Login", style: TextStyle(fontSize: 40)),
+                    Text("Login", style: AppFonts().greetingFontOutside2),
                     const SizedBox(height: 30),
 
                     // CONTAINER FOR INPUT USERNAME

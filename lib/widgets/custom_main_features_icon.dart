@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 
 class CustomMainFeaturesIcon extends StatelessWidget {
   dynamic featureIcon;
@@ -19,8 +20,8 @@ class CustomMainFeaturesIcon extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.width / 5.5,
-            width: MediaQuery.of(context).size.width / 5.5,
+            height: MediaQuery.of(context).size.width / 6,
+            width: MediaQuery.of(context).size.width / 6,
             decoration: BoxDecoration(
               color: AppColors.fourthColor,
               border: Border.all(color: Colors.black, width: 2),
@@ -32,7 +33,7 @@ class CustomMainFeaturesIcon extends StatelessWidget {
             ),
           ),
           SizedBox(height: 5),
-          Text(featureName),
+          Text(featureName, style: AppFonts().normalBlackFont),
         ],
       ),
       onTap: () {

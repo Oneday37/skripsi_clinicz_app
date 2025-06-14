@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 
 class CustomFieldInputPass extends StatefulWidget {
   final TextEditingController inputController;
@@ -33,7 +34,7 @@ class _CustomFieldInputPassState extends State<CustomFieldInputPass> {
         prefixIcon: Icon(Icons.lock_outline),
         prefixIconColor: AppColors.iconColor,
         hintText: widget.hintText,
-        hintStyle: TextStyle(color: AppColors.iconColor),
+        hintStyle: AppFonts().inputFieldFont,
         suffixIcon: GestureDetector(
           child:
               visibilityButton == true

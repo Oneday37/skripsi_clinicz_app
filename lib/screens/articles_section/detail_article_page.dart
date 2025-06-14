@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 
 class DetailArticlePage extends StatefulWidget {
   const DetailArticlePage({super.key});
@@ -14,6 +15,12 @@ class _DetailArticlePageState extends State<DetailArticlePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgColor,
+      appBar: AppBar(
+        leading: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
+        backgroundColor: AppColors.bgColor,
+        title: Text("Article", style: AppFonts().titleFont),
+        centerTitle: true,
+      ),
       body: ListView(
         children: [
           AspectRatio(

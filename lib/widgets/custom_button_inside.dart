@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 
 class CustomButtonInside extends StatelessWidget {
   final String label;
@@ -20,16 +21,9 @@ class CustomButtonInside extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Center(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: AppColors.bgColor,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            child: Text(label, style: AppFonts().normalWhiteBoldFont),
           ),
         ),
       ),

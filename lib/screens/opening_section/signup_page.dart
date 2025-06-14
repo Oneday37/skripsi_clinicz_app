@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_outside.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_input.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_input_pass.dart';
@@ -72,17 +73,23 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: Row(
                           children: [
                             Icon(Icons.arrow_back),
-                            SizedBox(width: 5),
-                            Text("Back to login"),
+                            SizedBox(width: 10),
+                            Text(
+                              "Back to login",
+                              style: AppFonts().normalBlackFont,
+                            ),
                           ],
                         ),
                         onTap: () {
                           Get.back();
                         },
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        child: Text("Sign Up", style: TextStyle(fontSize: 40)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Text(
+                          "Sign Up",
+                          style: AppFonts().greetingFontOutside2,
+                        ),
                       ),
 
                       // CONTAINER FOR INPUT USERNAME
@@ -105,7 +112,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       CustomFieldInput(
                         fieldIcon: const Icon(Icons.calendar_month_outlined),
                         inputController: dateOfBirthController,
-                        hintText: "TANGGAL / BULAN / TAHUN",
+                        hintText: "Tanggal / Bulan / Tahun",
                       ),
 
                       const SizedBox(height: 20),

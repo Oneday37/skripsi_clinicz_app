@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 
 class CustomDetailDrug extends StatefulWidget {
   final String label;
@@ -16,11 +16,13 @@ class _CustomDetailDrugState extends State<CustomDetailDrug> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(widget.label, style: AppFonts().subTitleFont),
+        SizedBox(height: 10),
         Text(
-          widget.label,
-          style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+          widget.content,
+          style: AppFonts().normalBlackFont,
+          textAlign: TextAlign.justify,
         ),
-        Text(widget.content, textAlign: TextAlign.justify),
       ],
     );
   }

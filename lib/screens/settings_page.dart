@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ci.dart';
 import 'package:iconify_flutter_plus/icons/line_md.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/opening_section/login_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_settings.dart';
 
@@ -18,10 +18,7 @@ class SettingPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         automaticallyImplyLeading: false,
-        title: Text(
-          "Pengaturan",
-          style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
-        ),
+        title: Text("Pengaturan", style: AppFonts().titleFont),
         centerTitle: true,
       ),
       body: Padding(
@@ -29,10 +26,7 @@ class SettingPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Pengaturan Akun",
-              style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
-            ),
+            Text("Pengaturan Akun", style: AppFonts().subTitleFont),
             SizedBox(height: 10),
 
             // CONTAINER FOR CHANGE PASSWORD
@@ -55,10 +49,7 @@ class SettingPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
 
-            Text(
-              "Aplikasi Clinicz",
-              style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
-            ),
+            Text("Aplikasi DiagnoCare", style: AppFonts().subTitleFont),
             SizedBox(height: 10),
 
             // CONTAINER FOR ABOUT US
@@ -97,7 +88,7 @@ class SettingPage extends StatelessWidget {
                       children: [
                         Iconify(Ci.log_out, color: Colors.white),
                         SizedBox(width: 20),
-                        Text("Logout", style: TextStyle(color: Colors.white)),
+                        Text("Logout", style: AppFonts().normalWhiteFont),
                       ],
                     ),
                   ),

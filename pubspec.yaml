@@ -36,7 +36,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   get: ^4.7.2
   flashy_tab_bar2: ^0.0.10
-  hugeicons: ^0.0.11
   iconify_flutter_plus: ^1.0.4
   google_fonts: ^6.2.1
 

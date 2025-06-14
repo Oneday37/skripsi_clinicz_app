@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 
 class CustomFieldSettings extends StatelessWidget {
   final dynamic prefixIcon;
@@ -27,7 +28,7 @@ class CustomFieldSettings extends StatelessWidget {
             children: [
               prefixIcon,
               SizedBox(width: 20),
-              Expanded(child: Text(label)),
+              Expanded(child: Text(label, style: AppFonts().normalBlackFont)),
               Icon(Icons.arrow_forward_ios_rounded),
             ],
           ),

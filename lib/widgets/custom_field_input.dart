@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
+import 'package:skripsi_clinicz_app/constants/fonts.dart';
 
 class CustomFieldInput extends StatelessWidget {
   final TextEditingController inputController;
@@ -22,7 +23,7 @@ class CustomFieldInput extends StatelessWidget {
         prefixIcon: fieldIcon,
         prefixIconColor: AppColors.iconColor,
         hintText: hintText,
-        hintStyle: TextStyle(color: AppColors.iconColor),
+        hintStyle: AppFonts().inputFieldFont,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.thirdColor, width: 2),
