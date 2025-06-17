@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/drug_section/drug_recommendation_page.dart';
+import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
 class PredictionResult extends StatefulWidget {
@@ -141,7 +141,7 @@ class _PredictionResultState extends State<PredictionResult> {
               ),
             ),
 
-            SizedBox(height: 70),
+            SizedBox(height: 50),
 
             // BUTTON FOR GET MAIN TREATMENT
             Align(

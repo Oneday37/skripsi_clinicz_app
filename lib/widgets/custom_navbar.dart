@@ -5,7 +5,7 @@ import 'package:iconify_flutter_plus/icons/bi.dart';
 import 'package:iconify_flutter_plus/icons/ci.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
-import 'package:skripsi_clinicz_app/screens/history_prediction.dart';
+import 'package:skripsi_clinicz_app/screens/history_prediction_section/history_prediction_page.dart';
 import 'package:skripsi_clinicz_app/screens/home_page.dart';
 import 'package:skripsi_clinicz_app/screens/profile_page.dart';
 import 'package:skripsi_clinicz_app/screens/settings_page.dart';
@@ -21,7 +21,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
   int selectedPage = 0;
   List bodyPage = [
     HomePage(),
-    HistoryPrediction(),
+    HistoryPredictionPage(),
     ProfilePage(),
     SettingPage(),
   ];
@@ -36,26 +36,26 @@ class _CustomNavBarState extends State<CustomNavBar> {
         selectedIndex: selectedPage,
         items: [
           FlashyTabBarItem(
-            activeColor: AppColors.primaryColor,
-            icon: Iconify(Mdi.home_outline, color: AppColors.primaryColor),
+            activeColor: Colors.black,
+            icon: Iconify(Mdi.home_outline, color: Colors.black),
             title: Text("Home"),
           ),
           FlashyTabBarItem(
-            activeColor: AppColors.primaryColor,
+            activeColor: Colors.black,
             icon: Iconify(
               Mdi.clipboard_text_history_outline,
-              color: AppColors.primaryColor,
+              color: Colors.black,
             ),
             title: Text("History"),
           ),
           FlashyTabBarItem(
-            activeColor: AppColors.primaryColor,
-            icon: Iconify(Bi.person_fill, color: AppColors.primaryColor),
+            activeColor: Colors.black,
+            icon: Iconify(Bi.person_fill, color: Colors.black),
             title: Text("Profile"),
           ),
           FlashyTabBarItem(
-            activeColor: AppColors.primaryColor,
-            icon: Iconify(Ci.settings, color: AppColors.primaryColor),
+            activeColor: Colors.black,
+            icon: Iconify(Ci.settings, color: Colors.black),
             title: Text("Settings"),
           ),
         ],

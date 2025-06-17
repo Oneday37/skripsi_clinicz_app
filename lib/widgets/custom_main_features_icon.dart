@@ -23,7 +23,7 @@ class CustomMainFeaturesIcon extends StatelessWidget {
             height: MediaQuery.of(context).size.width / 6,
             width: MediaQuery.of(context).size.width / 6,
             decoration: BoxDecoration(
-              color: AppColors.fourthColor,
+              color: AppColors.thirdColor,
               border: Border.all(color: Colors.black, width: 2),
               borderRadius: BorderRadius.circular(15),
             ),

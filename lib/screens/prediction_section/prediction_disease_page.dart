@@ -34,31 +34,45 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
         child: ListView(
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // APPLICATION LOGO
                 AspectRatio(
                   aspectRatio: 3 / 2,
                   child: Image.asset("assets/clinicz_logo_2.png"),
                 ),
-                Text(
-                  "Prediksi Penyakitmu Sekarang !",
-                  style: AppFonts().subTitleFont,
+                Center(
+                  child: Text(
+                    "Prediksi Penyakitmu Sekarang !",
+                    style: AppFonts().normalGreetingFontInside,
+                  ),
                 ),
                 SizedBox(height: 40),
 
                 // DISEASE PREDICTION SECTION
                 Text(
-                  "Tuliskan gejala anda secara spesifik yang sedang anda alami!",
-                  style: AppFonts().normalBlackFont,
+                  "Tuliskan gejala yang dirasakan pada tubuh anda secara spesifik",
+                  style: AppFonts().normalBlueFont,
+                  textAlign: TextAlign.justify,
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
+
+                // DISEASE PREDICTION SECTION
+                Text(
+                  "(Contoh: Telinga nyeri, mata merah, hidung tersumbat)",
+                  style: AppFonts().normalBlueBoldFont,
+                  textAlign: TextAlign.justify,
+                ),
+                SizedBox(height: 30),
 
                 // CONTAINER FOR ENTERING SYMPTOMS OF DISEASE
                 TextFormField(
                   controller: gejalaController,
-                  textAlign: TextAlign.justify,
-                  maxLines: 4,
+                  cursorHeight: 20,
                   cursorColor: AppColors.primaryColor,
+                  maxLines: 5,
+                  textCapitalization: TextCapitalization.sentences,
+                  textAlign: TextAlign.justify,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: BorderSide(width: 2),

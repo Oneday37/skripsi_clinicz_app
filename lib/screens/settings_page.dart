@@ -5,6 +5,8 @@ import 'package:iconify_flutter_plus/icons/ci.dart';
 import 'package:iconify_flutter_plus/icons/line_md.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
+import 'package:skripsi_clinicz_app/screens/about_us_page.dart';
+import 'package:skripsi_clinicz_app/screens/contact_us_page.dart';
 import 'package:skripsi_clinicz_app/screens/opening_section/login_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_settings.dart';
 
@@ -43,8 +45,37 @@ class SettingPage extends StatelessWidget {
             CustomFieldSettings(
               prefixIcon: Iconify(LineMd.account_delete),
               label: "Hapus Akun Saya",
-              onTap: () {
-                print("Anda Menekan Button Ganti Password");
+              onTap: () async {
+                return showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text("ALLERT !!!"),
+                      content: Text(
+                        "Apakah anda ingin menghapus akun ini?",
+                        style: AppFonts().normalBlackBoldFont,
+                      ),
+                      actions: [
+                        MaterialButton(
+                          child: Text("Tidak", style: AppFonts().normalRedFont),
+                          onPressed: () {
+                            Get.back();
+                            print("Anda menekan tombol tidak");
+                          },
+                        ),
+                        MaterialButton(
+                          child: Text("Ya", style: AppFonts().normalGreenFont),
+                          onPressed: () {
+                            print(
+                              "Anda menekan tombol ya dan akun anda telah terhapus + kembali ke halaman login",
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
             SizedBox(height: 20),
@@ -57,7 +88,7 @@ class SettingPage extends StatelessWidget {
               prefixIcon: Icon(Icons.people),
               label: "Tentang Kami",
               onTap: () {
-                print("Anda Menekan Button Tentang Kami");
+                Get.to(AboutUsPage());
               },
             ),
             SizedBox(height: 20),
@@ -67,7 +98,7 @@ class SettingPage extends StatelessWidget {
               prefixIcon: Icon(Icons.contact_phone),
               label: "Hubungi Kami",
               onTap: () {
-                print("Anda Menekan Button Hubungi Kami");
+                Get.to(ContactUsPage());
               },
             ),
 

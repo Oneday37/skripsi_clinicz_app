@@ -19,7 +19,7 @@ class CustomFieldSettings extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: AppColors.fourthColor,
+          color: AppColors.thirdColor,
           borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(

@@ -68,8 +68,31 @@ class AppFonts {
     fontWeight: FontWeight.bold,
   );
 
+  final normalBlueFont = GoogleFonts.robotoCondensed(
+    color: AppColors.primaryColor,
+    fontSize: 17,
+    fontWeight: FontWeight.normal,
+  );
+
+  final normalBlueBoldFont = GoogleFonts.robotoCondensed(
+    color: AppColors.primaryColor,
+    fontSize: 15,
+    fontWeight: FontWeight.bold,
+  );
+
+  // INPUT FONT
   final inputFieldFont = GoogleFonts.robotoCondensed(
     color: Colors.grey,
     fontWeight: FontWeight.normal,
+  );
+
+  // ALERT FONTS
+  final normalRedFont = GoogleFonts.robotoCondensed(
+    color: Colors.red,
+    fontWeight: FontWeight.bold,
+  );
+  final normalGreenFont = GoogleFonts.robotoCondensed(
+    color: Colors.green,
+    fontWeight: FontWeight.bold,
   );
 }

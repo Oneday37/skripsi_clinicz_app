@@ -17,11 +17,20 @@ class _ArticlesPageState extends State<ArticlesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bgColor,
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
 
         // APPLICATION LOGO
-        leading: Image.asset("assets/clinicz_logo_2.png"),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_rounded,
+            color: AppColors.primaryColor,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
         title: Row(
           children: [
             Text("DiagnoCare", style: AppFonts().normalGreetingFontInside),
@@ -79,6 +88,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(15),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // ARTICLE THUMBNAIL
                             SizedBox(
@@ -96,6 +106,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                             // ARTICLE TITLE
                             Text(
                               AppDummyText().dummyArticleTitle,
+                              style: AppFonts().subTitleFont,
                               textAlign: TextAlign.justify,
                             ),
                             SizedBox(height: 10),

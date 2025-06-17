@@ -8,10 +8,17 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/data/drug_data.dart';
-import 'package:skripsi_clinicz_app/drug_section/drug_shop_page.dart';
+import 'package:skripsi_clinicz_app/screens/chatbot_page.dart';
+import 'package:skripsi_clinicz_app/screens/drug_section/digestive_medicine_page.dart';
+import 'package:skripsi_clinicz_app/screens/drug_section/drug_shop_page.dart';
 import 'package:skripsi_clinicz_app/models/drug_model.dart';
 import 'package:skripsi_clinicz_app/screens/articles_section/articles_page.dart';
 import 'package:skripsi_clinicz_app/screens/articles_section/detail_article_page.dart';
+import 'package:skripsi_clinicz_app/screens/drug_section/eye_medicine_page.dart';
+import 'package:skripsi_clinicz_app/screens/drug_section/headache_medicine_page.dart';
+import 'package:skripsi_clinicz_app/screens/drug_section/heart_medicine_page.dart';
+import 'package:skripsi_clinicz_app/screens/drug_section/repiratory_medicine_page.dart';
+import 'package:skripsi_clinicz_app/screens/nearby_faskes_page.dart';
 import 'package:skripsi_clinicz_app/screens/prediction_section/prediction_disease_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_main_features_icon.dart';
@@ -39,16 +46,25 @@ class _HomePageState extends State<HomePage> {
               SizedBox(width: 30),
 
               // AREA FOR ACCOUNT
-              Row(
-                children: [
-                  Text("Muhammad Ridho", style: AppFonts().normalBlackFont),
-                  SizedBox(width: 10),
-                  Icon(
-                    Icons.account_circle,
-                    color: AppColors.primaryColor,
-                    size: 30,
-                  ),
-                ],
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "Muhammad Ridho",
+                        style: AppFonts().normalBlackFont,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Icon(
+                      Icons.account_circle,
+                      color: AppColors.primaryColor,
+                      size: 30,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -72,6 +88,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
+                maxLines: 2,
               ),
               Text(
                 "Selamat Datang di DiagnoCare",
@@ -103,15 +120,15 @@ class _HomePageState extends State<HomePage> {
                   CustomMainFeaturesIcon(
                     featureIcon: Image.asset("assets/chatbot.png"),
                     featureName: "Chatbot AI",
-                    directPage: () {},
+                    directPage: ChatBotPage(),
                   ),
                   SizedBox(width: 20),
 
                   // CONTAINER FOR NEARBY CLINIC
                   CustomMainFeaturesIcon(
                     featureIcon: Iconify(La.map_marked_alt),
-                    featureName: "Klinik Sekitar",
-                    directPage: () {},
+                    featureName: "Faskes Sekitar",
+                    directPage: NearbyFaskesPage(),
                   ),
                 ],
               ),
@@ -158,7 +175,17 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       onTap: () {
-                        print("Anda menekan ${getDataDrug.drugName}");
+                        if (getDataDrug.drugName == "Obat Kepala") {
+                          Get.to(HeadacheMedicinePage());
+                        } else if (getDataDrug.drugName == "Obat Mata") {
+                          Get.to(EyeMedicinePage());
+                        } else if (getDataDrug.drugName == "Obat Pernapasan") {
+                          Get.to(RepiratoryMedicinePage());
+                        } else if (getDataDrug.drugName == "Obat Jantung") {
+                          Get.to(HeartMedicinePage());
+                        } else if (getDataDrug.drugName == "Obat Pencernaan") {
+                          Get.to(DisgetsiveMedicinePage());
+                        }
                       },
                     );
                   },
@@ -174,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                   GestureDetector(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: AppColors.fourthColor,
+                        color: AppColors.thirdColor,
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Padding(
@@ -184,10 +211,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Text(
                           "Lihat Semua",
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: AppFonts().normalBlackBoldFont,
                         ),
                       ),
                     ),
@@ -197,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
 
               // CONTAINER FOR LIST ARTICLES
               ListView.builder(
@@ -216,6 +240,7 @@ class _HomePageState extends State<HomePage> {
                         child: Padding(
                           padding: const EdgeInsets.all(15),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // ARTICLE THUMBNAIL
                               SizedBox(
@@ -233,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                               // ARTICLE TITLE
                               Text(
                                 AppDummyText().dummyArticleTitle,
-                                style: AppFonts().normalBlackFont,
+                                style: AppFonts().subTitleFont,
                                 textAlign: TextAlign.justify,
                               ),
                               SizedBox(height: 10),

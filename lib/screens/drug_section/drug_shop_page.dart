@@ -4,7 +4,7 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/data/disease_category.dart';
-import 'package:skripsi_clinicz_app/drug_section/drug_detail_shop_page.dart';
+import 'package:skripsi_clinicz_app/screens/drug_section/drug_detail_shop_page.dart';
 import 'package:skripsi_clinicz_app/models/disease_category_model.dart';
 
 class DrugShopPage extends StatefulWidget {

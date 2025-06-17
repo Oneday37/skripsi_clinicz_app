@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
@@ -16,7 +17,12 @@ class _DetailArticlePageState extends State<DetailArticlePage> {
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
+          onPressed: () {
+            Get.back();
+          },
+        ),
         backgroundColor: AppColors.bgColor,
         title: Text("Article", style: AppFonts().titleFont),
         centerTitle: true,

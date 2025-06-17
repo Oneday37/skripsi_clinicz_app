@@ -65,56 +65,66 @@ class _LoginPageState extends State<LoginPage> {
               ),
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Login", style: AppFonts().greetingFontOutside2),
-                    const SizedBox(height: 30),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.5,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Login", style: AppFonts().greetingFontOutside2),
+                          const SizedBox(height: 30),
 
-                    // CONTAINER FOR INPUT USERNAME
-                    CustomFieldInput(
-                      fieldIcon: const Icon(Icons.account_circle_outlined),
-                      inputController: usernameController,
-                      hintText: "Username",
-                    ),
-                    const SizedBox(height: 20),
-
-                    // CONTAINER FOR INPUT PASSWORD
-                    CustomFieldInputPass(
-                      inputController: passwordController,
-                      hintText: "Password",
-                    ),
-                    const SizedBox(height: 50),
-
-                    // BUTTON FOR LOGIN
-                    CustomButtonOutside(
-                      label: "Login",
-                      onTap: () {
-                        Get.to(CustomNavBar());
-                      },
-                    ),
-                    Container(height: 370),
-                    // CONTAINER FOR SING UP
-                    Center(
-                      child: RichText(
-                        text: TextSpan(
-                          text: "Don't have any account? ",
-                          style: const TextStyle(color: Colors.black),
-                          children: [
-                            TextSpan(
-                              text: "Sign Up",
-                              style: TextStyle(color: AppColors.thirdColor),
-                              recognizer:
-                                  TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Get.to(SignUpPage());
-                                    },
+                          // CONTAINER FOR INPUT USERNAME
+                          CustomFieldInput(
+                            fieldIcon: const Icon(
+                              Icons.account_circle_outlined,
                             ),
-                          ],
+                            inputController: usernameController,
+                            hintText: "Username",
+                          ),
+                          const SizedBox(height: 20),
+
+                          // CONTAINER FOR INPUT PASSWORD
+                          CustomFieldInputPass(
+                            inputController: passwordController,
+                            hintText: "Password",
+                          ),
+                          const SizedBox(height: 50),
+
+                          // BUTTON FOR LOGIN
+                          CustomButtonOutside(
+                            label: "Login",
+                            onTap: () {
+                              Get.to(CustomNavBar());
+                            },
+                          ),
+                        ],
+                      ),
+
+                      // CONTAINER FOR SING UP
+                      Center(
+                        child: RichText(
+                          text: TextSpan(
+                            text: "Don't have any account? ",
+                            style: const TextStyle(color: Colors.black),
+                            children: [
+                              TextSpan(
+                                text: "Sign Up",
+                                style: TextStyle(color: AppColors.thirdColor),
+                                recognizer:
+                                    TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Get.to(SignUpPage());
+                                      },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
