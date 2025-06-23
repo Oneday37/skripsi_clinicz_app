@@ -1,6 +1,11 @@
 class DrugModel {
   String imagePath;
-  String drugName;
+  String displayDrugName;
+  String drugCategory;
 
-  DrugModel({required this.imagePath, required this.drugName});
+  DrugModel({
+    required this.imagePath,
+    required this.displayDrugName,
+    required this.drugCategory,
+  });
 }

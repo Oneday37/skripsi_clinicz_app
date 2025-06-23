@@ -6,6 +6,7 @@ import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/data/disease_category.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_detail_shop_page.dart';
 import 'package:skripsi_clinicz_app/models/disease_category_model.dart';
+import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 
 class DrugShopPage extends StatefulWidget {
   const DrugShopPage({super.key});
@@ -89,56 +90,73 @@ class _DrugShopPageState extends State<DrugShopPage> {
               ),
             ),
             SizedBox(height: 30),
+
             // LIST OF DRUGS
-            GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-              ),
-              itemCount: 10,
-              itemBuilder: (_, index) {
-                return GestureDetector(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(15),
+            FutureBuilder(
+              future: OnlineShopServices().getAllDrugsShop(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text("Error: ${snapshot.error}"));
+                } else {
+                  final getDataDrug = snapshot.data;
+                  return GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: AspectRatio(
-                              aspectRatio: 4 / 3,
-                              child: Image.asset(
-                                "assets/drug_sample.png",
-                                // fit: BoxFit.cover,
-                              ),
+                    itemCount: getDataDrug!.length,
+                    itemBuilder: (_, index) {
+                      final getSingleData = getDataDrug[index];
+                      return GestureDetector(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: AspectRatio(
+                                    aspectRatio: 4 / 3,
+                                    child: Image.network(
+                                      getSingleData!.gambar,
+                                      // fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Center(
+                                  child: Text(
+                                    getSingleData.nama,
+                                    style: AppFonts().normalWhiteBoldFont,
+                                    textAlign: TextAlign.justify,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          SizedBox(height: 10),
-                          Center(
-                            child: Text(
-                              AppDummyText().dummyDrugTitle,
-                              style: AppFonts().normalWhiteBoldFont,
-                              textAlign: TextAlign.justify,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  onTap: () {
-                    Get.to(DrugDetailShopPage());
-                  },
-                );
+                        ),
+                        onTap: () {
+                          Get.to(
+                            DrugDetailShopPage(drugName: getSingleData.nama),
+                          );
+                        },
+                      );
+                    },
+                  );
+                }
               },
             ),
           ],

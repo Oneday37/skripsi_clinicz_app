@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/prediction_section/prediction_result_page.dart';
+import 'package:skripsi_clinicz_app/services/disease_prediction_service.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
 class PredictionDiseasePage extends StatefulWidget {
@@ -14,6 +15,29 @@ class PredictionDiseasePage extends StatefulWidget {
 
 class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
   TextEditingController gejalaController = TextEditingController();
+  bool isLoading = false;
+
+  void predictionHandle() async {
+    final message = gejalaController.text.trim();
+    if (message.isEmpty) return;
+    setState(() => isLoading = true);
+    final prediction = await PredictionService().getPrediction(message);
+    setState(() => isLoading = false);
+
+    if (prediction != null && mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PredictionResultPage(prediction: prediction),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Gagal mendapatkan hasil prediksi.")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +124,8 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                 CustomButtonInside(
                   label: "Analisis",
                   onTap: () {
-                    Get.to(PredictionResult());
+                    predictionHandle();
+                    print(gejalaController.text);
                   },
                 ),
               ],

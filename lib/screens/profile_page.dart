@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
+import 'package:skripsi_clinicz_app/services/authentication_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_profile.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -21,49 +22,70 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text("Profile", style: AppFonts().titleFont),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ListView(
-          children: [
-            // PHOTO PROFILE
-            Center(
-              child: Container(
-                height: MediaQuery.of(context).size.width / 2.5,
-                width: MediaQuery.of(context).size.width / 2.5,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(130),
-                  border: Border.all(color: Colors.black, width: 2),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(120),
-                  child: Image.asset(
-                    "assets/dummy_profile.png",
-                    fit: BoxFit.cover,
+      body: FutureBuilder(
+        future: AuthenticationServices().getProfile(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (!snapshot.hasData || snapshot.data == null) {
+            return const Center(child: Text('Gagal memuat data profil'));
+          } else {
+            final getDataProfile = snapshot.data!;
+            return Padding(
+              padding: const EdgeInsets.all(20),
+              child: ListView(
+                children: [
+                  // PHOTO PROFILE
+                  Center(
+                    child: Container(
+                      height: MediaQuery.of(context).size.width / 2.5,
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(130),
+                        border: Border.all(color: Colors.black, width: 2),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(120),
+                        child: Image.network(
+                          "https://cf2a-114-10-113-215.ngrok-free.app${getDataProfile['profileImage']}",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  SizedBox(height: 30),
+
+                  // CONTAINER FOR USERNAME
+                  CustomProfile(
+                    label: "Username",
+                    content: "${getDataProfile['username']}",
+                  ),
+                  SizedBox(height: 20),
+
+                  // CONTAINER FOR E-MAIL
+                  CustomProfile(
+                    label: "E-mail",
+                    content: "${getDataProfile['email']}",
+                  ),
+                  SizedBox(height: 20),
+
+                  // CONTAINER FOR GENDER
+                  CustomProfile(
+                    label: "Jenis Kelamin",
+                    content: "${getDataProfile['gender']}",
+                  ),
+                  SizedBox(height: 20),
+
+                  // CONTAINER FOR BIRTH OF DATE
+                  CustomProfile(
+                    label: "Tanggal Lahir",
+                    content: "${getDataProfile['dateOfBirth']}",
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 30),
-
-            // CONTAINER FOR USERNAME
-            CustomProfile(label: "Username", content: "Muhammad Ridho"),
-            SizedBox(height: 20),
-
-            // CONTAINER FOR E-MAIL
-            CustomProfile(
-              label: "E-mail",
-              content: "ridhosan_bebanhok@gmail.com",
-            ),
-            SizedBox(height: 20),
-
-            // CONTAINER FOR GENDER
-            CustomProfile(label: "Jenis Kelamin", content: "Laki-Laki"),
-            SizedBox(height: 20),
-
-            // CONTAINER FOR BIRTH OF DATE
-            CustomProfile(label: "Tanggal Lahir", content: "12 Desember 2012"),
-          ],
-        ),
+            );
+          }
+        },
       ),
     );
   }

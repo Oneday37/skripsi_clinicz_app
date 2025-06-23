@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/la.dart';
+import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
+import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_detail_drug.dart';
 
 class DrugDetailShopPage extends StatefulWidget {
-  const DrugDetailShopPage({super.key});
+  String drugName;
+  DrugDetailShopPage({super.key, required this.drugName});
 
   @override
   State<DrugDetailShopPage> createState() => _DrugDetailShopPageState();
@@ -17,157 +20,127 @@ class DrugDetailShopPage extends StatefulWidget {
 class _DrugDetailShopPageState extends State<DrugDetailShopPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bgColor,
-      appBar: AppBar(
-        backgroundColor: AppColors.thirdColor,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-
-        // NAME OF DISEASE
-        title: Text(AppDummyText().dummyDrugTitle, style: AppFonts().titleFont),
-        centerTitle: true,
-      ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ListView(
-          children: [
-            // CONTAINER FOR IMAGE
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: Image.asset("assets/drug_sample.png"),
+    return FutureBuilder(
+      future: OnlineShopServices().getSingleDrusShop(widget.drugName),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+            backgroundColor: AppColors.bgColor,
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.network(
+                  "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
+                ),
+                Text("Sedang memuat data...", style: AppFonts().titleFont),
+              ],
             ),
-            SizedBox(height: 30),
+          );
+        } else if (snapshot.hasError) {
+          return Scaffold(
+            backgroundColor: AppColors.bgColor,
+            body: Center(child: Text("Error: ${snapshot.error}")),
+          );
+        } else {
+          final getSingleDataDrug = snapshot.data;
+          return Scaffold(
+            backgroundColor: AppColors.bgColor,
+            appBar: AppBar(
+              backgroundColor: AppColors.thirdColor,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
 
-            // DESCRIPTION OF TREATMENT
-            CustomDetailDrug(
-              label: "Deskripsi Obat:",
-              content: AppDummyText().dummyDrugDesc,
+              // NAME OF DISEASE
+              title: Text(getSingleDataDrug!.nama, style: AppFonts().titleFont),
+              centerTitle: true,
             ),
-            SizedBox(height: 30),
 
-            // MEDICINE INGREDIENTS
-            CustomDetailDrug(
-              label: "Kandungan:",
-              content: AppDummyText().dummyDrugIngredients,
-            ),
-            SizedBox(height: 30),
+            body: Padding(
+              padding: const EdgeInsets.all(20),
+              child: ListView(
+                children: [
+                  // CONTAINER FOR IMAGE
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Image.network(getSingleDataDrug.gambar),
+                  ),
+                  SizedBox(height: 30),
 
-            // TREATMENT DOSAGE
-            CustomDetailDrug(
-              label: "Dosis Penggunaan:",
-              content: AppDummyText().dummyDrugDosage,
-            ),
-            SizedBox(height: 30),
+                  // DESCRIPTION OF TREATMENT
+                  CustomDetailDrug(
+                    label: "Deskripsi Obat:",
+                    content: getSingleDataDrug.deskripsi,
+                  ),
+                  SizedBox(height: 30),
 
-            // TERMS OF USE
-            CustomDetailDrug(
-              label: "Aturan Pakai:",
-              content: AppDummyText().dummyDrugTermsofUse,
-            ),
-            SizedBox(height: 30),
+                  // MEDICINE INGREDIENTS
+                  CustomDetailDrug(
+                    label: "Kandungan:",
+                    content: getSingleDataDrug.kandungan,
+                  ),
+                  SizedBox(height: 30),
 
-            Text("Obat yang serupa", style: AppFonts().subTitleFont),
-            SizedBox(height: 5),
+                  // TREATMENT DOSAGE
+                  CustomDetailDrug(
+                    label: "Dosis Penggunaan:",
+                    content: getSingleDataDrug.dosis,
+                  ),
+                  SizedBox(height: 30),
 
-            // LIST OF DRUG RECOMMENDATION
-            SizedBox(
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    child: Padding(
-                      padding:
-                          index == 1
-                              ? const EdgeInsets.all(0)
-                              : const EdgeInsets.only(right: 20),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        width: 250,
-                        decoration: BoxDecoration(
-                          color: AppColors.thirdColor,
-                          borderRadius: BorderRadius.circular(15),
+                  // TERMS OF USE
+                  CustomDetailDrug(
+                    label: "Aturan Pakai:",
+                    content: getSingleDataDrug.aturanPakai,
+                  ),
+                  SizedBox(height: 30),
+
+                  // BUTTON FOR REDIRECT SHOP
+                  GestureDetector(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 20,
                         ),
-                        child: Column(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Row(
-                              children: [
-                                Image.asset(
-                                  "assets/drug_sample.png",
-                                  fit: BoxFit.cover,
-                                  scale: 2.5,
-                                ),
-                                // SizedBox(width: 10),
-                                Text(
-                                  AppDummyText().dummyDrugTitle,
-                                  style: AppFonts().normalBlackFont,
-                                ),
-                              ],
+                            Expanded(
+                              child: Text(
+                                "Go To Market",
+                                style: AppFonts().normalWhiteBoldFont,
+                              ),
                             ),
-                            SizedBox(height: 5),
-                            Text(
-                              AppDummyText().dummyDrugDesc,
-                              style: AppFonts().normalBlackFont,
-                              textAlign: TextAlign.justify,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
+                            Iconify(
+                              La.shopping_cart,
+                              size: 35,
+                              color: Colors.white,
                             ),
                           ],
                         ),
                       ),
                     ),
                     onTap: () {
-                      print("Anda menekan rekomendasi obet ke-$index");
+                      print(
+                        "Anda menekan button Go To Market yang akan mengarahkan anda ke link toko online",
+                      );
                     },
-                  );
-                },
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 40),
-
-            // BUTTON FOR REDIRECT SHOP
-            GestureDetector(
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 20,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "Go To Market",
-                          style: AppFonts().normalWhiteBoldFont,
-                        ),
-                      ),
-                      Iconify(La.shopping_cart, size: 35, color: Colors.white),
-                    ],
-                  ),
-                ),
-              ),
-              onTap: () {
-                print(
-                  "Anda menekan button Go To Market yang akan mengarahkan anda ke link toko online",
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+          );
+        }
+      },
     );
   }
 }

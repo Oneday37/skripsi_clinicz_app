@@ -86,11 +86,29 @@ class AppFonts {
     fontWeight: FontWeight.normal,
   );
 
+  // ARTICLE FONTS
+  final strokeArticleTitleFont = GoogleFonts.robotoCondensed(
+    foreground:
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 5
+          ..color = Colors.black,
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+  );
+
+  final baseArticleTitleFont = GoogleFonts.robotoCondensed(
+    color: Colors.white,
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+  );
+
   // ALERT FONTS
   final normalRedFont = GoogleFonts.robotoCondensed(
     color: Colors.red,
     fontWeight: FontWeight.bold,
   );
+
   final normalGreenFont = GoogleFonts.robotoCondensed(
     color: Colors.green,
     fontWeight: FontWeight.bold,

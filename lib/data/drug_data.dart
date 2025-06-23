@@ -1,18 +1,34 @@
 import 'package:skripsi_clinicz_app/models/drug_model.dart';
 
 List<DrugModel> drugs = [
-  DrugModel(imagePath: "assets/drug_sample.png", drugName: "Obat Kepala"),
-  DrugModel(imagePath: "assets/obat_penyakit_mata.png", drugName: "Obat Mata"),
+  DrugModel(
+    imagePath: "assets/drug_sample.png",
+    displayDrugName: "Obat Kepala",
+    drugCategory: "Sakit Kepala",
+  ),
+  DrugModel(
+    imagePath: "assets/obat_penyakit_telinga.png",
+    displayDrugName: "Obat Telinga",
+    drugCategory: "Sakit Telinga",
+  ),
+  DrugModel(
+    imagePath: "assets/obat_penyakit_mata.png",
+    displayDrugName: "Obat Mata",
+    drugCategory: "Sakit Mata",
+  ),
   DrugModel(
     imagePath: "assets/obat_penyakit_pernapasan.png",
-    drugName: "Obat Pernapasan",
+    displayDrugName: "Obat Pernapasan",
+    drugCategory: "Sakit Pernafasan",
   ),
   DrugModel(
     imagePath: "assets/obat_penyakit_jantung.png",
-    drugName: "Obat Jantung",
+    displayDrugName: "Obat Jantung",
+    drugCategory: "Sakit Jantung",
   ),
   DrugModel(
     imagePath: "assets/obat_penyakit_pencernaan.png",
-    drugName: "Obat Pencernaan",
+    displayDrugName: "Obat Pencernaan",
+    drugCategory: "Sakit Perut",
   ),
 ];

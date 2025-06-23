@@ -1,9 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
+import 'package:skripsi_clinicz_app/screens/home_page.dart';
 import 'package:skripsi_clinicz_app/screens/opening_section/signup_page.dart';
+import 'package:skripsi_clinicz_app/services/authentication_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_outside.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_input.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_input_pass.dart';
@@ -17,8 +20,70 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+  bool isLoading = false;
+  String? errorMessage;
+
+  void validationForm() async {
+    if (!formKey.currentState!.validate()) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Center(
+          child: Lottie.network(
+            "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
+          ),
+        );
+      },
+    );
+
+    final authService = AuthenticationServices();
+    final success = await authService.loginUser(
+      usernameController.text.trim(),
+      passwordController.text.trim(),
+    );
+
+    if (context.mounted) {
+      Get.back();
+    }
+
+    if (success) {
+      if (context.mounted) {
+        Get.to(CustomNavBar());
+      }
+    } else {
+      setState(() {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Column(
+                children: [
+                  Text("Login Failed !", style: AppFonts().titleFont),
+                  SizedBox(height: 5),
+                  Lottie.network(
+                    height: MediaQuery.of(context).size.width / 6,
+                    width: MediaQuery.of(context).size.width / 6,
+                    "https://lottie.host/5b55eb2b-b879-4a22-b89f-f06321908aea/U0J6YE0rj1.json",
+                    repeat: true,
+                  ),
+                ],
+              ),
+              content: Text(
+                "Data yang anda masukan tidak sesuai. Harap memasukkan username dan password sesuai dengan yang anda daftarkan",
+                style: AppFonts().normalBlackFont,
+                textAlign: TextAlign.center,
+              ),
+            );
+          },
+        );
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -70,37 +135,43 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Login", style: AppFonts().greetingFontOutside2),
-                          const SizedBox(height: 30),
-
-                          // CONTAINER FOR INPUT USERNAME
-                          CustomFieldInput(
-                            fieldIcon: const Icon(
-                              Icons.account_circle_outlined,
+                      Form(
+                        key: formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Login",
+                              style: AppFonts().greetingFontOutside2,
                             ),
-                            inputController: usernameController,
-                            hintText: "Username",
-                          ),
-                          const SizedBox(height: 20),
+                            const SizedBox(height: 30),
 
-                          // CONTAINER FOR INPUT PASSWORD
-                          CustomFieldInputPass(
-                            inputController: passwordController,
-                            hintText: "Password",
-                          ),
-                          const SizedBox(height: 50),
+                            // CONTAINER FOR INPUT USERNAME
+                            CustomFieldInput(
+                              fieldIcon: const Icon(
+                                Icons.account_circle_outlined,
+                              ),
+                              inputController: usernameController,
+                              hintText: "Username",
+                            ),
+                            const SizedBox(height: 20),
 
-                          // BUTTON FOR LOGIN
-                          CustomButtonOutside(
-                            label: "Login",
-                            onTap: () {
-                              Get.to(CustomNavBar());
-                            },
-                          ),
-                        ],
+                            // CONTAINER FOR INPUT PASSWORD
+                            CustomFieldInputPass(
+                              inputController: passwordController,
+                              hintText: "Password",
+                            ),
+                            const SizedBox(height: 50),
+
+                            // BUTTON FOR LOGIN
+                            CustomButtonOutside(
+                              label: "Login",
+                              onTap: () {
+                                validationForm();
+                              },
+                            ),
+                          ],
+                        ),
                       ),
 
                       // CONTAINER FOR SING UP

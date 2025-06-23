@@ -4,11 +4,7 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 class CustomButtonOutside extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
-  const CustomButtonOutside({
-    super.key,
-    required this.label,
-    required this.onTap,
-  });
+  CustomButtonOutside({super.key, required this.label, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

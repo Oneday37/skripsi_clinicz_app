@@ -4,17 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
+import 'package:skripsi_clinicz_app/models/disease_prediction_model.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
-class PredictionResult extends StatefulWidget {
-  const PredictionResult({super.key});
+class PredictionResultPage extends StatelessWidget {
+  final PenyakitPrediction prediction;
+  const PredictionResultPage({super.key, required this.prediction});
 
-  @override
-  State<PredictionResult> createState() => _PredictionResultState();
-}
-
-class _PredictionResultState extends State<PredictionResult> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,15 +50,12 @@ class _PredictionResultState extends State<PredictionResult> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // NAME OF DISEASE
-                    Text(
-                      AppDummyText().dummyDiseaseTitle,
-                      style: AppFonts().subTitleFont,
-                    ),
+                    Text(prediction.penyakit, style: AppFonts().subTitleFont),
                     SizedBox(height: 10),
 
                     // DESCRIPTION OF DISEASE
                     Text(
-                      AppDummyText().dummyDiseaseDesc,
+                      prediction.deskripsi,
                       style: AppFonts().normalBlackFont,
                       textAlign: TextAlign.justify,
                     ),
@@ -72,7 +66,7 @@ class _PredictionResultState extends State<PredictionResult> {
 
                     // CAUSE OF DISEASE
                     Text(
-                      AppDummyText().dummyDiseaseCause,
+                      prediction.penyebab,
                       style: AppFonts().normalBlackFont,
                       textAlign: TextAlign.justify,
                     ),
@@ -83,7 +77,7 @@ class _PredictionResultState extends State<PredictionResult> {
 
                     // PREVENTION OF DISEASE
                     Text(
-                      AppDummyText().dummyDiseasePrevention,
+                      prediction.pencegahan,
                       style: AppFonts().normalBlackFont,
                       textAlign: TextAlign.justify,
                     ),

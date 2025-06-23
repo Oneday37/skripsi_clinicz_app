@@ -4,6 +4,7 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/articles_section/detail_article_page.dart';
+import 'package:skripsi_clinicz_app/services/online_articles_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
 class ArticlesPage extends StatefulWidget {
@@ -67,68 +68,88 @@ class _ArticlesPageState extends State<ArticlesPage> {
         ),
       ),
 
-      body: ListView(
-        children: [
-          // LIST OF ARTICLES
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 5,
-              itemBuilder: (_, index) {
-                return GestureDetector(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.thirdColor,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // ARTICLE THUMBNAIL
-                            SizedBox(
-                              width: double.infinity,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Image.asset(
-                                  "assets/article_dummy_picture.png",
-                                  fit: BoxFit.cover,
-                                ),
+      body: FutureBuilder(
+        future: OnlineArticlesServices().getAllArticles(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text("Error: ${snapshot.error}"));
+          } else {
+            final getAllDataArticles = snapshot.data;
+            return ListView(
+              children: [
+                // LIST OF ARTICLES
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: getAllDataArticles!.length,
+                    itemBuilder: (_, index) {
+                      final getSingleArticle = getAllDataArticles[index];
+                      return GestureDetector(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.thirdColor,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // ARTICLE THUMBNAIL
+                                  SizedBox(
+                                    height: 250,
+                                    width: double.infinity,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15),
+                                      child: Image.network(
+                                        getSingleArticle.img,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+
+                                  // ARTICLE TITLE
+                                  Text(
+                                    getSingleArticle.title,
+                                    style: AppFonts().subTitleFont,
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                  SizedBox(height: 20),
+                                  CustomButtonInside(
+                                    label: "Baca Artikel",
+                                    onTap: () {
+                                      Get.to(
+                                        DetailArticlePage(
+                                          articleId: getSingleArticle.id,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(height: 10),
-
-                            // ARTICLE TITLE
-                            Text(
-                              AppDummyText().dummyArticleTitle,
-                              style: AppFonts().subTitleFont,
-                              textAlign: TextAlign.justify,
-                            ),
-                            SizedBox(height: 10),
-                            CustomButtonInside(
-                              label: "Baca Artikel",
-                              onTap: () {
-                                Get.to(DetailArticlePage());
-                              },
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
+                        onTap: () {
+                          Get.to(
+                            DetailArticlePage(articleId: getSingleArticle.id),
+                          );
+                        },
+                      );
+                    },
                   ),
-                  onTap: () {
-                    Get.to(DetailArticlePage());
-                  },
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ],
+            );
+          }
+        },
       ),
     );
   }
