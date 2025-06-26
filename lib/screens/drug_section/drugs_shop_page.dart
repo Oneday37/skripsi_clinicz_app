@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
-import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/data/disease_category.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_detail_shop_page.dart';
-import 'package:skripsi_clinicz_app/models/disease_category_model.dart';
+import 'package:skripsi_clinicz_app/models/online_shop_model.dart';
 import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 
 class DrugShopPage extends StatefulWidget {
@@ -16,6 +16,26 @@ class DrugShopPage extends StatefulWidget {
 }
 
 class _DrugShopPageState extends State<DrugShopPage> {
+  String selectedCategory = 'All';
+  late Future<List<dynamic>> futureDrugs;
+
+  @override
+  void initState() {
+    super.initState();
+    futureDrugs = OnlineShopServices().getAllDrugsShop();
+  }
+
+  void fetchDrugsByCategory(String category) {
+    setState(() {
+      selectedCategory = category;
+      if (category == 'All') {
+        futureDrugs = OnlineShopServices().getAllDrugsShop();
+      } else {
+        futureDrugs = OnlineShopServices().getDrugsByCategoryShop(category);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +47,7 @@ class _DrugShopPageState extends State<DrugShopPage> {
             Icons.arrow_back_ios_rounded,
             color: AppColors.primaryColor,
           ),
-          onPressed: () {
-            Get.back();
-          },
+          onPressed: () => Get.back(),
         ),
         title: Text(
           "DiagnoCare Shop",
@@ -45,113 +63,143 @@ class _DrugShopPageState extends State<DrugShopPage> {
               "Cari obat kamu berdasarkan kategori penyakit",
               style: AppFonts().subTitleFont,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-            // AREA FOR DISEASE CATEGORY
+            // DISEASE CATEGORY
             SizedBox(
               height: MediaQuery.of(context).size.width / 10,
               child: ListView.builder(
-                shrinkWrap: true,
                 itemCount: diseaseCategory.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (_, index) {
-                  DiseaseCategoryModel getDiseaseCategory =
-                      diseaseCategory[index];
+                  final getCategory = diseaseCategory[index];
+                  final isSelected =
+                      selectedCategory == getCategory.drugCategory;
                   return GestureDetector(
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: AppColors.primaryColor,
+                          color:
+                              isSelected
+                                  ? AppColors.primaryColor
+                                  : Colors.white,
                           borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 15,
+                          border: Border.all(
+                            color: isSelected ? Colors.white : Colors.black,
                           ),
-                          child: Center(
-                            child: Text(
-                              getDiseaseCategory.diseaseName,
-                              style: AppFonts().normalWhiteBoldFont,
-                            ),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 15,
+                        ),
+                        child: Center(
+                          child: Text(
+                            getCategory.displayDrugName,
+                            style:
+                                isSelected
+                                    ? AppFonts().normalWhiteBoldFont
+                                    : AppFonts().normalBlackBoldFont,
                           ),
                         ),
                       ),
                     ),
                     onTap: () {
-                      // NANTI UBAH KETIKA MEMILIH MAKA ITEM DIBAWAHNYA IKUT BERUBAH
-                      print(
-                        "Anda menekan menu ${getDiseaseCategory.diseaseName}",
-                      );
+                      fetchDrugsByCategory(getCategory.drugCategory);
                     },
                   );
                 },
               ),
             ),
-            SizedBox(height: 30),
+
+            const SizedBox(height: 30),
 
             // LIST OF DRUGS
             FutureBuilder(
-              future: OnlineShopServices().getAllDrugsShop(),
+              future: futureDrugs,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height / 1.3,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LottieBuilder.network(
+                            "https://lottie.host/773ae2e1-0078-4f47-bc1b-fcf247e8224a/Xm3svCgTAm.json",
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            "Sedang mengambil data ...",
+                            style: AppFonts().titleFont,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
                 } else if (snapshot.hasError) {
                   return Center(child: Text("Error: ${snapshot.error}"));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text("Data obat tidak tersedia."));
                 } else {
-                  final getDataDrug = snapshot.data;
+                  final getDatadrugs = snapshot.data!;
+                  getDatadrugs.sort((a, b) => a.nama.compareTo(b.nama));
                   return GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                    ),
-                    itemCount: getDataDrug!.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 20,
+                        ),
+                    itemCount: getDatadrugs.length,
                     itemBuilder: (_, index) {
-                      final getSingleData = getDataDrug[index];
+                      final getSingleDataDrug = getDatadrugs[index];
+                      final drugName =
+                          selectedCategory == 'All'
+                              ? (getSingleDataDrug as OnlineShopModel).nama
+                              : (getSingleDataDrug as OnlineShopByCategoryModel)
+                                  .nama;
+                      final drugImage =
+                          selectedCategory == 'All'
+                              ? (getSingleDataDrug as OnlineShopModel).gambar
+                              : (getSingleDataDrug as OnlineShopByCategoryModel)
+                                  .gambar;
+
                       return GestureDetector(
                         child: Container(
                           decoration: BoxDecoration(
                             color: AppColors.primaryColor,
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Column(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: AspectRatio(
-                                    aspectRatio: 4 / 3,
-                                    child: Image.network(
-                                      getSingleData!.gambar,
-                                      // fit: BoxFit.cover,
-                                    ),
-                                  ),
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                SizedBox(height: 10),
-                                Center(
-                                  child: Text(
-                                    getSingleData.nama,
-                                    style: AppFonts().normalWhiteBoldFont,
-                                    textAlign: TextAlign.justify,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                child: AspectRatio(
+                                  aspectRatio: 4 / 3,
+                                  child: Image.network(drugImage),
                                 ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(height: 10),
+                              Center(
+                                child: Text(
+                                  drugName,
+                                  style: AppFonts().normalWhiteBoldFont,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         onTap: () {
-                          Get.to(
-                            DrugDetailShopPage(drugName: getSingleData.nama),
-                          );
+                          Get.to(DrugDetailPage(drugName: drugName));
                         },
                       );
                     },

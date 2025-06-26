@@ -29,7 +29,6 @@ class CustomButtonInside extends StatelessWidget {
       ),
       onTap: () {
         onTap();
-        print("Anda menekan tombol");
       },
     );
   }

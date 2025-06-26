@@ -45,10 +45,11 @@ class _DrugsByCategoryPageState extends State<DrugsByCategoryPage> {
           );
         } else {
           final getDataDrug = snapshot.data;
+          getDataDrug!.sort((a, b) => a.nama.compareTo(b.nama));
           return Scaffold(
             backgroundColor: AppColors.bgColor,
             appBar: AppBar(
-              backgroundColor: AppColors.thirdColor,
+              backgroundColor: AppColors.bgColor,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
                 onPressed: () {
@@ -61,14 +62,12 @@ class _DrugsByCategoryPageState extends State<DrugsByCategoryPage> {
             body: Padding(
               padding: const EdgeInsets.all(20),
               child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 20,
                 ),
-                itemCount: getDataDrug!.length,
+                itemCount: getDataDrug.length,
                 itemBuilder: (_, index) {
                   final getSingleData = getDataDrug[index];
                   return GestureDetector(
@@ -89,7 +88,7 @@ class _DrugsByCategoryPageState extends State<DrugsByCategoryPage> {
                               child: AspectRatio(
                                 aspectRatio: 4 / 3,
                                 child: Image.network(
-                                  getSingleData!.gambar,
+                                  getSingleData.gambar,
                                   // fit: BoxFit.cover,
                                 ),
                               ),
@@ -108,7 +107,7 @@ class _DrugsByCategoryPageState extends State<DrugsByCategoryPage> {
                       ),
                     ),
                     onTap: () {
-                      Get.to(DrugDetailShopPage(drugName: getSingleData.nama));
+                      Get.to(DrugDetailPage(drugName: getSingleData.nama));
                     },
                   );
                 },

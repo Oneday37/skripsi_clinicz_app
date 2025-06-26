@@ -8,6 +8,7 @@ import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/about_us_page.dart';
 import 'package:skripsi_clinicz_app/screens/contact_us_page.dart';
 import 'package:skripsi_clinicz_app/screens/opening_section/login_page.dart';
+import 'package:skripsi_clinicz_app/services/authentication_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_settings.dart';
 
 class SettingPage extends StatelessWidget {
@@ -15,6 +16,13 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void handleLogout() async {
+      final success = await AuthenticationServices().logoutUser();
+      if (success) {
+        Get.offAll(() => LoginPage());
+      }
+    }
+
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       appBar: AppBar(
@@ -61,7 +69,6 @@ class SettingPage extends StatelessWidget {
                           child: Text("Tidak", style: AppFonts().normalRedFont),
                           onPressed: () {
                             Get.back();
-                            print("Anda menekan tombol tidak");
                           },
                         ),
                         MaterialButton(
@@ -125,7 +132,7 @@ class SettingPage extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  Get.to(LoginPage());
+                  Get.offAll(LoginPage());
                 },
               ),
             ),

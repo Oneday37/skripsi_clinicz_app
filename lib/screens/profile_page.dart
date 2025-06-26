@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/services/authentication_services.dart';
@@ -26,7 +28,15 @@ class _ProfilePageState extends State<ProfilePage> {
         future: AuthenticationServices().getProfile(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.network(
+                  "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
+                ),
+                Text("Sedang memuat profile...", style: AppFonts().titleFont),
+              ],
+            );
           } else if (!snapshot.hasData || snapshot.data == null) {
             return const Center(child: Text('Gagal memuat data profil'));
           } else {
@@ -47,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(120),
                         child: Image.network(
-                          "https://cf2a-114-10-113-215.ngrok-free.app${getDataProfile['profileImage']}",
+                          getDataProfile.profileImage,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -58,28 +68,27 @@ class _ProfilePageState extends State<ProfilePage> {
                   // CONTAINER FOR USERNAME
                   CustomProfile(
                     label: "Username",
-                    content: "${getDataProfile['username']}",
+                    content: getDataProfile.username,
                   ),
                   SizedBox(height: 20),
 
                   // CONTAINER FOR E-MAIL
-                  CustomProfile(
-                    label: "E-mail",
-                    content: "${getDataProfile['email']}",
-                  ),
+                  CustomProfile(label: "E-mail", content: getDataProfile.email),
                   SizedBox(height: 20),
 
                   // CONTAINER FOR GENDER
                   CustomProfile(
                     label: "Jenis Kelamin",
-                    content: "${getDataProfile['gender']}",
+                    content: getDataProfile.gender,
                   ),
                   SizedBox(height: 20),
 
                   // CONTAINER FOR BIRTH OF DATE
                   CustomProfile(
                     label: "Tanggal Lahir",
-                    content: "${getDataProfile['dateOfBirth']}",
+                    content: DateFormat(
+                      "d MMMM yyyy",
+                    ).format(getDataProfile.dateOfBirth),
                   ),
                 ],
               ),

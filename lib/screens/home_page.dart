@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Lottie.network(
+              LottieBuilder.network(
                 "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
               ),
               Text("Sedang memuat data...", style: AppFonts().titleFont),
@@ -59,8 +59,6 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: AppColors.bgColor,
                 leading: Image.asset("assets/clinicz_logo_2.png"),
                 title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
                       "DiagnoCare",
@@ -71,20 +69,19 @@ class _HomePageState extends State<HomePage> {
                     // AREA FOR ACCOUNT
                     Expanded(
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Expanded(
                             child: Text(
-                              "${getDataProfile['username']}",
+                              getDataProfile.username,
                               style: AppFonts().normalBlackFont,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           SizedBox(width: 10),
-                          Icon(
-                            Icons.account_circle,
-                            color: AppColors.primaryColor,
-                            size: 30,
+                          CircleAvatar(
+                            child: Image.network(getDataProfile.profileImage),
                           ),
                         ],
                       ),
@@ -106,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                         style: AppFonts().greetingFontInside,
                         children: [
                           TextSpan(
-                            text: "${getDataProfile['username']}",
+                            text: getDataProfile.username,
                             style: AppFonts().normalGreetingFontInside,
                           ),
                         ],
@@ -252,7 +249,20 @@ class _HomePageState extends State<HomePage> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.network(
+                                height: MediaQuery.of(context).size.width / 2,
+                                width: MediaQuery.of(context).size.width / 2,
+                                "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
+                              ),
+                              Text(
+                                "Sedang memuat artikel...",
+                                style: AppFonts().titleFont,
+                              ),
+                            ],
+                          );
                         } else if (snapshot.hasError) {
                           return Center(
                             child: Text("Error: ${snapshot.error}"),

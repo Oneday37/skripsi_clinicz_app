@@ -1,10 +1,29 @@
 import 'package:skripsi_clinicz_app/models/disease_category_model.dart';
 
 List<DiseaseCategoryModel> diseaseCategory = [
-  DiseaseCategoryModel(diseaseName: "All"),
-  DiseaseCategoryModel(diseaseName: "Kepala"),
-  DiseaseCategoryModel(diseaseName: "Mata"),
-  DiseaseCategoryModel(diseaseName: "Pernapasan"),
-  DiseaseCategoryModel(diseaseName: "Jantung"),
-  DiseaseCategoryModel(diseaseName: "Pencernaan"),
+  DiseaseCategoryModel(displayDrugName: "All", drugCategory: "All"),
+  DiseaseCategoryModel(
+    displayDrugName: "Obat Kepala",
+    drugCategory: "Sakit Kepala",
+  ),
+  DiseaseCategoryModel(
+    displayDrugName: "Obat Telinga",
+    drugCategory: "Sakit Telinga",
+  ),
+  DiseaseCategoryModel(
+    displayDrugName: "Obat Mata",
+    drugCategory: "Sakit Mata",
+  ),
+  DiseaseCategoryModel(
+    displayDrugName: "Obat Pernapasan",
+    drugCategory: "Sakit Pernafasan",
+  ),
+  DiseaseCategoryModel(
+    displayDrugName: "Obat Jantung",
+    drugCategory: "Sakit Jantung",
+  ),
+  DiseaseCategoryModel(
+    displayDrugName: "Obat Pencernaan",
+    drugCategory: "Sakit Perut",
+  ),
 ];

@@ -1,29 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
-import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/models/disease_prediction_model.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_page.dart';
+import 'package:skripsi_clinicz_app/services/ai_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
-class PredictionResultPage extends StatelessWidget {
-  final PenyakitPrediction prediction;
+class PredictionResultPage extends StatefulWidget {
+  final DiseasePredictionModel prediction;
   const PredictionResultPage({super.key, required this.prediction});
+
+  @override
+  State<PredictionResultPage> createState() => _PredictionResultPageState();
+}
+
+class _PredictionResultPageState extends State<PredictionResultPage> {
+  bool isLoading = false;
+
+  void drugRecommendationSHandler() async {
+    // setState(() => isLoading = true);
+
+    // final prediction = await AIServices().getDrugRecommendations(
+    //   widget.prediction.penyakit,
+    // );
+
+    // setState(() => isLoading = false);
+
+    if (mounted) {
+      Get.to(DrugRecommendationPage(diseaseName: widget.prediction.penyakit));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Gagal mendapatkan hasil prediksi.")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bgColor,
       appBar: AppBar(
-        backgroundColor: AppColors.thirdColor,
+        backgroundColor: AppColors.bgColor,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
+          icon: Icon(
+            Icons.arrow_back_ios_rounded,
+            color: AppColors.primaryColor,
+          ),
           onPressed: () {
             Get.back();
           },
         ),
-        title: Text("Hasil Prediksi", style: AppFonts().titleFont),
+        title: Text(
+          "Hasil Prediksi",
+          style: AppFonts().normalGreetingFontInside,
+        ),
         centerTitle: true,
       ),
 
@@ -50,12 +83,15 @@ class PredictionResultPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // NAME OF DISEASE
-                    Text(prediction.penyakit, style: AppFonts().subTitleFont),
+                    Text(
+                      widget.prediction.penyakit,
+                      style: AppFonts().subTitleFont,
+                    ),
                     SizedBox(height: 10),
 
                     // DESCRIPTION OF DISEASE
                     Text(
-                      prediction.deskripsi,
+                      widget.prediction.deskripsi,
                       style: AppFonts().normalBlackFont,
                       textAlign: TextAlign.justify,
                     ),
@@ -66,7 +102,7 @@ class PredictionResultPage extends StatelessWidget {
 
                     // CAUSE OF DISEASE
                     Text(
-                      prediction.penyebab,
+                      widget.prediction.penyebab,
                       style: AppFonts().normalBlackFont,
                       textAlign: TextAlign.justify,
                     ),
@@ -77,7 +113,7 @@ class PredictionResultPage extends StatelessWidget {
 
                     // PREVENTION OF DISEASE
                     Text(
-                      prediction.pencegahan,
+                      widget.prediction.pencegahan,
                       style: AppFonts().normalBlackFont,
                       textAlign: TextAlign.justify,
                     ),
@@ -120,7 +156,7 @@ class PredictionResultPage extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                            text: AppDummyText().dummyDiseaseource,
+                            text: widget.prediction.sumber,
                             style: GoogleFonts.robotoCondensed(
                               color: Colors.black,
                               fontSize: 17,
@@ -138,15 +174,27 @@ class PredictionResultPage extends StatelessWidget {
             SizedBox(height: 50),
 
             // BUTTON FOR GET MAIN TREATMENT
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: CustomButtonInside(
-                label: "Rekomendasi Obat",
-                onTap: () {
-                  Get.to(DrugRecommendationPage());
-                },
-              ),
-            ),
+            isLoading
+                ? Center(
+                  child: Column(
+                    children: [
+                      LottieBuilder.network(
+                        "https://lottie.host/7b7b708d-3fe5-45dc-91c5-8734b83d4ac9/UN9GvQGgBM.json",
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Harap menunggu ...",
+                        style: AppFonts().normalBlackFont,
+                      ),
+                    ],
+                  ),
+                )
+                : CustomButtonInside(
+                  label: "Dapatkan Pengobatan",
+                  onTap: () {
+                    drugRecommendationSHandler();
+                  },
+                ),
           ],
         ),
       ),

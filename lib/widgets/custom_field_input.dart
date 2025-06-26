@@ -19,7 +19,6 @@ class CustomFieldInput extends StatelessWidget {
       controller: inputController,
       cursorColor: AppColors.thirdColor,
       keyboardType: TextInputType.emailAddress,
-      textCapitalization: TextCapitalization.words,
       decoration: InputDecoration(
         prefixIcon: fieldIcon,
         prefixIconColor: AppColors.iconColor,

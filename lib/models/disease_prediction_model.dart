@@ -1,11 +1,11 @@
-class PenyakitPrediction {
+class DiseasePredictionModel {
   final String penyakit;
   final String deskripsi;
   final String penyebab;
   final String pencegahan;
   final String sumber;
 
-  PenyakitPrediction({
+  DiseasePredictionModel({
     required this.penyakit,
     required this.deskripsi,
     required this.penyebab,
@@ -13,13 +13,13 @@ class PenyakitPrediction {
     required this.sumber,
   });
 
-  factory PenyakitPrediction.fromJson(Map<String, dynamic> json) {
-    return PenyakitPrediction(
-      penyakit: json['penyakit'],
-      deskripsi: json['deskripsi'],
-      penyebab: json['penyebab'],
-      pencegahan: json['pencegahan'],
-      sumber: json['sumber'],
+  factory DiseasePredictionModel.fromJson(Map<String, dynamic> json) {
+    return DiseasePredictionModel(
+      penyakit: json['penyakit'] ?? "Nama Penyakit tidak tercantum",
+      deskripsi: json['deskripsi'] ?? "Deskripsi Penyakit tidak tercantum",
+      penyebab: json['penyebab'] ?? "-",
+      pencegahan: json['pencegahan'] ?? "-",
+      sumber: json['sumber'] ?? "Sumber Informasi Penyakit tidak tercantum",
     );
   }
 }

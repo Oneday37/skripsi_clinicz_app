@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/screens/home_page.dart';
 import 'package:skripsi_clinicz_app/screens/opening_section/signup_page.dart';
 import 'package:skripsi_clinicz_app/services/authentication_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_outside.dart';
@@ -26,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   bool isLoading = false;
   String? errorMessage;
 
+  // METHOD FOR VALIDATION
   void validationForm() async {
     if (!formKey.currentState!.validate()) return;
 
@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
       barrierDismissible: false,
       builder: (context) {
         return Center(
-          child: Lottie.network(
+          child: LottieBuilder.network(
             "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
           ),
         );

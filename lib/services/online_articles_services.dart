@@ -5,14 +5,14 @@ import 'package:skripsi_clinicz_app/models/online_articles_model.dart';
 
 class OnlineArticlesServices {
   final String baseUrl =
-      "https://global-rosanna-gunadarma-university-d9c92241.koyeb.app/article";
+      "https://unfortunate-odessa-tsukasa-org-926b4973.koyeb.app/article";
 
   // METHOD GET ALL ARTICLES
   Future<List<OnlineArticlesModel>> getAllArticles() async {
     final response = await http.get(Uri.parse(baseUrl));
 
     if (response.statusCode == 200) {
-      final List<dynamic> responseBody = jsonDecode(response.body);
+      final List responseBody = jsonDecode(response.body);
       final result =
           responseBody.map((e) => OnlineArticlesModel.fromJson(e)).toList();
       return result;

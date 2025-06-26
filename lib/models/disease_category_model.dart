@@ -1,5 +1,9 @@
 class DiseaseCategoryModel {
-  String diseaseName;
+  String displayDrugName;
+  String drugCategory;
 
-  DiseaseCategoryModel({required this.diseaseName});
+  DiseaseCategoryModel({
+    required this.displayDrugName,
+    required this.drugCategory,
+  });
 }

@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skripsi_clinicz_app/models/authenthication_model.dart';
 
 class AuthenticationServices {
   final String baseUrl =
-      "https://global-rosanna-gunadarma-university-d9c92241.koyeb.app/user";
+      "https://unfortunate-odessa-tsukasa-org-926b4973.koyeb.app/user";
 
   // METHOD GET TOKEN
   String? _extractTokenFromCookie(String cookie) {
@@ -13,8 +13,6 @@ class AuthenticationServices {
     final match = regex.firstMatch(cookie);
     return match?.group(1);
   }
-
-  // METHOD REGISTER NEW ACCOUNT
 
   // METHOD LOGIN
   Future<bool> loginUser(String username, String password) async {
@@ -38,21 +36,52 @@ class AuthenticationServices {
     return false;
   }
 
+  // METHOD REGISTER NEW ACCOUNT
+  Future<String> registerAccount(
+    String userName,
+    String email,
+    String password,
+    String gender,
+    DateTime dateOfBirth,
+  ) async {
+    Map<String, dynamic> requestData = {
+      "username": userName,
+      "email": email,
+      "password": password,
+      "gender": gender,
+      "dateOfBirth": dateOfBirth.toIso8601String(),
+      "profileImage": "",
+    };
+
+    final response = await http.post(
+      Uri.parse("$baseUrl/signup"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(requestData),
+    );
+
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception("Gagal daftar: ${response.body}");
+    }
+  }
+
   // METHOD GET PROFILE
-  Future<Map<String, dynamic>?> getProfile() async {
+  Future<AuthenthicationModel> getProfile() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
-    if (token == null) return null;
+    if (token == null) {}
 
     final response = await http.get(
       Uri.parse('$baseUrl/profile'),
       headers: {'Cookie': 'auth_token=$token'},
     );
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      final responseBody = jsonDecode(response.body);
+      return AuthenthicationModel.fromJson(responseBody);
+    } else {
+      throw Exception("Failed to load data");
     }
-
-    return null;
   }
 
   // METHOD UPDATE PROFILE
@@ -62,4 +91,21 @@ class AuthenticationServices {
   // METHOD DELETE ACCOUNT
 
   // METHOD LOGOUT
+  Future logoutUser() async {
+    final response = await http.post(Uri.parse("$baseUrl/logout"));
+
+    try {
+      if (response.statusCode == 200) {
+        print(response.body);
+        print("Berhasil keluar dari akun");
+        return true;
+      } else {
+        print("Gagal logout: ${response.statusCode} - ${response.body}");
+        throw Exception("Failed to logout");
+      }
+    } catch (e) {
+      print("Terjadi kesalahan saat logout: $e");
+      return false;
+    }
+  }
 }

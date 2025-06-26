@@ -4,20 +4,26 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/la.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
-import 'package:skripsi_clinicz_app/constants/dummy_text.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
+import 'package:skripsi_clinicz_app/models/online_shop_model.dart';
 import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_detail_drug.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class DrugDetailShopPage extends StatefulWidget {
+class DrugDetailPage extends StatefulWidget {
   String drugName;
-  DrugDetailShopPage({super.key, required this.drugName});
+  DrugDetailPage({super.key, required this.drugName});
 
   @override
-  State<DrugDetailShopPage> createState() => _DrugDetailShopPageState();
+  State<DrugDetailPage> createState() => _DrugDetailPageState();
 }
 
-class _DrugDetailShopPageState extends State<DrugDetailShopPage> {
+class _DrugDetailPageState extends State<DrugDetailPage> {
+  String getLogoAssetFromStoreName(String storeName) {
+    String fileName = storeName.toLowerCase().replaceAll(' ', '');
+    return 'assets/${fileName}_logo.png';
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -30,9 +36,9 @@ class _DrugDetailShopPageState extends State<DrugDetailShopPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Lottie.network(
-                  "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
+                  "https://lottie.host/773ae2e1-0078-4f47-bc1b-fcf247e8224a/Xm3svCgTAm.json",
                 ),
-                Text("Sedang memuat data...", style: AppFonts().titleFont),
+                Text("Sedang mengambil data...", style: AppFonts().titleFont),
               ],
             ),
           );
@@ -42,11 +48,11 @@ class _DrugDetailShopPageState extends State<DrugDetailShopPage> {
             body: Center(child: Text("Error: ${snapshot.error}")),
           );
         } else {
-          final getSingleDataDrug = snapshot.data;
+          final getSingleDataDrug = snapshot.data as OnlineSingleDrugModel;
           return Scaffold(
             backgroundColor: AppColors.bgColor,
             appBar: AppBar(
-              backgroundColor: AppColors.thirdColor,
+              backgroundColor: AppColors.bgColor,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
                 onPressed: () {
@@ -55,7 +61,7 @@ class _DrugDetailShopPageState extends State<DrugDetailShopPage> {
               ),
 
               // NAME OF DISEASE
-              title: Text(getSingleDataDrug!.nama, style: AppFonts().titleFont),
+              title: Text(getSingleDataDrug.nama, style: AppFonts().titleFont),
               centerTitle: true,
             ),
 
@@ -96,7 +102,7 @@ class _DrugDetailShopPageState extends State<DrugDetailShopPage> {
                     label: "Aturan Pakai:",
                     content: getSingleDataDrug.aturanPakai,
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 50),
 
                   // BUTTON FOR REDIRECT SHOP
                   GestureDetector(
@@ -130,8 +136,131 @@ class _DrugDetailShopPageState extends State<DrugDetailShopPage> {
                       ),
                     ),
                     onTap: () {
-                      print(
-                        "Anda menekan button Go To Market yang akan mengarahkan anda ke link toko online",
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: AppColors.bgColor,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(height: 10),
+                                // STORE PERTAMA
+                                ...getSingleDataDrug.linkStoreSatu.map((store) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                    ),
+                                    child: GestureDetector(
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              height:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  7,
+                                              width:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  7,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: Image.asset(
+                                                getLogoAssetFromStoreName(
+                                                  store.toko,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                store.toko,
+                                                style:
+                                                    AppFonts()
+                                                        .normalBlackBoldFont,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        launchUrl(Uri.parse(store.url));
+                                      },
+                                    ),
+                                  );
+                                }),
+
+                                Divider(color: Colors.black),
+
+                                // STORE KEDUA
+                                ...getSingleDataDrug.linkStoreDua.map<Widget>((
+                                  store,
+                                ) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                    ),
+                                    child: GestureDetector(
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              height:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  7,
+                                              width:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  7,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              child: Image.asset(
+                                                getLogoAssetFromStoreName(
+                                                  store.toko,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                store.toko,
+                                                style:
+                                                    AppFonts()
+                                                        .normalBlackBoldFont,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        launchUrl(Uri.parse(store.url));
+                                      },
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ),
+                          );
+                        },
                       );
                     },
                   ),

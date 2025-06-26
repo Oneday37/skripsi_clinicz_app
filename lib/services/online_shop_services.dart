@@ -4,7 +4,7 @@ import 'package:skripsi_clinicz_app/models/online_shop_model.dart';
 
 class OnlineShopServices {
   final String baseUrl =
-      "https://global-rosanna-gunadarma-university-d9c92241.koyeb.app/shop/obat";
+      "https://unfortunate-odessa-tsukasa-org-926b4973.koyeb.app/shop/obat";
 
   // METHOD GET ALL DRUGS
   Future<List<OnlineShopModel>> getAllDrugsShop() async {

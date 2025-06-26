@@ -55,12 +55,14 @@ class OnlineSingleDrugModel {
       dosis: json["dosis"] ?? "-",
       aturanPakai: json["aturanPakai"] ?? "-",
       efekSamping: json["efekSamping"] ?? "-",
-      linkStoreSatu: List<LinkStore>.from(
-        json["linkStoreSatu"].map((x) => LinkStore.fromJson(x)),
-      ),
-      linkStoreDua: List<LinkStore>.from(
-        json["linkStoreDua"].map((x) => LinkStore.fromJson(x)),
-      ),
+      linkStoreSatu:
+          (json["linkStoreSatu"] ?? [])
+              .map<LinkStore>((x) => LinkStore.fromJson(x))
+              .toList(),
+      linkStoreDua:
+          (json["linkStoreDua"] ?? [])
+              .map<LinkStore>((x) => LinkStore.fromJson(x))
+              .toList(),
       sumber: json["sumber"] ?? "-",
       gambar:
           json["gambar"] ??
