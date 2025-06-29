@@ -6,7 +6,6 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/models/disease_prediction_model.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_page.dart';
-import 'package:skripsi_clinicz_app/services/ai_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
 class PredictionResultPage extends StatefulWidget {
@@ -21,14 +20,6 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
   bool isLoading = false;
 
   void drugRecommendationSHandler() async {
-    // setState(() => isLoading = true);
-
-    // final prediction = await AIServices().getDrugRecommendations(
-    //   widget.prediction.penyakit,
-    // );
-
-    // setState(() => isLoading = false);
-
     if (mounted) {
       Get.to(DrugRecommendationPage(diseaseName: widget.prediction.penyakit));
     } else {
@@ -124,20 +115,12 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                       textAlign: TextAlign.justify,
                       text: TextSpan(
                         text: "Note: ",
-                        style: GoogleFonts.robotoCondensed(
-                          color: Colors.black,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: AppFonts().normalBlackBoldFont,
                         children: [
                           TextSpan(
                             text:
                                 "Untuk pemeriksaan lebih lanjut, diharapkan untuk menghubungi dokter",
-                            style: GoogleFonts.robotoCondensed(
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontWeight: FontWeight.normal,
-                            ),
+                            style: AppFonts().normalBlackFont,
                           ),
                         ],
                       ),
@@ -149,19 +132,11 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                       textAlign: TextAlign.justify,
                       text: TextSpan(
                         text: "Sumber: ",
-                        style: GoogleFonts.robotoCondensed(
-                          color: Colors.black,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: AppFonts().normalBlackBoldFont,
                         children: [
                           TextSpan(
                             text: widget.prediction.sumber,
-                            style: GoogleFonts.robotoCondensed(
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontWeight: FontWeight.normal,
-                            ),
+                            style: AppFonts().normalBlackFont,
                           ),
                         ],
                       ),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skripsi_clinicz_app/models/authenthication_model.dart';
@@ -37,32 +38,39 @@ class AuthenticationServices {
   }
 
   // METHOD REGISTER NEW ACCOUNT
-  Future<String> registerAccount(
+  Future<Map<String, dynamic>> registerAccount(
     String userName,
     String email,
     String password,
     String gender,
-    DateTime dateOfBirth,
+    String dateOfBirth,
+    File photoProfile,
   ) async {
-    Map<String, dynamic> requestData = {
-      "username": userName,
-      "email": email,
-      "password": password,
-      "gender": gender,
-      "dateOfBirth": dateOfBirth.toIso8601String(),
-      "profileImage": "",
-    };
+    try {
+      var uri = Uri.parse('$baseUrl/signup');
+      var request = http.MultipartRequest('POST', uri);
 
-    final response = await http.post(
-      Uri.parse("$baseUrl/signup"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(requestData),
-    );
+      request.fields['username'] = userName;
+      request.fields['email'] = email;
+      request.fields['password'] = password;
+      request.fields['gender'] = gender;
+      request.fields['dateOfBirth'] = dateOfBirth;
 
-    if (response.statusCode == 200) {
-      return response.body;
-    } else {
-      throw Exception("Gagal daftar: ${response.body}");
+      if (photoProfile.existsSync()) {
+        request.files.add(
+          await http.MultipartFile.fromPath('profileImage', photoProfile.path),
+        );
+      } else {
+        return {"status": "error", "message": "Gambar tidak ditemukan."};
+      }
+      final streamedResponse = await request.send();
+      final responseBody = await streamedResponse.stream.bytesToString();
+      return jsonDecode(responseBody);
+    } catch (e) {
+      return {
+        "status": "error",
+        "message": "Terjadi kesalahan saat register: $e",
+      };
     }
   }
 
@@ -89,23 +97,35 @@ class AuthenticationServices {
   // METHOD UPDATE PASSWORD
 
   // METHOD DELETE ACCOUNT
-
-  // METHOD LOGOUT
-  Future logoutUser() async {
-    final response = await http.post(Uri.parse("$baseUrl/logout"));
-
+  Future deleteAccount() async {
     try {
+      final response = await http.delete(Uri.parse("$baseUrl/delete-account"));
       if (response.statusCode == 200) {
-        print(response.body);
-        print("Berhasil keluar dari akun");
         return true;
       } else {
-        print("Gagal logout: ${response.statusCode} - ${response.body}");
-        throw Exception("Failed to logout");
+        throw Exception("Gagal logout: ${response.statusCode}");
       }
     } catch (e) {
-      print("Terjadi kesalahan saat logout: $e");
-      return false;
+      throw Exception("Terjadi kesalahan saat menghapus akun: $e");
+    }
+  }
+
+  // METHOD LOGOUT
+  Future<LogOutAccount> logoutUser() async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/logout'),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+        return LogOutAccount.fromJson(responseBody);
+      } else {
+        throw Exception("Gagal logout: ${response.statusCode}");
+      }
+    } catch (e) {
+      throw Exception("Terjadi kesalahan saat logout: $e");
     }
   }
 }

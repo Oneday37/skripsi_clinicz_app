@@ -86,6 +86,23 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    final args = Get.arguments;
+    if (args != null && args['successMessage'] != null) {
+      Future.delayed(Duration.zero, () {
+        Get.snackbar(
+          "Berhasil",
+          args['successMessage'],
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      });
+    }
+  }
+
+  @override
   void dispose() {
     usernameController.dispose();
     passwordController.dispose();
@@ -183,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               TextSpan(
                                 text: "Sign Up",
-                                style: TextStyle(color: AppColors.thirdColor),
+                                style: TextStyle(color: AppColors.secondColor),
                                 recognizer:
                                     TapGestureRecognizer()
                                       ..onTap = () {

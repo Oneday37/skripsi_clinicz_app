@@ -16,10 +16,51 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void handleLogout() async {
-      final success = await AuthenticationServices().logoutUser();
-      if (success) {
-        Get.offAll(() => LoginPage());
+    void logoutHandle() async {
+      print("Menekan Tombol");
+
+      // Tampilkan animasi loading (gunakan Lottie)
+      Get.dialog(
+        Center(child: CircularProgressIndicator()),
+        barrierDismissible: false,
+      );
+
+      try {
+        print("Menekan Tombol1");
+
+        final result = await AuthenticationServices().logoutUser();
+
+        Get.back(); // Tutup loading
+        Get.snackbar("Logout", result.message);
+        Get.offAll(() => LoginPage()); // Pindah ke halaman login
+      } catch (e) {
+        Get.back(); // Tutup loading meskipun gagal
+        Get.snackbar("Error", e.toString());
+      }
+    }
+
+    void handleDeleteAccount() async {
+      // Tampilkan loading
+      Get.dialog(
+        Center(child: CircularProgressIndicator()),
+        barrierDismissible: false,
+      );
+
+      try {
+        final result = await AuthenticationServices().deleteAccount();
+
+        // Tutup loading
+        Get.back();
+
+        if (result) {
+          // Navigasi & snackbar sukses
+          Get.offAll(() => LoginPage());
+          Get.snackbar("Berhasil", "Akun berhasil dihapus");
+        }
+      } catch (e) {
+        Get.back();
+
+        Get.snackbar("Error", e.toString());
       }
     }
 
@@ -54,33 +95,15 @@ class SettingPage extends StatelessWidget {
               prefixIcon: Iconify(LineMd.account_delete),
               label: "Hapus Akun Saya",
               onTap: () async {
-                return showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text("ALLERT !!!"),
-                      content: Text(
-                        "Apakah anda ingin menghapus akun ini?",
-                        style: AppFonts().normalBlackBoldFont,
-                      ),
-                      actions: [
-                        MaterialButton(
-                          child: Text("Tidak", style: AppFonts().normalRedFont),
-                          onPressed: () {
-                            Get.back();
-                          },
-                        ),
-                        MaterialButton(
-                          child: Text("Ya", style: AppFonts().normalGreenFont),
-                          onPressed: () {
-                            print(
-                              "Anda menekan tombol ya dan akun anda telah terhapus + kembali ke halaman login",
-                            );
-                          },
-                        ),
-                      ],
-                    );
+                Get.defaultDialog(
+                  title: "Konfirmasi",
+                  middleText: "Yakin ingin menghapus akun secara permanen?",
+                  textCancel: "Batal",
+                  textConfirm: "Hapus",
+                  confirmTextColor: Colors.white,
+                  onConfirm: () {
+                    Get.back(); // Tutup dialog
+                    handleDeleteAccount(); // Lanjut hapus akun
                   },
                 );
               },
@@ -132,7 +155,8 @@ class SettingPage extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  Get.offAll(LoginPage());
+                  Get.to(LoginPage());
+                  // logoutHandle();
                 },
               ),
             ),

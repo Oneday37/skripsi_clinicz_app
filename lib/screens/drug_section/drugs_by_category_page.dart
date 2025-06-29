@@ -31,7 +31,7 @@ class _DrugsByCategoryPageState extends State<DrugsByCategoryPage> {
             body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.network(
+                LottieBuilder.network(
                   "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
                 ),
                 Text("Sedang memuat data...", style: AppFonts().titleFont),

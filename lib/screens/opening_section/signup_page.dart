@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
+import 'package:skripsi_clinicz_app/screens/opening_section/login_page.dart';
 import 'package:skripsi_clinicz_app/services/authentication_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_outside.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_input.dart';
@@ -24,12 +29,18 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final TextEditingController dateOfBirthController = TextEditingController();
+  final TextEditingController imageProfileController = TextEditingController();
+
+  ImagePicker imagePicker = ImagePicker();
+  File? imageProfile;
 
   String? selectedItem;
   String hintTanggal = "Tanggal / Bulan / Tahun";
   late DateTime dateNow;
+  late String tanggalFormattedToJson;
+  bool loadingToSendData = false;
 
-  // Fungsi untuk memilih tanggal
+  // FUNCTION TO PICK DATE
   Future<void> selectDate() async {
     try {
       dateNow = DateFormat("d MMMM yyyy", "id_ID").parse(hintTanggal);
@@ -52,13 +63,24 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  // Fungsi untuk mendaftarkan user
+  // FUNCTION FOR PICK IMAGE IN GALLERY
+  Future getProfileImage(ImageSource profileImage) async {
+    final getImage = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (getImage != null) {
+      setState(() {
+        imageProfile = File(getImage.path);
+      });
+    }
+  }
+
+  // FUNCTION FOR REGISTER USER
   Future<void> registerUser() async {
     if (usernameController.text.isEmpty ||
         emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
         confirmPasswordController.text.isEmpty ||
         hintTanggal == "Tanggal / Bulan / Tahun" ||
+        imageProfile == null ||
         selectedItem == null) {
       Get.snackbar(
         "Peringatan",
@@ -79,9 +101,10 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
 
-    DateTime? tanggalFormatted;
+    String tanggalFormattedToJson;
     try {
-      tanggalFormatted = DateFormat("d MMMM yyyy", "id_ID").parse(hintTanggal);
+      final parsedDate = DateFormat("d MMMM yyyy", "id_ID").parse(hintTanggal);
+      tanggalFormattedToJson = DateFormat("yyyy-MM-dd").format(parsedDate);
     } catch (e) {
       Get.snackbar(
         "Kesalahan",
@@ -92,16 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
       return;
     }
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder:
-          (context) => Center(
-            child: Lottie.network(
-              "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
-            ),
-          ),
-    );
+    setState(() => loadingToSendData = true);
 
     try {
       final response = await AuthenticationServices().registerAccount(
@@ -109,42 +123,45 @@ class _SignUpPageState extends State<SignUpPage> {
         emailController.text.trim(),
         passwordController.text.trim(),
         selectedItem!,
-        tanggalFormatted,
+        tanggalFormattedToJson,
+        imageProfile!,
       );
 
-      if (context.mounted) Get.back(); // tutup dialog loading
+      print("Hasil response: $response");
 
-      if (response == "exists") {
+      final message = response['message']?.toString().toLowerCase() ?? "";
+
+      if (message.contains("already exists")) {
         Get.snackbar(
           "Gagal",
-          "Email sudah digunakan.",
+          "Username atau email sudah digunakan.",
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
-      } else if (response == "success") {
-        Get.snackbar(
-          "Berhasil",
-          "Akun berhasil dibuat.",
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
+      } else if (message.contains("success")) {
+        Get.offAll(
+          () => LoginPage(),
+          arguments: {"successMessage": "Akun berhasil dibuat."},
         );
-        Get.back(); // Kembali ke halaman sebelumnya (login)
       } else {
         Get.snackbar(
           "Gagal",
-          "Terjadi kesalahan saat mendaftar.",
+          response['message'] ?? "Terjadi kesalahan saat mendaftar.",
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
       }
     } catch (e) {
-      if (context.mounted) Get.back();
       Get.snackbar(
         "Error",
         "Terjadi kesalahan: $e",
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
+    } finally {
+      if (mounted) {
+        setState(() => loadingToSendData = false);
+      }
     }
   }
 
@@ -155,6 +172,7 @@ class _SignUpPageState extends State<SignUpPage> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     dateOfBirthController.dispose();
+    imageProfileController.dispose();
     super.dispose();
   }
 
@@ -221,7 +239,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         const SizedBox(height: 20),
 
-                        // Date of Birth Picker
+                        // DATE OF BIRTH
                         TextFormField(
                           controller: dateOfBirthController,
                           readOnly: true,
@@ -230,7 +248,12 @@ class _SignUpPageState extends State<SignUpPage> {
                             prefixIcon: const Icon(
                               Icons.calendar_month_outlined,
                             ),
+                            prefixIconColor: AppColors.iconColor,
                             hintText: hintTanggal,
+                            hintStyle:
+                                hintTanggal == "Tanggal / Bulan / Tahun"
+                                    ? TextStyle(color: AppColors.iconColor)
+                                    : TextStyle(color: Colors.black),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -241,11 +264,18 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               borderRadius: BorderRadius.circular(15),
                             ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.iconColor,
+                                // width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 20),
 
-                        // Gender dropdown
+                        // GENDER DROPDOWN
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,
@@ -275,11 +305,11 @@ class _SignUpPageState extends State<SignUpPage> {
                               items: const [
                                 DropdownMenuItem(
                                   value: "male",
-                                  child: Text("male"),
+                                  child: Text("Male"),
                                 ),
                                 DropdownMenuItem(
                                   value: "female",
-                                  child: Text("female"),
+                                  child: Text("Female"),
                                 ),
                               ],
                               onChanged: (String? newValue) {
@@ -287,6 +317,45 @@ class _SignUpPageState extends State<SignUpPage> {
                                   selectedItem = newValue!;
                                 });
                               },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // AREA FOR PICK IMAGE PROFILE
+                        TextFormField(
+                          controller: imageProfileController,
+                          readOnly: true,
+                          onTap: () async {
+                            await getProfileImage(ImageSource.gallery);
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.image),
+                            prefixIconColor: AppColors.iconColor,
+                            hintText:
+                                imageProfile == null
+                                    ? "Ambil Foto Anda di Gallery"
+                                    : "Foto Profile.jpg",
+                            hintStyle:
+                                imageProfile == null
+                                    ? TextStyle(color: AppColors.iconColor)
+                                    : TextStyle(color: Colors.black),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.thirdColor,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: AppColors.iconColor,
+                                // width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(15),
                             ),
                           ),
                         ),
@@ -304,10 +373,14 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         const SizedBox(height: 50),
 
-                        CustomButtonOutside(
-                          label: "Sign Up",
-                          onTap: () => registerUser(),
-                        ),
+                        loadingToSendData
+                            ? const Center(child: CircularProgressIndicator())
+                            : CustomButtonOutside(
+                              label: "Sign Up",
+                              onTap: () {
+                                registerUser();
+                              },
+                            ),
                       ],
                     ),
                   ),
