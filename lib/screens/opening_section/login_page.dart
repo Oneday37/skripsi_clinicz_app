@@ -28,15 +28,12 @@ class _LoginPageState extends State<LoginPage> {
   // METHOD FOR VALIDATION
   void validationForm() async {
     if (!formKey.currentState!.validate()) return;
-
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
         return Center(
-          child: LottieBuilder.network(
-            "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
-          ),
+          child: LottieBuilder.asset("assets/lottie_loading_animation.json"),
         );
       },
     );
@@ -65,10 +62,10 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Text("Login Failed !", style: AppFonts().titleFont),
                   SizedBox(height: 5),
-                  Lottie.network(
+                  LottieBuilder.asset(
                     height: MediaQuery.of(context).size.width / 6,
                     width: MediaQuery.of(context).size.width / 6,
-                    "https://lottie.host/5b55eb2b-b879-4a22-b89f-f06321908aea/U0J6YE0rj1.json",
+                    "assets/lottie_failed_animation.json",
                     repeat: true,
                   ),
                 ],
@@ -88,7 +85,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-
     final args = Get.arguments;
     if (args != null && args['successMessage'] != null) {
       Future.delayed(Duration.zero, () {

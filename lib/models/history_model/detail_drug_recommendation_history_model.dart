@@ -48,7 +48,7 @@ class Output {
   String efekSamping;
   List<LinkStore> tokoOnline1;
   List<LinkStore> tokoOnline2;
-  double similarity;
+  double? similarity;
   String pesan;
 
   Output({

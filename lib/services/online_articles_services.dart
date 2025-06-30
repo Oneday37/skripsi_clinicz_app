@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-import 'package:skripsi_clinicz_app/models/online_articles_model.dart';
+import 'package:skripsi_clinicz_app/models/article_model/online_all_article_model.dart';
+import 'package:skripsi_clinicz_app/models/article_model/online_single_article_model.dart';
 
 class OnlineArticlesServices {
   final String baseUrl =

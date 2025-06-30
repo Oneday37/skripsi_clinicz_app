@@ -38,9 +38,7 @@ class _HomePageState extends State<HomePage> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              LottieBuilder.network(
-                "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
-              ),
+              LottieBuilder.asset("assets/lottie_loading_animation.json"),
               Text("Sedang memuat data...", style: AppFonts().titleFont),
             ],
           );
@@ -252,10 +250,10 @@ class _HomePageState extends State<HomePage> {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Lottie.network(
+                              Lottie.asset(
                                 height: MediaQuery.of(context).size.width / 2,
                                 width: MediaQuery.of(context).size.width / 2,
-                                "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
+                                "assets/lottie_search_data_loading.json",
                               ),
                               Text(
                                 "Sedang memuat artikel...",

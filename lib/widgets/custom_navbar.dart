@@ -50,7 +50,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
           ),
           FlashyTabBarItem(
             activeColor: Colors.black,
-            icon: Iconify(Bi.person_fill, color: Colors.black),
+            icon: Iconify(Bi.person, color: Colors.black),
             title: Text("Profile"),
           ),
           FlashyTabBarItem(

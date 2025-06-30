@@ -136,8 +136,8 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                     ? Center(
                       child: Column(
                         children: [
-                          LottieBuilder.network(
-                            "https://lottie.host/7b7b708d-3fe5-45dc-91c5-8734b83d4ac9/UN9GvQGgBM.json",
+                          LottieBuilder.asset(
+                            "assets/lottie_analysis_loading.json",
                           ),
                           SizedBox(height: 10),
                           Text(

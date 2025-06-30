@@ -31,9 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.network(
-                  "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
-                ),
+                LottieBuilder.asset("assets/lottie_search_data_loading.json"),
                 Text("Sedang memuat profile...", style: AppFonts().titleFont),
               ],
             );

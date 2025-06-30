@@ -4,8 +4,8 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 
 class CustomProfile extends StatelessWidget {
   final String label;
-  String content;
-  CustomProfile({super.key, required this.label, required this.content});
+  final String content;
+  const CustomProfile({super.key, required this.label, required this.content});
 
   @override
   Widget build(BuildContext context) {

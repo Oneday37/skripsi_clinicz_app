@@ -31,9 +31,7 @@ class _DrugsByCategoryPageState extends State<DrugsByCategoryPage> {
             body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                LottieBuilder.network(
-                  "https://lottie.host/0560e367-edb5-4b1f-b168-ba3d78612933/pVsiTOmBTd.json",
-                ),
+                LottieBuilder.asset("assets/lottie_search_data_loading.json"),
                 Text("Sedang memuat data...", style: AppFonts().titleFont),
               ],
             ),
@@ -45,7 +43,7 @@ class _DrugsByCategoryPageState extends State<DrugsByCategoryPage> {
           );
         } else {
           final getDataDrug = snapshot.data;
-          getDataDrug!.sort((a, b) => a.nama.compareTo(b.nama));
+          getDataDrug!.sort((a, b) => a!.nama.compareTo(b.nama));
           return Scaffold(
             backgroundColor: AppColors.bgColor,
             appBar: AppBar(

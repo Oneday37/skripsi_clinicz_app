@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skripsi_clinicz_app/models/authenthication_model.dart';
+import 'package:skripsi_clinicz_app/screens/opening_section/login_page.dart';
 
 class AuthenticationServices {
   final String baseUrl =
@@ -15,7 +17,7 @@ class AuthenticationServices {
     return match?.group(1);
   }
 
-  // METHOD LOGIN
+  // METHOD LOGIN ACCOUNT
   Future<bool> loginUser(String username, String password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login'),
@@ -92,40 +94,74 @@ class AuthenticationServices {
     }
   }
 
-  // METHOD UPDATE PROFILE
-
   // METHOD UPDATE PASSWORD
+  Future updatePassword(String currentPass, String newPass) async {
+    Map<String, dynamic> requestData = {
+      "currentPassword": currentPass,
+      "newPassword": newPass,
+    };
+
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token == null) throw Exception("Token tidak ditemukan.");
+
+    final response = await http.put(
+      Uri.parse('$baseUrl/update-password'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': 'auth_token=$token',
+      },
+      body: json.encode(requestData),
+    );
+
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception("Gagal mengubah password: ${response.statusCode}");
+    }
+  }
 
   // METHOD DELETE ACCOUNT
   Future deleteAccount() async {
-    try {
-      final response = await http.delete(Uri.parse("$baseUrl/delete-account"));
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        throw Exception("Gagal logout: ${response.statusCode}");
-      }
-    } catch (e) {
-      throw Exception("Terjadi kesalahan saat menghapus akun: $e");
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token == null) {}
+
+    final response = await http.delete(
+      Uri.parse('$baseUrl/delete-account'),
+      headers: {'Cookie': 'auth_token=$token'},
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Gagal menghapus akun: ${response.statusCode}");
     }
   }
 
   // METHOD LOGOUT
-  Future<LogOutAccount> logoutUser() async {
+  Future<void> logoutUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token == null) {}
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/logout'),
-        headers: {'Content-Type': 'application/json'},
+        Uri.parse("$baseUrl/logout"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Cookie': 'auth_token=$token',
+        },
       );
 
       if (response.statusCode == 200) {
-        final responseBody = jsonDecode(response.body);
-        return LogOutAccount.fromJson(responseBody);
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.remove("token");
+        Get.offAll(() => LoginPage());
       } else {
-        throw Exception("Gagal logout: ${response.statusCode}");
+        throw Exception("Failed to logout.");
       }
     } catch (e) {
-      throw Exception("Terjadi kesalahan saat logout: $e");
+      Get.snackbar("Logout Failed", e.toString());
     }
   }
 }

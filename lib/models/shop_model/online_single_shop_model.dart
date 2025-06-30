@@ -1,27 +1,3 @@
-// MODEL FOR DRUGS SHOP
-class OnlineShopModel {
-  String nama;
-  String gambar;
-  String deskripsi;
-
-  OnlineShopModel({
-    required this.nama,
-    required this.gambar,
-    required this.deskripsi,
-  });
-
-  factory OnlineShopModel.fromJson(Map<String, dynamic> json) {
-    return OnlineShopModel(
-      nama: json["nama"] ?? "Nama obat tidak teridentifikasi",
-      gambar:
-          json["gambar"] ??
-          "https://global.tamu.edu/getmedia/f8ee83c6-cb20-4df8-8221-dd8f9c995995/no_image.png?width=250&height=250&ext=.png",
-      deskripsi: json["deskripsi"] ?? "Deskripsi obat tidak tersedia",
-    );
-  }
-}
-
-// MODEL FOR DRUGS SHOP (SINGLE)
 class OnlineSingleDrugModel {
   String nama;
   String deskripsi;
@@ -79,28 +55,5 @@ class LinkStore {
 
   factory LinkStore.fromJson(Map<String, dynamic> json) {
     return LinkStore(toko: json["Toko"], url: json["Link"]);
-  }
-}
-
-// MODEL FOR DRUGS SHOP (CATEGORY)
-class OnlineShopByCategoryModel {
-  String nama;
-  String gambar;
-  String deskripsi;
-
-  OnlineShopByCategoryModel({
-    required this.nama,
-    required this.gambar,
-    required this.deskripsi,
-  });
-
-  factory OnlineShopByCategoryModel.fromJson(Map<String, dynamic> json) {
-    return OnlineShopByCategoryModel(
-      nama: json["nama"] ?? "Nama obat tidak teridentifikasi",
-      gambar:
-          json["gambar"] ??
-          "https://global.tamu.edu/getmedia/f8ee83c6-cb20-4df8-8221-dd8f9c995995/no_image.png?width=250&height=250&ext=.png",
-      deskripsi: json["deskripsi"] ?? "Deskripsi obat tidak tersedia",
-    );
   }
 }

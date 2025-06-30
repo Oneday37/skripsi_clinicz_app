@@ -5,7 +5,7 @@ import 'package:iconify_flutter_plus/icons/la.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/models/online_shop_model.dart';
+import 'package:skripsi_clinicz_app/models/shop_model/online_single_shop_model.dart';
 import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_detail_drug.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,9 +35,7 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
             body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.network(
-                  "https://lottie.host/773ae2e1-0078-4f47-bc1b-fcf247e8224a/Xm3svCgTAm.json",
-                ),
+                LottieBuilder.asset("assets/lottie_search_data_loading.json"),
                 Text("Sedang mengambil data...", style: AppFonts().titleFont),
               ],
             ),
@@ -135,6 +133,8 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
                         ),
                       ),
                     ),
+
+                    // ONLINE SHOP SECTION
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
@@ -152,7 +152,8 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 SizedBox(height: 10),
-                                // STORE PERTAMA
+
+                                // FIRST DRUG STORE
                                 ...getSingleDataDrug.linkStoreSatu.map((store) {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -205,7 +206,7 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
 
                                 Divider(color: Colors.black),
 
-                                // STORE KEDUA
+                                // SECOND DRUG STORE
                                 ...getSingleDataDrug.linkStoreDua.map<Widget>((
                                   store,
                                 ) {

@@ -4,8 +4,9 @@ import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/data/disease_category.dart';
+import 'package:skripsi_clinicz_app/models/shop_model/online_all_shop_model.dart';
+import 'package:skripsi_clinicz_app/models/shop_model/online_category_shop_model.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_detail_shop_page.dart';
-import 'package:skripsi_clinicz_app/models/online_shop_model.dart';
 import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 
 class DrugShopPage extends StatefulWidget {
@@ -125,8 +126,8 @@ class _DrugShopPageState extends State<DrugShopPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          LottieBuilder.network(
-                            "https://lottie.host/773ae2e1-0078-4f47-bc1b-fcf247e8224a/Xm3svCgTAm.json",
+                          LottieBuilder.asset(
+                            "assets/lottie_search_data_loading.json",
                           ),
                           SizedBox(height: 20),
                           Text(

@@ -4,10 +4,10 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 
 class CustomMainFeaturesIcon extends StatelessWidget {
-  dynamic featureIcon;
-  String featureName;
-  dynamic directPage;
-  CustomMainFeaturesIcon({
+  final dynamic featureIcon;
+  final String featureName;
+  final dynamic directPage;
+  const CustomMainFeaturesIcon({
     super.key,
     required this.featureIcon,
     required this.featureName,

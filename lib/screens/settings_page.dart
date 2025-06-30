@@ -9,59 +9,131 @@ import 'package:skripsi_clinicz_app/screens/about_us_page.dart';
 import 'package:skripsi_clinicz_app/screens/contact_us_page.dart';
 import 'package:skripsi_clinicz_app/screens/opening_section/login_page.dart';
 import 'package:skripsi_clinicz_app/services/authentication_services.dart';
+import 'package:skripsi_clinicz_app/widgets/custom_field_input_pass.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_settings.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    void logoutHandle() async {
-      print("Menekan Tombol");
+  State<SettingPage> createState() => _SettingPageState();
+}
 
-      // Tampilkan animasi loading (gunakan Lottie)
+class _SettingPageState extends State<SettingPage> {
+  TextEditingController currentPassController = TextEditingController();
+  TextEditingController newPassController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    // HANDLER UPDATE PASSWORD
+    void showChangePasswordDialog() {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Ubah Password"),
+            content: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomFieldInputPass(
+                    inputController: currentPassController,
+                    hintText: "Password Lama",
+                  ),
+
+                  const SizedBox(height: 10),
+                  CustomFieldInputPass(
+                    inputController: newPassController,
+                    hintText: "Password Baru",
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                child: const Text("Batal"),
+                onPressed: () => Get.back(),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    setState(() => isLoading = true);
+                    try {
+                      AuthenticationServices().updatePassword(
+                        currentPassController.text,
+                        newPassController.text,
+                      );
+                      if (context.mounted) {
+                        Get.offAll(
+                          () => LoginPage(),
+                          arguments: {
+                            "successMessage":
+                                "Password berhasil diubah, silakan login kembali.",
+                          },
+                        );
+                      }
+                    } catch (e) {
+                      setState(() => isLoading = false);
+                      Get.snackbar(
+                        "Gagal",
+                        "Gagal mengubah password: $e",
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
+                      );
+                    }
+                  }
+                },
+                child: const Text("Ubah"),
+              ),
+            ],
+          );
+        },
+      ).then((_) {
+        currentPassController.clear();
+        newPassController.clear();
+      });
+    }
+
+    // HANDLER DELETE ACCOUNT
+    void handleDeleteAccount() async {
       Get.dialog(
         Center(child: CircularProgressIndicator()),
         barrierDismissible: false,
       );
-
       try {
-        print("Menekan Tombol1");
-
-        final result = await AuthenticationServices().logoutUser();
-
-        Get.back(); // Tutup loading
-        Get.snackbar("Logout", result.message);
-        Get.offAll(() => LoginPage()); // Pindah ke halaman login
+        final result = await AuthenticationServices().deleteAccount();
+        Get.back();
+        if (result) {
+          Get.offAll(() => LoginPage());
+          Get.snackbar(
+            "Berhasil",
+            "Akun berhasil dihapus",
+            backgroundColor: Colors.green,
+          );
+        }
       } catch (e) {
-        Get.back(); // Tutup loading meskipun gagal
+        Get.back();
         Get.snackbar("Error", e.toString());
       }
     }
 
-    void handleDeleteAccount() async {
-      // Tampilkan loading
-      Get.dialog(
-        Center(child: CircularProgressIndicator()),
-        barrierDismissible: false,
+    // HANDLER LOGOUT
+    void logoutHandle() {
+      Get.defaultDialog(
+        title: "Logout Akun",
+        titleStyle: AppFonts().titleFont,
+        middleText: "Apakah anda ingin keluar dari akun",
+        middleTextStyle: AppFonts().normalBlackFont,
+        textConfirm: "Iya",
+        onConfirm: () {
+          AuthenticationServices().logoutUser();
+          Get.back();
+        },
+        textCancel: "Tidak",
       );
-
-      try {
-        final result = await AuthenticationServices().deleteAccount();
-
-        // Tutup loading
-        Get.back();
-
-        if (result) {
-          // Navigasi & snackbar sukses
-          Get.offAll(() => LoginPage());
-          Get.snackbar("Berhasil", "Akun berhasil dihapus");
-        }
-      } catch (e) {
-        Get.back();
-
-        Get.snackbar("Error", e.toString());
-      }
     }
 
     return Scaffold(
@@ -85,7 +157,7 @@ class SettingPage extends StatelessWidget {
               prefixIcon: Icon(Icons.key),
               label: "Ganti Password",
               onTap: () {
-                print("Anda Menekan Button Ganti Password");
+                showChangePasswordDialog();
               },
             ),
             SizedBox(height: 20),
@@ -102,8 +174,8 @@ class SettingPage extends StatelessWidget {
                   textConfirm: "Hapus",
                   confirmTextColor: Colors.white,
                   onConfirm: () {
-                    Get.back(); // Tutup dialog
-                    handleDeleteAccount(); // Lanjut hapus akun
+                    Get.back();
+                    handleDeleteAccount();
                   },
                 );
               },
@@ -155,8 +227,7 @@ class SettingPage extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  Get.to(LoginPage());
-                  // logoutHandle();
+                  logoutHandle();
                 },
               ),
             ),

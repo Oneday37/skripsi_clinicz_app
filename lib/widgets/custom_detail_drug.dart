@@ -3,8 +3,12 @@ import 'package:skripsi_clinicz_app/constants/fonts.dart';
 
 class CustomDetailDrug extends StatefulWidget {
   final String label;
-  String content;
-  CustomDetailDrug({super.key, required this.label, required this.content});
+  final String content;
+  const CustomDetailDrug({
+    super.key,
+    required this.label,
+    required this.content,
+  });
 
   @override
   State<CustomDetailDrug> createState() => _CustomDetailDrugState();

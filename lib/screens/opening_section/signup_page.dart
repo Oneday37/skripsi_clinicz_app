@@ -1,11 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/opening_section/login_page.dart';
@@ -126,8 +123,6 @@ class _SignUpPageState extends State<SignUpPage> {
         tanggalFormattedToJson,
         imageProfile!,
       );
-
-      print("Hasil response: $response");
 
       final message = response['message']?.toString().toLowerCase() ?? "";
 

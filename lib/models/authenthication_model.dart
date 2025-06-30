@@ -26,20 +26,8 @@ class AuthenthicationModel {
           json['gender'].toString()[0].toUpperCase() +
           json['gender'].toString().substring(1),
       profileImage:
-          json['profileImage'] != ""
-              ? json['profileImage']
-              : "https://pbs.twimg.com/profile_images/1321030814436655106/87OcbZNm_400x400.jpg",
+          json['profileImage'] ??
+          "https://pbs.twimg.com/profile_images/1321030814436655106/87OcbZNm_400x400.jpg",
     );
-  }
-}
-
-// LOGOUT ACCOUNT
-class LogOutAccount {
-  final String message;
-
-  LogOutAccount({required this.message});
-
-  factory LogOutAccount.fromJson(Map<String, dynamic> json) {
-    return LogOutAccount(message: json["message"] ?? "-");
   }
 }

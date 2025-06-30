@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:skripsi_clinicz_app/models/online_shop_model.dart';
+import 'package:skripsi_clinicz_app/models/shop_model/online_all_shop_model.dart';
+import 'package:skripsi_clinicz_app/models/shop_model/online_category_shop_model.dart';
+import 'package:skripsi_clinicz_app/models/shop_model/online_single_shop_model.dart';
 
 class OnlineShopServices {
   final String baseUrl =

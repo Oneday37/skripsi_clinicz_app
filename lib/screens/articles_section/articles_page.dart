@@ -39,34 +39,6 @@ class _ArticlesPageState extends State<ArticlesPage> {
               style: AppFonts().normalGreetingFontInside,
             ),
             SizedBox(width: 20),
-
-            // SEARCH BAR FOR ARTICLE
-            // Expanded(
-            //   child: TextFormField(
-            //     cursorColor: AppColors.primaryColor,
-            //     cursorHeight: 25,
-            //     decoration: InputDecoration(
-            //       filled: true,
-            //       fillColor: AppColors.thirdColor,
-            //       prefixIcon: Icon(Icons.search, size: 25),
-            //       prefixIconColor: AppColors.primaryColor,
-            //       hintText: "Search article",
-            //       hintStyle: TextStyle(color: AppColors.primaryColor),
-            //       isDense: true,
-            //       border: OutlineInputBorder(
-            //         borderRadius: BorderRadius.circular(15),
-            //       ),
-            //       focusedBorder: OutlineInputBorder(
-            //         borderSide: BorderSide(color: AppColors.thirdColor),
-            //         borderRadius: BorderRadius.circular(15),
-            //       ),
-            //       enabledBorder: OutlineInputBorder(
-            //         borderSide: BorderSide(color: AppColors.thirdColor),
-            //         borderRadius: BorderRadius.circular(15),
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -78,9 +50,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                LottieBuilder.network(
-                  "https://lottie.host/773ae2e1-0078-4f47-bc1b-fcf247e8224a/Xm3svCgTAm.json",
-                ),
+                LottieBuilder.asset("assets/lottie_search_data_loading.json"),
                 SizedBox(height: 20),
                 Text("Sedang mengambil data ...", style: AppFonts().titleFont),
               ],

@@ -118,13 +118,13 @@ class _NearbyFaskesPageState extends State<NearbyFaskesPage> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: GestureDetector(
+                        onTap: fetchNearbyClinics,
                         child: Text(
                           currentAddress ?? "Deteksi Lokasi Anda",
                           style: AppFonts().normalBlueFont,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        onTap: fetchNearbyClinics,
                       ),
                     ),
                   ],
@@ -142,8 +142,8 @@ class _NearbyFaskesPageState extends State<NearbyFaskesPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  LottieBuilder.network(
-                    "https://lottie.host/866755c5-0a5b-46c1-b72b-8d6b7586c35e/RBTyU8u0EA.json",
+                  LottieBuilder.asset(
+                    "lottie_location_detection_animation.json",
                   ),
                   Text(
                     "Sedang menganalisa lokasi sekitar...",
@@ -164,8 +164,8 @@ class _NearbyFaskesPageState extends State<NearbyFaskesPage> {
               children: [
                 AspectRatio(
                   aspectRatio: 4 / 3,
-                  child: LottieBuilder.network(
-                    "https://lottie.host/33c240ef-d43d-4ae9-bed2-221a8f3d74aa/32VMWwz7an.json",
+                  child: LottieBuilder.asset(
+                    "assets/lottie_search_location_loading.json",
                   ),
                 ),
                 Padding(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
@@ -153,8 +152,8 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
                 ? Center(
                   child: Column(
                     children: [
-                      LottieBuilder.network(
-                        "https://lottie.host/7b7b708d-3fe5-45dc-91c5-8734b83d4ac9/UN9GvQGgBM.json",
+                      LottieBuilder.asset(
+                        "assets/lottie_search_data_loading.json",
                       ),
                       SizedBox(height: 10),
                       Text(

@@ -34,42 +34,72 @@ class _HistoryPredictionPageState extends State<HistoryPredictionPage> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  LottieBuilder.network(
-                    "https://lottie.host/773ae2e1-0078-4f47-bc1b-fcf247e8224a/Xm3svCgTAm.json",
-                  ),
+                  LottieBuilder.asset("assets/lottie_search_data_loading.json"),
                   Text("Sedang memuat data...", style: AppFonts().titleFont),
                 ],
               );
             } else if (snapshot.hasError) {
               return Center(child: Text("Error: ${snapshot.error}"));
-            } else if (!snapshot.hasData || snapshot.data == null) {
-              return Center(
-                child: Text(
-                  "Anda belum melakukan prediksi penyakit",
-                  style: AppFonts().titleFont,
-                ),
-              );
             } else {
-              final getDataPrediction = snapshot.data;
-              return ListView.builder(
-                itemCount: getDataPrediction!.length,
-                itemBuilder: (context, index) {
-                  final getSingleDataPrediction = getDataPrediction[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: CustomFieldSettings(
-                      prefixIcon: Icon(Icons.sick_outlined),
-                      label: getSingleDataPrediction.nama,
-                      onTap: () {
-                        Get.to(
-                          HistoryConclusionPage(
-                            diseaseName: getSingleDataPrediction.nama,
-                            index: index,
+              final getDataForDrug = snapshot.data;
+              return FutureBuilder(
+                future: HistoryServices().getHistoryPrediction(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LottieBuilder.asset(
+                          "assets/lottie_search_data_loading.json",
+                        ),
+                        Text(
+                          "Sedang memuat data...",
+                          style: AppFonts().titleFont,
+                        ),
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text("Error: ${snapshot.error}"));
+                  } else {
+                    final getDataForDisease = snapshot.data;
+                    if (getDataForDrug!.isEmpty) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LottieBuilder.asset("assets/lottie_not_found.json"),
+                          Text(
+                            "Anda belum melakukan prediksi penyakit",
+                            style: AppFonts().titleFont,
+                          ),
+                        ],
+                      );
+                    }
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: getDataForDisease!.length,
+                      itemBuilder: (context, index) {
+                        final getSingleDataForDisease =
+                            getDataForDisease[index];
+                        final getSingleDataForDrug = getDataForDrug[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: CustomFieldSettings(
+                            prefixIcon: Icon(Icons.sick_outlined),
+                            label: getSingleDataForDrug.nama,
+                            onTap: () {
+                              Get.to(
+                                HistoryConclusionPage(
+                                  diseaseName: getSingleDataForDrug.nama,
+                                  diseaseID: getSingleDataForDisease.id,
+                                  drugID: getSingleDataForDrug.id,
+                                ),
+                              );
+                            },
                           ),
                         );
                       },
-                    ),
-                  );
+                    );
+                  }
                 },
               );
             }

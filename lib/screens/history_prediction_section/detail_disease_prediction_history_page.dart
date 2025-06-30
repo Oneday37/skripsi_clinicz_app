@@ -40,15 +40,11 @@ class DetailDiseasePredictionPage extends StatelessWidget {
             getDataID,
           ),
           builder: (context, snapshot) {
-            print(getDataID);
-
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  LottieBuilder.network(
-                    "https://lottie.host/773ae2e1-0078-4f47-bc1b-fcf247e8224a/Xm3svCgTAm.json",
-                  ),
+                  LottieBuilder.asset("assets/lottie_search_data_loading.json"),
                   Text("Sedang memuat data...", style: AppFonts().titleFont),
                 ],
               );
