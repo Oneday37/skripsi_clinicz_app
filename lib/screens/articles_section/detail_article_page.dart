@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
@@ -9,8 +8,8 @@ import 'package:skripsi_clinicz_app/services/online_articles_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailArticlePage extends StatefulWidget {
-  String articleId;
-  DetailArticlePage({super.key, required this.articleId});
+  final String articleId;
+  const DetailArticlePage({super.key, required this.articleId});
 
   @override
   State<DetailArticlePage> createState() => _DetailArticlePageState();
@@ -144,19 +143,11 @@ class _DetailArticlePageState extends State<DetailArticlePage> {
                   child: RichText(
                     text: TextSpan(
                       text: "Sumber: ",
-                      style: GoogleFonts.robotoCondensed(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                      ),
+                      style: AppFonts().normalBlackBoldFont,
                       children: [
                         TextSpan(
                           text: getDataArticle.source,
-                          style: GoogleFonts.robotoCondensed(
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 17,
-                          ),
+                          style: AppFonts().normalBlackFont,
                         ),
                       ],
                     ),

@@ -11,8 +11,8 @@ import 'package:skripsi_clinicz_app/widgets/custom_detail_drug.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DrugDetailPage extends StatefulWidget {
-  String drugName;
-  DrugDetailPage({super.key, required this.drugName});
+  final String drugName;
+  const DrugDetailPage({super.key, required this.drugName});
 
   @override
   State<DrugDetailPage> createState() => _DrugDetailPageState();

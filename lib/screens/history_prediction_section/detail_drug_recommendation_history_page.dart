@@ -42,7 +42,6 @@ class DetailDrugRecommendationPage extends StatelessWidget {
             getDataID,
           ),
           builder: (context, snapshot) {
-            print(getDataID);
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: Column(
@@ -56,7 +55,6 @@ class DetailDrugRecommendationPage extends StatelessWidget {
                 ),
               );
             } else if (snapshot.hasError) {
-              print(snapshot.error);
               return Center(
                 child: Text("Terjadi kesalahan: ${snapshot.hasError}"),
               );

@@ -78,8 +78,26 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           SizedBox(width: 10),
-                          CircleAvatar(
-                            child: Image.network(getDataProfile.profileImage),
+                          Container(
+                            height: MediaQuery.of(context).size.width / 10,
+                            width: MediaQuery.of(context).size.width / 10,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(130),
+                              border: Border.all(color: Colors.black, width: 2),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(120),
+                              child: Image.network(
+                                getDataProfile.profileImage,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.network(
+                                    "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              ),
+                            ),
                           ),
                         ],
                       ),

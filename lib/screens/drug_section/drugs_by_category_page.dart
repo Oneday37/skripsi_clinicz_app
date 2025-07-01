@@ -7,9 +7,9 @@ import 'package:skripsi_clinicz_app/screens/drug_section/drug_detail_shop_page.d
 import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 
 class DrugsByCategoryPage extends StatefulWidget {
-  String displayDrugName;
-  String drugCategory;
-  DrugsByCategoryPage({
+  final String displayDrugName;
+  final String drugCategory;
+  const DrugsByCategoryPage({
     super.key,
     required this.displayDrugName,
     required this.drugCategory,
@@ -43,7 +43,7 @@ class _DrugsByCategoryPageState extends State<DrugsByCategoryPage> {
           );
         } else {
           final getDataDrug = snapshot.data;
-          getDataDrug!.sort((a, b) => a!.nama.compareTo(b.nama));
+          getDataDrug!.sort((a, b) => a.nama.compareTo(b.nama));
           return Scaffold(
             backgroundColor: AppColors.bgColor,
             appBar: AppBar(

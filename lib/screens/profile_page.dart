@@ -39,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
             return const Center(child: Text('Gagal memuat data profil'));
           } else {
             final getDataProfile = snapshot.data!;
+            print(getDataProfile.profileImage);
             return Padding(
               padding: const EdgeInsets.all(20),
               child: ListView(
@@ -57,6 +58,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Image.network(
                           getDataProfile.profileImage,
                           fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.network(
+                              "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+                              fit: BoxFit.cover,
+                            );
+                          },
                         ),
                       ),
                     ),

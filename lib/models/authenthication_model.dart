@@ -1,4 +1,3 @@
-// LOGIN, GET PROFILE
 class AuthenthicationModel {
   final String id;
   final String username;
@@ -26,8 +25,9 @@ class AuthenthicationModel {
           json['gender'].toString()[0].toUpperCase() +
           json['gender'].toString().substring(1),
       profileImage:
-          json['profileImage'] ??
-          "https://pbs.twimg.com/profile_images/1321030814436655106/87OcbZNm_400x400.jpg",
+          json['profileImage'] != ""
+              ? "https://unfortunate-odessa-tsukasa-org-926b4973.koyeb.app${json['profileImage']}"
+              : "https://pbs.twimg.com/profile_images/1321030814436655106/87OcbZNm_400x400.jpg",
     );
   }
 }

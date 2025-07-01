@@ -25,6 +25,7 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
         "Peringatan",
         "Harap memasukkan gejala",
         backgroundColor: Colors.red,
+        colorText: Colors.white,
       );
     }
 

@@ -112,11 +112,17 @@ class _SettingPageState extends State<SettingPage> {
             "Berhasil",
             "Akun berhasil dihapus",
             backgroundColor: Colors.green,
+            colorText: Colors.white,
           );
         }
       } catch (e) {
         Get.back();
-        Get.snackbar("Error", e.toString());
+        Get.snackbar(
+          "Error",
+          e.toString(),
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
       }
     }
 

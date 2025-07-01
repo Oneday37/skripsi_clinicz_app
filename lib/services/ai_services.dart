@@ -74,4 +74,28 @@ class AIServices {
   }
 
   // METHOD CHATBOT
+  Future chatBotGemini(String message) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+
+      final response = await http.post(
+        Uri.parse("$baseUrl/chat"),
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Cookie': 'auth_token=$token',
+        },
+        body: jsonEncode({"message": message}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return data["reply"] ?? "Tidak ada balasan.";
+      } else {
+        return "Gagal mendapatkan balasan: ${response.statusCode}";
+      }
+    } catch (e) {
+      throw Exception("Gemini tidak merespon: $e");
+    }
+  }
 }

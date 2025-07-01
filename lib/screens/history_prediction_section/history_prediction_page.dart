@@ -76,10 +76,10 @@ class _HistoryPredictionPageState extends State<HistoryPredictionPage> {
                     }
                     return ListView.builder(
                       shrinkWrap: true,
-                      itemCount: getDataForDisease!.length,
+                      itemCount: getDataForDrug.length,
                       itemBuilder: (context, index) {
                         final getSingleDataForDisease =
-                            getDataForDisease[index];
+                            getDataForDisease![index];
                         final getSingleDataForDrug = getDataForDrug[index];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 20),

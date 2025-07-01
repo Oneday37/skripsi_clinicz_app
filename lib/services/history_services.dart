@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skripsi_clinicz_app/models/history_model/detail_disease_prediction_history_model.dart';

@@ -2,7 +2,7 @@ import 'package:skripsi_clinicz_app/models/drug_model.dart';
 
 List<DrugModel> drugs = [
   DrugModel(
-    imagePath: "assets/drug_sample.png",
+    imagePath: "assets/obat_penyakit_kepala.png",
     displayDrugName: "Obat Kepala",
     drugCategory: "Sakit Kepala",
   ),
