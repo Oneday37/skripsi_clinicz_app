@@ -17,14 +17,14 @@ class CustomProfile extends StatelessWidget {
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: AppColors.thirdColor,
+            color: AppColors.primaryColor,
             borderRadius: BorderRadius.circular(15),
           ),
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Text(
               content,
-              style: GoogleFonts.roboto(color: Colors.grey[600]),
+              style: GoogleFonts.roboto(color: Colors.white),
             ),
           ),
         ),

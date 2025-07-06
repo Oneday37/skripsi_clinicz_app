@@ -176,10 +176,10 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: AppColors.thirdColor,
+        backgroundColor: AppColors.primaryColor,
       ),
       body: Container(
-        color: AppColors.thirdColor,
+        color: AppColors.primaryColor,
         child: Column(
           children: [
             SizedBox(height: MediaQuery.of(context).size.width / 7),
@@ -254,7 +254,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: AppColors.thirdColor,
+                                color: AppColors.primaryColor,
                                 width: 2,
                               ),
                               borderRadius: BorderRadius.circular(15),
@@ -340,7 +340,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: AppColors.thirdColor,
+                                color: AppColors.primaryColor,
                                 width: 2,
                               ),
                               borderRadius: BorderRadius.circular(15),

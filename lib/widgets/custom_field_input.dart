@@ -17,7 +17,7 @@ class CustomFieldInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: inputController,
-      cursorColor: AppColors.thirdColor,
+      cursorColor: AppColors.primaryColor,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         prefixIcon: fieldIcon,
@@ -26,7 +26,7 @@ class CustomFieldInput extends StatelessWidget {
         hintStyle: AppFonts().inputFieldFont,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.thirdColor, width: 2),
+          borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
           borderRadius: BorderRadius.circular(15),
         ),
       ),

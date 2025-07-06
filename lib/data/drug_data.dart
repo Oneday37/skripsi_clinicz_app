@@ -1,34 +1,38 @@
+import 'package:iconify_flutter_plus/icons/fa.dart';
+import 'package:iconify_flutter_plus/icons/healthicons.dart';
+import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:iconify_flutter_plus/icons/medical_icon.dart';
 import 'package:skripsi_clinicz_app/models/drug_model.dart';
 
 List<DrugModel> drugs = [
   DrugModel(
-    imagePath: "assets/obat_penyakit_kepala.png",
-    displayDrugName: "Obat Kepala",
+    displayDrugName: "Penyakit\nKepala",
     drugCategory: "Sakit Kepala",
+    icon: Mdi.head_outline,
   ),
   DrugModel(
-    imagePath: "assets/obat_penyakit_telinga.png",
-    displayDrugName: "Obat Telinga",
+    displayDrugName: "Penyakit\nTelinga",
     drugCategory: "Sakit Telinga",
+    icon: "",
   ),
   DrugModel(
-    imagePath: "assets/obat_penyakit_mata.png",
-    displayDrugName: "Obat Mata",
+    displayDrugName: "Penyakit\nMata",
     drugCategory: "Sakit Mata",
+    icon: Fa.eye,
   ),
   DrugModel(
-    imagePath: "assets/obat_penyakit_pernapasan.png",
-    displayDrugName: "Obat Pernapasan",
+    displayDrugName: "Penyakit\nPernapasan",
     drugCategory: "Sakit Pernafasan",
+    icon: MedicalIcon.i_respiratory,
   ),
   DrugModel(
-    imagePath: "assets/obat_penyakit_jantung.png",
-    displayDrugName: "Obat Jantung",
+    displayDrugName: "Penyakit\nJantung",
     drugCategory: "Sakit Jantung",
+    icon: Healthicons.heart_cardiogram,
   ),
   DrugModel(
-    imagePath: "assets/obat_penyakit_pencernaan.png",
-    displayDrugName: "Obat Pencernaan",
+    displayDrugName: "Penyakit\nPencernaan",
     drugCategory: "Sakit Perut",
+    icon: Mdi.stomach,
   ),
 ];

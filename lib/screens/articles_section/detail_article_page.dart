@@ -56,37 +56,34 @@ class _DetailArticlePageState extends State<DetailArticlePage> {
                 // ARTICLE IMAGE
                 AspectRatio(
                   aspectRatio: 16 / 9,
-                  child: Stack(
+                  child: Image.network(
+                    getDataArticle!.img,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 20,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.network(
-                        getDataArticle!.img,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
+                      Text(
+                        getDataArticle.title,
+                        style: AppFonts().subTitleFont,
+                        textAlign: TextAlign.justify,
                       ),
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxWidth: double.infinity,
-                            ),
-                            child: Stack(
-                              children: [
-                                Text(
-                                  getDataArticle.title,
-                                  style: AppFonts().strokeArticleTitleFont,
-                                  textAlign: TextAlign.justify,
-                                ),
-                                Text(
-                                  getDataArticle.title,
-                                  style: AppFonts().baseArticleTitleFont,
-                                  textAlign: TextAlign.justify,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                      SizedBox(height: 10),
+                      Text(
+                        getDataArticle.date,
+                        style: AppFonts().normalBlackFont,
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        "Penulis: ${getDataArticle.doctor.name}",
+                        style: AppFonts().normalBlackFont,
                       ),
                     ],
                   ),
@@ -136,6 +133,43 @@ class _DetailArticlePageState extends State<DetailArticlePage> {
                         textAlign: TextAlign.justify,
                       ),
                     },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children:
+                        getDataArticle.tag.map((tag) {
+                          return ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width / 2,
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryColor,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 5,
+                                    offset: const Offset(5, 5),
+                                  ),
+                                ],
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
+                              child: Text(
+                                "#$tag",
+                                style: AppFonts().normalWhiteTagFont,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          );
+                        }).toList(),
                   ),
                 ),
                 Padding(

@@ -84,7 +84,10 @@ class _HistoryPredictionPageState extends State<HistoryPredictionPage> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: CustomFieldSettings(
-                            prefixIcon: Icon(Icons.sick_outlined),
+                            prefixIcon: Icon(
+                              Icons.sick_outlined,
+                              color: Colors.white,
+                            ),
                             label: getSingleDataForDrug.nama,
                             onTap: () {
                               Get.to(

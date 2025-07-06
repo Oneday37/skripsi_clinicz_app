@@ -1,14 +1,15 @@
-import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
-import 'package:iconify_flutter_plus/icons/bi.dart';
 import 'package:iconify_flutter_plus/icons/ci.dart';
+import 'package:iconify_flutter_plus/icons/ic.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/screens/history_prediction_section/history_prediction_page.dart';
 import 'package:skripsi_clinicz_app/screens/home_page.dart';
 import 'package:skripsi_clinicz_app/screens/profile_page.dart';
 import 'package:skripsi_clinicz_app/screens/settings_page.dart';
+import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 class CustomNavBar extends StatefulWidget {
   const CustomNavBar({super.key});
@@ -31,35 +32,102 @@ class _CustomNavBarState extends State<CustomNavBar> {
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       body: bodyPage[selectedPage],
-      bottomNavigationBar: FlashyTabBar(
-        backgroundColor: AppColors.thirdColor,
-        selectedIndex: selectedPage,
+      bottomNavigationBar: StylishBottomBar(
+        backgroundColor: AppColors.bgColor,
+        currentIndex: selectedPage,
+        option: AnimatedBarOptions(
+          iconSize: 35,
+          padding: const EdgeInsets.symmetric(vertical: 10),
+        ),
         items: [
-          FlashyTabBarItem(
-            activeColor: Colors.black,
-            icon: Iconify(Mdi.home_outline, color: Colors.black),
-            title: Text("Home"),
-          ),
-          FlashyTabBarItem(
-            activeColor: Colors.black,
-            icon: Iconify(
-              Mdi.clipboard_text_history_outline,
-              color: Colors.black,
+          BottomBarItem(
+            icon:
+                selectedPage == 0
+                    ? Iconify(Mdi.home_outline, color: Colors.black)
+                    : Iconify(Mdi.home, color: AppColors.primaryColor),
+            title: Text(
+              "Home",
+              style:
+                  selectedPage == 0
+                      ? GoogleFonts.robotoCondensed(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      )
+                      : GoogleFonts.robotoCondensed(
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.normal,
+                      ),
             ),
-            title: Text("History"),
           ),
-          FlashyTabBarItem(
-            activeColor: Colors.black,
-            icon: Iconify(Bi.person, color: Colors.black),
-            title: Text("Profile"),
+          BottomBarItem(
+            unSelectedColor: Colors.black,
+            icon:
+                selectedPage == 1
+                    ? Iconify(
+                      Mdi.clipboard_text_history_outline,
+                      color: Colors.black,
+                    )
+                    : Iconify(
+                      Mdi.clipboard_text_history,
+                      color: AppColors.primaryColor,
+                    ),
+            title: Text(
+              "Riwayat",
+              style:
+                  selectedPage == 1
+                      ? GoogleFonts.robotoCondensed(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      )
+                      : GoogleFonts.robotoCondensed(
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.normal,
+                      ),
+            ),
           ),
-          FlashyTabBarItem(
-            activeColor: Colors.black,
-            icon: Iconify(Ci.settings, color: Colors.black),
-            title: Text("Settings"),
+          BottomBarItem(
+            icon:
+                selectedPage == 2
+                    ? Iconify(Ic.person_outline, color: Colors.black)
+                    : Iconify(Ic.person, color: AppColors.primaryColor),
+            title: Text(
+              "Profil",
+              style:
+                  selectedPage == 2
+                      ? GoogleFonts.robotoCondensed(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      )
+                      : GoogleFonts.robotoCondensed(
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.normal,
+                      ),
+            ),
+          ),
+          BottomBarItem(
+            icon:
+                selectedPage == 3
+                    ? Iconify(Ci.settings, color: Colors.black)
+                    : Iconify(
+                      Ci.settings_filled,
+                      color: AppColors.primaryColor,
+                    ),
+            title: Text(
+              "Pengaturan",
+              style:
+                  selectedPage == 3
+                      ? GoogleFonts.robotoCondensed(
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal,
+                      )
+                      : GoogleFonts.robotoCondensed(
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.normal,
+                      ),
+            ),
           ),
         ],
-        onItemSelected: (index) {
+        onTap: (index) {
           setState(() {
             selectedPage = index;
           });

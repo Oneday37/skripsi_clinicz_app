@@ -21,13 +21,8 @@ class _ArticlesPageState extends State<ArticlesPage> {
       backgroundColor: AppColors.bgColor,
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
-
-        // APPLICATION LOGO
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: AppColors.primaryColor,
-          ),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
             Get.back();
           },
@@ -75,47 +70,118 @@ class _ArticlesPageState extends State<ArticlesPage> {
                           padding: const EdgeInsets.only(bottom: 20),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: AppColors.thirdColor,
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // ARTICLE THUMBNAIL
-                                  SizedBox(
-                                    height: 250,
-                                    width: double.infinity,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: Image.network(
-                                        getSingleArticle.img,
-                                        fit: BoxFit.cover,
-                                      ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // ARTICLE THUMBNAIL
+                                SizedBox(
+                                  height: 250,
+                                  width: double.infinity,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.network(
+                                      getSingleArticle.img,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  SizedBox(height: 10),
+                                ),
+                                SizedBox(height: 10),
 
-                                  // ARTICLE TITLE
-                                  Text(
+                                // ARTICLE TITLE
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                  ),
+                                  child: Text(
                                     getSingleArticle.title,
                                     style: AppFonts().subTitleFont,
                                     textAlign: TextAlign.justify,
                                   ),
-                                  SizedBox(height: 20),
-                                  CustomButtonInside(
-                                    label: "Baca Artikel",
-                                    onTap: () {
-                                      Get.to(
-                                        DetailArticlePage(
-                                          articleId: getSingleArticle.id,
-                                        ),
-                                      );
-                                    },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                    vertical: 15,
                                   ),
-                                ],
-                              ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                            2,
+                                        child: Wrap(
+                                          spacing: 8,
+                                          runSpacing: 8,
+                                          children:
+                                              getSingleArticle.tag.map((tag) {
+                                                return ConstrainedBox(
+                                                  constraints: BoxConstraints(
+                                                    maxWidth:
+                                                        MediaQuery.of(
+                                                          context,
+                                                        ).size.width /
+                                                        2,
+                                                  ),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          AppColors
+                                                              .primaryColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12,
+                                                          ),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.black
+                                                              .withOpacity(0.3),
+                                                          blurRadius: 5,
+                                                          offset: const Offset(
+                                                            0,
+                                                            5,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                          horizontal: 12,
+                                                          vertical: 8,
+                                                        ),
+                                                    child: Text(
+                                                      "#$tag",
+                                                      style:
+                                                          AppFonts()
+                                                              .normalWhiteTagFont,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                );
+                                              }).toList(),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: CustomButtonInside(
+                                          label: "Baca Artikel",
+                                          onTap: () {
+                                            Get.to(
+                                              DetailArticlePage(
+                                                articleId: getSingleArticle.id,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

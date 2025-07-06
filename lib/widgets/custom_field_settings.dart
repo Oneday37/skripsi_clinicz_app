@@ -19,7 +19,7 @@ class CustomFieldSettings extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: AppColors.thirdColor,
+          color: AppColors.primaryColor,
           borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
@@ -28,8 +28,8 @@ class CustomFieldSettings extends StatelessWidget {
             children: [
               prefixIcon,
               SizedBox(width: 20),
-              Expanded(child: Text(label, style: AppFonts().normalBlackFont)),
-              Icon(Icons.arrow_forward_ios_rounded),
+              Expanded(child: Text(label, style: AppFonts().normalWhiteFont)),
+              Icon(Icons.arrow_forward_ios_rounded, color: Colors.white),
             ],
           ),
         ),

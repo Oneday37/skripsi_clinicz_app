@@ -39,7 +39,6 @@ class _ProfilePageState extends State<ProfilePage> {
             return const Center(child: Text('Gagal memuat data profil'));
           } else {
             final getDataProfile = snapshot.data!;
-            print(getDataProfile.profileImage);
             return Padding(
               padding: const EdgeInsets.all(20),
               child: ListView(

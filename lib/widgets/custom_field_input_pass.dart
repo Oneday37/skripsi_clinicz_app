@@ -5,7 +5,7 @@ import 'package:skripsi_clinicz_app/constants/fonts.dart';
 class CustomFieldInputPass extends StatefulWidget {
   final TextEditingController inputController;
   final String hintText;
-  CustomFieldInputPass({
+  const CustomFieldInputPass({
     super.key,
     required this.inputController,
     required this.hintText,
@@ -28,7 +28,7 @@ class _CustomFieldInputPassState extends State<CustomFieldInputPass> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.inputController,
-      cursorColor: AppColors.thirdColor,
+      cursorColor: AppColors.primaryColor,
       obscureText: visibilityButton == true ? true : false,
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.lock_outline),
@@ -47,7 +47,7 @@ class _CustomFieldInputPassState extends State<CustomFieldInputPass> {
         suffixIconColor: AppColors.iconColor,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.thirdColor, width: 2),
+          borderSide: BorderSide(color: AppColors.primaryColor, width: 2),
           borderRadius: BorderRadius.circular(15),
         ),
       ),

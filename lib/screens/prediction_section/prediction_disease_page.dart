@@ -16,6 +16,7 @@ class PredictionDiseasePage extends StatefulWidget {
 
 class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
   TextEditingController gejalaController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   void predictionHandler() async {
@@ -51,10 +52,7 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: AppColors.primaryColor,
-          ),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
             Get.back();
           },
@@ -74,8 +72,11 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
               children: [
                 // APPLICATION LOGO
                 AspectRatio(
-                  aspectRatio: 3 / 2,
-                  child: Image.asset("assets/clinicz_logo_2.png"),
+                  aspectRatio: 16 / 9,
+                  child: Image.asset(
+                    "assets/diagnocare_logo2.png",
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Center(
                   child: Text(
@@ -88,7 +89,7 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                 // DISEASE PREDICTION SECTION
                 Text(
                   "Tuliskan gejala yang dirasakan pada tubuh anda secara spesifik",
-                  style: AppFonts().normalBlueFont,
+                  style: AppFonts().normalBlackFont,
                   textAlign: TextAlign.justify,
                 ),
                 SizedBox(height: 10),
@@ -96,37 +97,64 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                 // DISEASE PREDICTION SECTION
                 Text(
                   "(Contoh: Telinga nyeri, mata merah, hidung tersumbat)",
-                  style: AppFonts().normalBlueBoldFont,
+                  style: AppFonts().normalBlackBoldFont,
                   textAlign: TextAlign.justify,
                 ),
                 SizedBox(height: 30),
 
                 // CONTAINER FOR ENTERING SYMPTOMS OF DISEASE
-                TextFormField(
-                  controller: gejalaController,
-                  cursorHeight: 20,
-                  cursorColor: AppColors.primaryColor,
-                  maxLines: 5,
-                  textCapitalization: TextCapitalization.sentences,
-                  textAlign: TextAlign.justify,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppColors.primaryColor,
-                        width: 2,
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 5,
+                        offset: const Offset(0, 5),
                       ),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppColors.primaryColor,
-                        width: 2,
+                    ],
+                  ),
+                  child: Form(
+                    key: formKey,
+                    child: TextFormField(
+                      controller: gejalaController,
+                      cursorHeight: 20,
+                      cursorColor: AppColors.primaryColor,
+                      maxLines: 5,
+                      textCapitalization: TextCapitalization.sentences,
+                      textAlign: TextAlign.justify,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white, width: 2),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white, width: 2),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(15),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Input tidak boleh kosong';
+                        }
+                        final gejalaList =
+                            value
+                                .split(',')
+                                .map((e) => e.trim())
+                                .where((e) => e.isNotEmpty)
+                                .toList();
+
+                        if (gejalaList.length < 5) {
+                          return 'Masukkan minimal 5 gejala yang dipisahkan dengan koma';
+                        }
+
+                        return null;
+                      },
                     ),
                   ),
                 ),
@@ -149,9 +177,11 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                       ),
                     )
                     : CustomButtonInside(
-                      label: "Analisis",
+                      label: "Prediksi",
                       onTap: () {
-                        predictionHandler();
+                        if (formKey.currentState!.validate()) {
+                          predictionHandler();
+                        }
                       },
                     ),
               ],

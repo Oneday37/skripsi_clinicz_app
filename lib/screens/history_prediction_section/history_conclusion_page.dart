@@ -39,7 +39,7 @@ class HistoryConclusionPage extends StatelessWidget {
           children: [
             // SYMPTOMS HISTORY AREA
             CustomFieldSettings(
-              prefixIcon: Iconify(Mdi.face_sick_outline),
+              prefixIcon: Iconify(Mdi.face_sick_outline, color: Colors.white),
               label: "History Gejala",
               onTap: () {
                 Get.to(
@@ -54,7 +54,10 @@ class HistoryConclusionPage extends StatelessWidget {
 
             // DISEASE PREDICTION HISTORY AREA
             CustomFieldSettings(
-              prefixIcon: Iconify(MedicalIcon.i_medical_library),
+              prefixIcon: Iconify(
+                MedicalIcon.i_medical_library,
+                color: Colors.white,
+              ),
               label: "Prediksi Penyakit",
               onTap: () {
                 Get.to(
@@ -69,7 +72,7 @@ class HistoryConclusionPage extends StatelessWidget {
 
             // DRUG RECOMMENDATION HISTORY AREA
             CustomFieldSettings(
-              prefixIcon: Iconify(Mdi.drugs),
+              prefixIcon: Iconify(Mdi.drugs, color: Colors.white),
               label: "Rekomendasi Obat",
               onTap: () {
                 Get.to(

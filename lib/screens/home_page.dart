@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/bi.dart';
@@ -10,10 +11,8 @@ import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/data/drug_data.dart';
 import 'package:skripsi_clinicz_app/screens/chatbot_page.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drugs_shop_page.dart';
-import 'package:skripsi_clinicz_app/models/drug_model.dart';
 import 'package:skripsi_clinicz_app/screens/articles_section/articles_page.dart';
 import 'package:skripsi_clinicz_app/screens/articles_section/detail_article_page.dart';
-import 'package:skripsi_clinicz_app/screens/drug_section/drugs_by_category_page.dart';
 import 'package:skripsi_clinicz_app/screens/nearby_faskes_page.dart';
 import 'package:skripsi_clinicz_app/screens/prediction_section/prediction_disease_page.dart';
 import 'package:skripsi_clinicz_app/services/authentication_services.dart';
@@ -55,8 +54,15 @@ class _HomePageState extends State<HomePage> {
             children: [
               AppBar(
                 backgroundColor: AppColors.bgColor,
-                leading: Image.asset("assets/clinicz_logo_2.png"),
+                leading: Image.asset(
+                  color: AppColors.primaryColor,
+                  "assets/diagnocare_logo2.png",
+                  fit: BoxFit.cover,
+                ),
+
+                // leadingWidth: 0,
                 title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "DiagnoCare",
@@ -67,17 +73,16 @@ class _HomePageState extends State<HomePage> {
                     // AREA FOR ACCOUNT
                     Expanded(
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Expanded(
-                            child: Text(
-                              getDataProfile.username,
-                              style: AppFonts().normalBlackFont,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          Text(
+                            getDataProfile.username,
+                            style: AppFonts().normalGreetingFontInside,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(width: 20),
                           Container(
                             height: MediaQuery.of(context).size.width / 10,
                             width: MediaQuery.of(context).size.width / 10,
@@ -135,34 +140,41 @@ class _HomePageState extends State<HomePage> {
                     // MAIN FEATURE
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // CONTAINER FOR DISEASE PREDICTION
+                        CustomMainFeaturesIcon(
+                          featureIcon: Iconify(
+                            MedicalIcon.i_medical_library,
+                            color: Colors.white,
+                          ),
+                          featureName: "Prediksi\nPenyakit",
+                          directPage: PredictionDiseasePage(),
+                        ),
+
                         // CONTAINER FOR DRUGS SHOP
                         CustomMainFeaturesIcon(
-                          featureIcon: Iconify(Bi.shop),
+                          featureIcon: Iconify(Bi.shop, color: Colors.white),
                           featureName: "Toko Obat",
                           directPage: DrugShopPage(),
                         ),
-                        SizedBox(width: 20),
-
-                        // CONTAINER FOR DISEASE PREDICTION
-                        CustomMainFeaturesIcon(
-                          featureIcon: Iconify(MedicalIcon.i_medical_library),
-                          featureName: "Prediksi Penyakit",
-                          directPage: PredictionDiseasePage(),
-                        ),
-                        SizedBox(width: 20),
 
                         // CONTAINER FOR CHATBOT AI
                         CustomMainFeaturesIcon(
-                          featureIcon: Image.asset("assets/chatbot.png"),
+                          featureIcon: Image.asset(
+                            "assets/chatbot.png",
+                            color: Colors.white,
+                          ),
                           featureName: "Chatbot AI",
                           directPage: ChatBotPage(),
                         ),
-                        SizedBox(width: 20),
 
                         // CONTAINER FOR NEARBY CLINIC
                         CustomMainFeaturesIcon(
-                          featureIcon: Iconify(La.map_marked_alt),
+                          featureIcon: Iconify(
+                            La.map_marked_alt,
+                            color: Colors.white,
+                          ),
                           featureName: "Faskes Sekitar",
                           directPage: NearbyFaskesPage(),
                         ),
@@ -170,22 +182,31 @@ class _HomePageState extends State<HomePage> {
                     ),
 
                     SizedBox(height: 30),
-                    Text("Produk Kesehatan", style: AppFonts().subTitleFont),
+                    Text(
+                      "Kenali Berbagai Penyakit Yuk!",
+                      style: AppFonts().subTitleFont,
+                    ),
                     SizedBox(height: 10),
 
-                    // DRUG FEATURE
+                    // DISEASE FEATURE
                     SizedBox(
-                      height: MediaQuery.of(context).size.width / 4,
+                      height: MediaQuery.of(context).size.width / 3,
                       child: ListView.builder(
+                        padding: EdgeInsets.zero,
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
                         itemCount: drugs.length,
                         itemBuilder: (_, index) {
-                          DrugModel getDataDrug = drugs[index];
+                          final getDataDisease = drugs[index];
                           return GestureDetector(
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width / 4,
+                            child: Padding(
+                              padding:
+                                  getDataDisease.displayDrugName ==
+                                          "Sakit Perut"
+                                      ? EdgeInsets.zero
+                                      : EdgeInsets.only(right: 35),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
                                     height:
@@ -193,33 +214,49 @@ class _HomePageState extends State<HomePage> {
                                     width:
                                         MediaQuery.of(context).size.width / 6,
                                     decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.black,
-                                        width: 2,
-                                      ),
+                                      color: AppColors.primaryColor,
                                       borderRadius: BorderRadius.circular(15),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.3),
+                                          blurRadius: 5,
+                                          offset: const Offset(0, 5),
+                                        ),
+                                      ],
                                     ),
-                                    child: Image.asset(
-                                      getDataDrug.imagePath,
-                                      fit: BoxFit.cover,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child:
+                                          getDataDisease.drugCategory ==
+                                                  "Sakit Telinga"
+                                              ? SvgPicture.asset(
+                                                "assets/ear.svg",
+                                                color: Colors.white,
+                                              )
+                                              : Iconify(
+                                                "${getDataDisease.icon}",
+                                                color: Colors.white,
+                                              ),
                                     ),
                                   ),
-                                  SizedBox(height: 5),
+                                  SizedBox(height: 10),
                                   Text(
-                                    getDataDrug.displayDrugName,
+                                    getDataDisease.displayDrugName,
                                     style: AppFonts().normalBlackFont,
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.clip,
                                   ),
                                 ],
                               ),
                             ),
-                            onTap: () {
-                              Get.to(
-                                DrugsByCategoryPage(
-                                  displayDrugName: getDataDrug.displayDrugName,
-                                  drugCategory: getDataDrug.drugCategory,
-                                ),
-                              );
-                            },
+                            // onTap: () {
+                            //   Get.to(
+                            //     DrugsByCategoryPage(
+                            //       displayDrugName: getDataDrug.displayDrugName,
+                            //       drugCategory: getDataDrug.drugCategory,
+                            //     ),
+                            //   );
+                            // },
                           );
                         },
                       ),
@@ -237,7 +274,7 @@ class _HomePageState extends State<HomePage> {
                         GestureDetector(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: AppColors.thirdColor,
+                              color: AppColors.primaryColor,
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: Padding(
@@ -247,7 +284,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               child: Text(
                                 "Lihat Semua",
-                                style: AppFonts().normalBlackBoldFont,
+                                style: AppFonts().normalWhiteBoldFont,
                               ),
                             ),
                           ),
@@ -268,7 +305,7 @@ class _HomePageState extends State<HomePage> {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Lottie.asset(
+                              LottieBuilder.asset(
                                 height: MediaQuery.of(context).size.width / 2,
                                 width: MediaQuery.of(context).size.width / 2,
                                 "assets/lottie_search_data_loading.json",
@@ -297,50 +334,133 @@ class _HomePageState extends State<HomePage> {
                                   padding: const EdgeInsets.only(bottom: 20),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: AppColors.thirdColor,
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(15),
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(15),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          // ARTICLE THUMBNAIL
-                                          SizedBox(
-                                            height: 250,
-                                            width: double.infinity,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: Image.network(
-                                                getSingleArticle.img,
-                                                fit: BoxFit.cover,
-                                              ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        // ARTICLE THUMBNAIL
+                                        SizedBox(
+                                          height: 250,
+                                          width: double.infinity,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              15,
+                                            ),
+                                            child: Image.network(
+                                              getSingleArticle.img,
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
-                                          SizedBox(height: 10),
+                                        ),
+                                        SizedBox(height: 10),
 
-                                          // ARTICLE TITLE
-                                          Text(
+                                        // ARTICLE TITLE
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 15,
+                                          ),
+                                          child: Text(
                                             getSingleArticle.title,
                                             style: AppFonts().subTitleFont,
                                             textAlign: TextAlign.justify,
                                           ),
-                                          SizedBox(height: 30),
-                                          CustomButtonInside(
-                                            label: "Baca Artikel",
-                                            onTap: () {
-                                              Get.to(
-                                                DetailArticlePage(
-                                                  articleId:
-                                                      getSingleArticle.id,
-                                                ),
-                                              );
-                                            },
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 15,
+                                            vertical: 15,
                                           ),
-                                        ],
-                                      ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width:
+                                                    MediaQuery.of(
+                                                      context,
+                                                    ).size.width /
+                                                    2,
+                                                child: Wrap(
+                                                  spacing: 8,
+                                                  runSpacing: 8,
+                                                  children:
+                                                      getSingleArticle.tag.map((
+                                                        tag,
+                                                      ) {
+                                                        return ConstrainedBox(
+                                                          constraints:
+                                                              BoxConstraints(
+                                                                maxWidth:
+                                                                    MediaQuery.of(
+                                                                      context,
+                                                                    ).size.width /
+                                                                    2,
+                                                              ),
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                              color:
+                                                                  AppColors
+                                                                      .primaryColor,
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                    12,
+                                                                  ),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: Colors
+                                                                      .black
+                                                                      .withOpacity(
+                                                                        0.3,
+                                                                      ),
+                                                                  blurRadius: 5,
+                                                                  offset:
+                                                                      const Offset(
+                                                                        0,
+                                                                        5,
+                                                                      ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            padding:
+                                                                const EdgeInsets.symmetric(
+                                                                  horizontal:
+                                                                      12,
+                                                                  vertical: 8,
+                                                                ),
+                                                            child: Text(
+                                                              "#$tag",
+                                                              style:
+                                                                  AppFonts()
+                                                                      .normalWhiteTagFont,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }).toList(),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: CustomButtonInside(
+                                                  label: "Baca Artikel",
+                                                  onTap: () {
+                                                    Get.to(
+                                                      DetailArticlePage(
+                                                        articleId:
+                                                            getSingleArticle.id,
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),

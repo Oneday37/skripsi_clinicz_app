@@ -23,16 +23,22 @@ class CustomMainFeaturesIcon extends StatelessWidget {
             height: MediaQuery.of(context).size.width / 6,
             width: MediaQuery.of(context).size.width / 6,
             decoration: BoxDecoration(
-              color: AppColors.thirdColor,
-              border: Border.all(color: Colors.black, width: 2),
+              color: AppColors.primaryColor,
               borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 5,
+                  offset: const Offset(0, 5),
+                ),
+              ],
             ),
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: featureIcon,
             ),
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           Text(featureName, style: AppFonts().normalBlackFont),
         ],
       ),

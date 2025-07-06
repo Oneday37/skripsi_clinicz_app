@@ -108,9 +108,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.thirdColor,
+      backgroundColor: AppColors.primaryColor,
       appBar: AppBar(
-        backgroundColor: AppColors.thirdColor,
+        backgroundColor: AppColors.primaryColor,
         automaticallyImplyLeading: false,
       ),
       body: Column(
@@ -196,7 +196,7 @@ class _LoginPageState extends State<LoginPage> {
                             children: [
                               TextSpan(
                                 text: "Sign Up",
-                                style: TextStyle(color: AppColors.secondColor),
+                                style: TextStyle(color: AppColors.primaryColor),
                                 recognizer:
                                     TapGestureRecognizer()
                                       ..onTap = () {

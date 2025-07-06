@@ -160,7 +160,7 @@ class _SettingPageState extends State<SettingPage> {
 
             // CONTAINER FOR CHANGE PASSWORD
             CustomFieldSettings(
-              prefixIcon: Icon(Icons.key),
+              prefixIcon: Icon(Icons.key, color: Colors.white),
               label: "Ganti Password",
               onTap: () {
                 showChangePasswordDialog();
@@ -170,7 +170,7 @@ class _SettingPageState extends State<SettingPage> {
 
             // CONTAINER FOR DELETE ACCOUNT
             CustomFieldSettings(
-              prefixIcon: Iconify(LineMd.account_delete),
+              prefixIcon: Iconify(LineMd.account_delete, color: Colors.white),
               label: "Hapus Akun Saya",
               onTap: () async {
                 Get.defaultDialog(
@@ -193,7 +193,7 @@ class _SettingPageState extends State<SettingPage> {
 
             // CONTAINER FOR ABOUT US
             CustomFieldSettings(
-              prefixIcon: Icon(Icons.people),
+              prefixIcon: Icon(Icons.people, color: Colors.white),
               label: "Tentang Kami",
               onTap: () {
                 Get.to(AboutUsPage());
@@ -203,7 +203,7 @@ class _SettingPageState extends State<SettingPage> {
 
             // CONTAINER FOR CONTACT US
             CustomFieldSettings(
-              prefixIcon: Icon(Icons.contact_phone),
+              prefixIcon: Icon(Icons.contact_phone, color: Colors.white),
               label: "Hubungi Kami",
               onTap: () {
                 Get.to(ContactUsPage());

@@ -6,6 +6,7 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_detail_shop_page.dart';
 import 'package:skripsi_clinicz_app/services/ai_services.dart';
+import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 
 class DrugRecommendationPage extends StatefulWidget {
   final String diseaseName;
@@ -74,57 +75,148 @@ class _DrugRecommendationPageState extends State<DrugRecommendationPage> {
               );
             } else {
               final getData = snapshot.data;
-
               // LIST OF DRUG RECOMMENDATION
               return ListView.builder(
                 itemCount: getData!.length,
                 itemBuilder: (context, index) {
                   final getSingleDataDrug = getData[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: GestureDetector(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.thirdColor,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 10,
-                              offset: Offset(0, 5),
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // NAME OF DISEASE
-                              Text(
-                                getSingleDataDrug.namaObat,
-                                style: AppFonts().subTitleFont,
-                              ),
-                              SizedBox(height: 20),
-
-                              // DESCRIPTION OF DISEASE
-                              Text(
-                                getSingleDataDrug.deskripsi,
-                                style: AppFonts().normalBlackFont,
-                                textAlign: TextAlign.justify,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 6,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        Get.to(
-                          DrugDetailPage(drugName: getSingleDataDrug.namaObat),
-                        );
-                      },
+                  return FutureBuilder(
+                    future: OnlineShopServices().getSingleDrusShop(
+                      getSingleDataDrug.namaObat,
                     ),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container();
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text("Error: ${snapshot.error}"));
+                      } else {
+                        final getSingleDataDrug2 = snapshot.data;
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        // NAME OF DRUG
+                                        Text(
+                                          getSingleDataDrug.namaObat,
+                                          style: AppFonts().subTitleFont,
+                                        ),
+                                        const SizedBox(height: 20),
+
+                                        // DESCRIPTION
+                                        Text(
+                                          getSingleDataDrug.deskripsi,
+                                          style: AppFonts().normalBlackFont,
+                                          maxLines: 5,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.justify,
+                                        ),
+                                        const SizedBox(height: 20),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            15,
+                                          ),
+                                          child: Image.network(
+                                            height:
+                                                MediaQuery.of(
+                                                  context,
+                                                ).size.width /
+                                                4,
+                                            width:
+                                                MediaQuery.of(
+                                                  context,
+                                                ).size.width /
+                                                4,
+                                            getSingleDataDrug2!.gambar,
+                                            // fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        // DETAIL BUTTON
+                                        GestureDetector(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: AppColors.primaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.3),
+                                                  blurRadius: 5,
+                                                  offset: const Offset(0, 5),
+                                                ),
+                                              ],
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 10,
+                                              horizontal: 20,
+                                            ),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Icon(
+                                                  Icons.info_outline,
+                                                  color: Colors.white,
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Text(
+                                                  "Detail",
+                                                  style:
+                                                      AppFonts()
+                                                          .normalWhiteBoldFont,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            Get.to(
+                                              DrugDetailPage(
+                                                drugName:
+                                                    getSingleDataDrug.namaObat,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    },
                   );
                 },
               );

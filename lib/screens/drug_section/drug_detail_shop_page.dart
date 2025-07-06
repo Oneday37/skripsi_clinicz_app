@@ -62,45 +62,65 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
               title: Text(getSingleDataDrug.nama, style: AppFonts().titleFont),
               centerTitle: true,
             ),
-
             body: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: ListView(
                 children: [
-                  // CONTAINER FOR IMAGE
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Image.network(getSingleDataDrug.gambar),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 5,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // CONTAINER FOR IMAGE
+                          AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: Image.network(getSingleDataDrug.gambar),
+                          ),
+                          SizedBox(height: 30),
+
+                          // DESCRIPTION OF TREATMENT
+                          CustomDetailDrug(
+                            label: "Deskripsi Obat:",
+                            content: getSingleDataDrug.deskripsi,
+                          ),
+                          SizedBox(height: 30),
+
+                          // MEDICINE INGREDIENTS
+                          CustomDetailDrug(
+                            label: "Kandungan:",
+                            content: getSingleDataDrug.kandungan,
+                          ),
+                          SizedBox(height: 30),
+
+                          // TREATMENT DOSAGE
+                          CustomDetailDrug(
+                            label: "Dosis Penggunaan:",
+                            content: getSingleDataDrug.dosis,
+                          ),
+                          SizedBox(height: 30),
+
+                          // TERMS OF USE
+                          CustomDetailDrug(
+                            label: "Aturan Pakai:",
+                            content: getSingleDataDrug.aturanPakai,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   SizedBox(height: 30),
-
-                  // DESCRIPTION OF TREATMENT
-                  CustomDetailDrug(
-                    label: "Deskripsi Obat:",
-                    content: getSingleDataDrug.deskripsi,
-                  ),
-                  SizedBox(height: 30),
-
-                  // MEDICINE INGREDIENTS
-                  CustomDetailDrug(
-                    label: "Kandungan:",
-                    content: getSingleDataDrug.kandungan,
-                  ),
-                  SizedBox(height: 30),
-
-                  // TREATMENT DOSAGE
-                  CustomDetailDrug(
-                    label: "Dosis Penggunaan:",
-                    content: getSingleDataDrug.dosis,
-                  ),
-                  SizedBox(height: 30),
-
-                  // TERMS OF USE
-                  CustomDetailDrug(
-                    label: "Aturan Pakai:",
-                    content: getSingleDataDrug.aturanPakai,
-                  ),
-                  SizedBox(height: 50),
 
                   // BUTTON FOR REDIRECT SHOP
                   GestureDetector(

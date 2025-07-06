@@ -5,7 +5,7 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 class AppFonts {
   // OUTSIDE FONTS
   final greetingFontOutside = GoogleFonts.oswald(
-    color: Colors.black,
+    color: Colors.white,
     fontSize: 40,
     fontWeight: FontWeight.bold,
   );
@@ -17,20 +17,20 @@ class AppFonts {
   );
 
   final normalGreetingFontOutside = GoogleFonts.oswald(
-    color: Colors.black,
+    color: Colors.white,
     fontSize: 25,
     fontWeight: FontWeight.normal,
   );
 
   // INSIDE FONTS
   final greetingFontInside = GoogleFonts.oswald(
-    color: AppColors.primaryColor,
+    color: Colors.black,
     fontSize: 50,
     fontWeight: FontWeight.bold,
   );
 
   final normalGreetingFontInside = GoogleFonts.oswald(
-    color: AppColors.primaryColor,
+    color: Colors.black,
     fontSize: 25,
     fontWeight: FontWeight.normal,
   );
@@ -68,6 +68,12 @@ class AppFonts {
     fontWeight: FontWeight.bold,
   );
 
+  final normalWhiteTagFont = GoogleFonts.robotoCondensed(
+    color: Colors.white,
+    fontSize: 10,
+    fontWeight: FontWeight.normal,
+  );
+
   final normalBlueFont = GoogleFonts.robotoCondensed(
     color: AppColors.primaryColor,
     fontSize: 17,
@@ -87,18 +93,8 @@ class AppFonts {
   );
 
   // ARTICLE FONTS
-  final strokeArticleTitleFont = GoogleFonts.robotoCondensed(
-    foreground:
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 5
-          ..color = Colors.black,
-    fontSize: 17,
-    fontWeight: FontWeight.bold,
-  );
-
   final baseArticleTitleFont = GoogleFonts.robotoCondensed(
-    color: Colors.white,
+    color: Colors.black,
     fontSize: 17,
     fontWeight: FontWeight.bold,
   );

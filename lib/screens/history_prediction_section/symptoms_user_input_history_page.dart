@@ -20,18 +20,12 @@ class SymptomsUserInputPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: AppColors.primaryColor,
-          ),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
             Get.back();
           },
         ),
-        title: Text(
-          "History Gejala $diseaseName",
-          style: AppFonts().normalGreetingFontInside,
-        ),
+        title: Text("History Gejala $diseaseName", style: AppFonts().titleFont),
         centerTitle: true,
       ),
 
@@ -59,13 +53,13 @@ class SymptomsUserInputPage extends StatelessWidget {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: AppColors.thirdColor,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 10,
-                          offset: Offset(0, 5),
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 5,
+                          offset: const Offset(0, 5),
                         ),
                       ],
                     ),

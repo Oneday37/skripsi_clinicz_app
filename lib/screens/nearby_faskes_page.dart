@@ -84,10 +84,7 @@ class _NearbyFaskesPageState extends State<NearbyFaskesPage> {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_rounded,
-            color: AppColors.primaryColor,
-          ),
+          icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
             Get.back();
           },
@@ -104,24 +101,20 @@ class _NearbyFaskesPageState extends State<NearbyFaskesPage> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: AppColors.thirdColor,
+                  color: AppColors.primaryColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 padding: const EdgeInsets.all(7),
                 child: Row(
                   children: [
-                    Iconify(
-                      Mdi.hospital_marker,
-                      color: AppColors.primaryColor,
-                      size: 30,
-                    ),
+                    Iconify(Mdi.hospital_marker, color: Colors.white, size: 30),
                     const SizedBox(width: 10),
                     Expanded(
                       child: GestureDetector(
                         onTap: fetchNearbyClinics,
                         child: Text(
                           currentAddress ?? "Deteksi Lokasi Anda",
-                          style: AppFonts().normalBlueFont,
+                          style: AppFonts().normalWhiteFont,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -142,8 +135,11 @@ class _NearbyFaskesPageState extends State<NearbyFaskesPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  LottieBuilder.asset(
-                    "lottie_location_detection_animation.json",
+                  AspectRatio(
+                    aspectRatio: 4 / 3,
+                    child: LottieBuilder.asset(
+                      "assets/lottie_location_detection_animation.json",
+                    ),
                   ),
                   Text(
                     "Sedang menganalisa lokasi sekitar...",
@@ -200,8 +196,15 @@ class _NearbyFaskesPageState extends State<NearbyFaskesPage> {
                   ),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppColors.thirdColor,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 5,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(15),
@@ -239,7 +242,7 @@ class _NearbyFaskesPageState extends State<NearbyFaskesPage> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(width: 100),
+                              Expanded(child: Container()),
                               Expanded(
                                 child: CustomButtonInside(
                                   label: "See On Maps",

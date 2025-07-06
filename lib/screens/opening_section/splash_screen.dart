@@ -30,7 +30,10 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: AspectRatio(
           aspectRatio: 3 / 2,
-          child: Image.asset("assets/clinicz_logo_1.png"),
+          child: Image.asset(
+            color: AppColors.primaryColor,
+            "assets/diagnocare_logo1.png",
+          ),
         ),
       ),
     );

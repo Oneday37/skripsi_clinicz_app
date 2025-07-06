@@ -44,17 +44,21 @@ class _DrugShopPageState extends State<DrugShopPage> {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: AppColors.primaryColor,
-          ),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () => Get.back(),
         ),
-        title: Text(
-          "DiagnoCare Shop",
-          style: AppFonts().normalGreetingFontInside,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("DiagnoCare Shop", style: AppFonts().normalGreetingFontInside),
+            Image.asset(
+              height: MediaQuery.of(context).size.width / 5,
+              color: AppColors.primaryColor,
+              "assets/diagnocare_logo2.png",
+              fit: BoxFit.cover,
+            ),
+          ],
         ),
-        actions: [Image.asset("assets/clinicz_logo_2.png")],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -153,6 +157,7 @@ class _DrugShopPageState extends State<DrugShopPage> {
                           crossAxisCount: 2,
                           crossAxisSpacing: 20,
                           mainAxisSpacing: 20,
+                          childAspectRatio: 0.8,
                         ),
                     itemCount: getDatadrugs.length,
                     itemBuilder: (_, index) {
@@ -171,15 +176,21 @@ class _DrugShopPageState extends State<DrugShopPage> {
                       return GestureDetector(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: AppColors.primaryColor,
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                blurRadius: 5,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
                           ),
                           padding: const EdgeInsets.all(10),
                           child: Column(
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: AspectRatio(
@@ -191,10 +202,42 @@ class _DrugShopPageState extends State<DrugShopPage> {
                               Center(
                                 child: Text(
                                   drugName,
-                                  style: AppFonts().normalWhiteBoldFont,
+                                  style: AppFonts().normalBlackBoldFont,
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.center,
                                 ),
+                              ),
+                              SizedBox(height: 10),
+                              GestureDetector(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primaryColor,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 10,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.info_outline,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          "Detail",
+                                          style: AppFonts().normalWhiteBoldFont,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  Get.to(DrugDetailPage(drugName: drugName));
+                                },
                               ),
                             ],
                           ),

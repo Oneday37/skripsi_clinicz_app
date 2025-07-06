@@ -4,7 +4,11 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 class CustomButtonOutside extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
-  CustomButtonOutside({super.key, required this.label, required this.onTap});
+  const CustomButtonOutside({
+    super.key,
+    required this.label,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +16,7 @@ class CustomButtonOutside extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: AppColors.thirdColor,
+          color: AppColors.primaryColor,
           borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
@@ -21,7 +25,7 @@ class CustomButtonOutside extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

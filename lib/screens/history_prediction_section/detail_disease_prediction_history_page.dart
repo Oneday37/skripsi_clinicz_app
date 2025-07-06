@@ -20,15 +20,12 @@ class DetailDiseasePredictionPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: AppColors.primaryColor,
-          ),
+          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
             Get.back();
           },
         ),
-        title: Text(diseaseName, style: AppFonts().normalGreetingFontInside),
+        title: Text(diseaseName, style: AppFonts().titleFont),
         centerTitle: true,
       ),
 
@@ -56,87 +53,90 @@ class DetailDiseasePredictionPage extends StatelessWidget {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: AppColors.thirdColor,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 10,
-                          offset: Offset(0, 5),
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 7,
+                          offset: const Offset(0, 10),
                         ),
                       ],
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // NAME OF DISEASE
-                          Text("Deskripsi", style: AppFonts().subTitleFont),
-                          SizedBox(height: 10),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // NAME OF DISEASE
+                            Text("Deskripsi", style: AppFonts().subTitleFont),
+                            SizedBox(height: 10),
 
-                          // DESCRIPTION OF DISEASE
-                          Text(
-                            getDiseaseHistory!.output.first.deskripsi,
-                            style: AppFonts().normalBlackFont,
-                            textAlign: TextAlign.justify,
-                          ),
-                          SizedBox(height: 30),
-
-                          Text("Penyebab", style: AppFonts().subTitleFont),
-                          SizedBox(height: 10),
-
-                          // CAUSE OF DISEASE
-                          Text(
-                            getDiseaseHistory.output.first.penyebab,
-                            style: AppFonts().normalBlackFont,
-                            textAlign: TextAlign.justify,
-                          ),
-                          SizedBox(height: 30),
-
-                          Text("Pencegahan", style: AppFonts().subTitleFont),
-                          SizedBox(height: 10),
-
-                          // PREVENTION OF DISEASE
-                          Text(
-                            getDiseaseHistory.output.first.pencegahan,
-                            style: AppFonts().normalBlackFont,
-                            textAlign: TextAlign.justify,
-                          ),
-                          SizedBox(height: 40),
-
-                          // ALERT MESSAGE !!!
-                          RichText(
-                            textAlign: TextAlign.justify,
-                            text: TextSpan(
-                              text: "Note: ",
-                              style: AppFonts().normalBlackBoldFont,
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "Untuk pemeriksaan lebih lanjut, diharapkan untuk menghubungi dokter",
-                                  style: AppFonts().normalBlackFont,
-                                ),
-                              ],
+                            // DESCRIPTION OF DISEASE
+                            Text(
+                              getDiseaseHistory!.output.first.deskripsi,
+                              style: AppFonts().normalBlackFont,
+                              textAlign: TextAlign.justify,
                             ),
-                          ),
-                          SizedBox(height: 40),
+                            SizedBox(height: 30),
 
-                          // SOURCE OF DATA
-                          RichText(
-                            textAlign: TextAlign.justify,
-                            text: TextSpan(
-                              text: "Sumber: ",
-                              style: AppFonts().normalBlackBoldFont,
-                              children: [
-                                TextSpan(
-                                  text: getDiseaseHistory.output.first.sumber,
-                                  style: AppFonts().normalBlackFont,
-                                ),
-                              ],
+                            Text("Penyebab", style: AppFonts().subTitleFont),
+                            SizedBox(height: 10),
+
+                            // CAUSE OF DISEASE
+                            Text(
+                              getDiseaseHistory.output.first.penyebab,
+                              style: AppFonts().normalBlackFont,
+                              textAlign: TextAlign.justify,
                             ),
-                          ),
-                        ],
+                            SizedBox(height: 30),
+
+                            Text("Pencegahan", style: AppFonts().subTitleFont),
+                            SizedBox(height: 10),
+
+                            // PREVENTION OF DISEASE
+                            Text(
+                              getDiseaseHistory.output.first.pencegahan,
+                              style: AppFonts().normalBlackFont,
+                              textAlign: TextAlign.justify,
+                            ),
+                            SizedBox(height: 40),
+
+                            // ALERT MESSAGE !!!
+                            RichText(
+                              textAlign: TextAlign.justify,
+                              text: TextSpan(
+                                text: "Note: ",
+                                style: AppFonts().normalBlackBoldFont,
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        "Untuk pemeriksaan lebih lanjut, diharapkan untuk menghubungi dokter",
+                                    style: AppFonts().normalBlackFont,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 40),
+
+                            // SOURCE OF DATA
+                            RichText(
+                              textAlign: TextAlign.justify,
+                              text: TextSpan(
+                                text: "Sumber: ",
+                                style: AppFonts().normalBlackBoldFont,
+                                children: [
+                                  TextSpan(
+                                    text: getDiseaseHistory.output.first.sumber,
+                                    style: AppFonts().normalBlackFont,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
