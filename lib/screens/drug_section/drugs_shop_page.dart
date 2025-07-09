@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/data/disease_category.dart';
+import 'package:skripsi_clinicz_app/data/drug_by_category_data.dart';
 import 'package:skripsi_clinicz_app/models/shop_model/online_all_shop_model.dart';
 import 'package:skripsi_clinicz_app/models/shop_model/online_category_shop_model.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_detail_shop_page.dart';
@@ -70,16 +70,16 @@ class _DrugShopPageState extends State<DrugShopPage> {
             ),
             const SizedBox(height: 20),
 
-            // DISEASE CATEGORY
+            // DRUG CATEGORY
             SizedBox(
               height: MediaQuery.of(context).size.width / 10,
               child: ListView.builder(
-                itemCount: diseaseCategory.length,
+                itemCount: drugsByCategory.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (_, index) {
-                  final getCategory = diseaseCategory[index];
+                  final getDrugCategory = drugsByCategory[index];
                   final isSelected =
-                      selectedCategory == getCategory.drugCategory;
+                      selectedCategory == getDrugCategory.drugCategory;
                   return GestureDetector(
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10),
@@ -100,7 +100,7 @@ class _DrugShopPageState extends State<DrugShopPage> {
                         ),
                         child: Center(
                           child: Text(
-                            getCategory.displayDrugName,
+                            getDrugCategory.displayDrugName,
                             style:
                                 isSelected
                                     ? AppFonts().normalWhiteBoldFont
@@ -110,7 +110,7 @@ class _DrugShopPageState extends State<DrugShopPage> {
                       ),
                     ),
                     onTap: () {
-                      fetchDrugsByCategory(getCategory.drugCategory);
+                      fetchDrugsByCategory(getDrugCategory.drugCategory);
                     },
                   );
                 },
@@ -147,8 +147,8 @@ class _DrugShopPageState extends State<DrugShopPage> {
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Center(child: Text("Data obat tidak tersedia."));
                 } else {
-                  final getDatadrugs = snapshot.data!;
-                  getDatadrugs.sort((a, b) => a.nama.compareTo(b.nama));
+                  final getDataDrugs = snapshot.data!;
+                  getDataDrugs.sort((a, b) => a.nama.compareTo(b.nama));
                   return GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -159,9 +159,9 @@ class _DrugShopPageState extends State<DrugShopPage> {
                           mainAxisSpacing: 20,
                           childAspectRatio: 0.8,
                         ),
-                    itemCount: getDatadrugs.length,
+                    itemCount: getDataDrugs.length,
                     itemBuilder: (_, index) {
-                      final getSingleDataDrug = getDatadrugs[index];
+                      final getSingleDataDrug = getDataDrugs[index];
                       final drugName =
                           selectedCategory == 'All'
                               ? (getSingleDataDrug as OnlineShopModel).nama
@@ -251,6 +251,7 @@ class _DrugShopPageState extends State<DrugShopPage> {
                 }
               },
             ),
+            Container(height: MediaQuery.of(context).size.width / 20),
           ],
         ),
       ),

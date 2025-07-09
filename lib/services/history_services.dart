@@ -26,8 +26,6 @@ class HistoryServices {
 
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
-
-        // Pastikan data ada dan bertipe List
         final data = responseBody['data'];
         if (data == null || data is! List) {
           return [];
@@ -41,7 +39,9 @@ class HistoryServices {
         throw Exception("Gagal mengambil data. Kode: ${response.statusCode}");
       }
     } catch (e) {
-      throw Exception("Terjadi kesalahan saat mengambil riwayat: $e");
+      throw Exception(
+        "Catch Error-Terjadi kesalahan saat mengambil riwayat: $e",
+      );
     }
   }
 
@@ -66,7 +66,7 @@ class HistoryServices {
         throw Exception("Failed to get data");
       }
     } catch (e) {
-      throw Exception(e.toString());
+      throw Exception("Catch Error: $e");
     }
   }
 
@@ -96,7 +96,7 @@ class HistoryServices {
         throw Exception("Gagal memuat data: ${response.statusCode}");
       }
     } catch (e) {
-      throw Exception("Terjadi kesalahan: $e");
+      throw Exception("Catch Error: $e");
     }
   }
 
@@ -126,7 +126,7 @@ class HistoryServices {
         throw Exception("Gagal memuat data: ${response.statusCode}");
       }
     } catch (e) {
-      throw Exception("Terjadi kesalahan: $e");
+      throw Exception("Catch Error: $e");
     }
   }
 }

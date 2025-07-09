@@ -62,8 +62,8 @@ class _PredictionDiseaseDetailPageState
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // NAME OF DISEASE
-                      Text("Penyakit", style: AppFonts().subTitleFont),
+                      // DESCRIPTION OF DISEASE
+                      Text("Deskripsi", style: AppFonts().subTitleFont),
                       SizedBox(height: 10),
 
                       // DESCRIPTION OF DISEASE
@@ -74,23 +74,12 @@ class _PredictionDiseaseDetailPageState
                       ),
                       SizedBox(height: 30),
 
-                      Text("Penyebab", style: AppFonts().subTitleFont),
+                      Text("Pengobatan", style: AppFonts().subTitleFont),
                       SizedBox(height: 10),
 
                       // CAUSE OF DISEASE
                       Text(
-                        widget.prediction.penyebab,
-                        style: AppFonts().normalBlackFont,
-                        textAlign: TextAlign.justify,
-                      ),
-                      SizedBox(height: 30),
-
-                      Text("Pencegahan", style: AppFonts().subTitleFont),
-                      SizedBox(height: 10),
-
-                      // PREVENTION OF DISEASE
-                      Text(
-                        widget.prediction.pencegahan,
+                        widget.prediction.pengobatan,
                         style: AppFonts().normalBlackFont,
                         textAlign: TextAlign.justify,
                       ),

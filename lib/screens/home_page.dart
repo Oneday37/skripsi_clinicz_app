@@ -8,8 +8,9 @@ import 'package:iconify_flutter_plus/icons/medical_icon.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/data/drug_data.dart';
+import 'package:skripsi_clinicz_app/data/disease_by_category_data.dart';
 import 'package:skripsi_clinicz_app/screens/chatbot_page.dart';
+import 'package:skripsi_clinicz_app/screens/disease_section/disease_by_category_page.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drugs_shop_page.dart';
 import 'package:skripsi_clinicz_app/screens/articles_section/articles_page.dart';
 import 'package:skripsi_clinicz_app/screens/articles_section/detail_article_page.dart';
@@ -97,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Image.network(
-                                    "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+                                    "https://pbs.twimg.com/profile_images/1321030814436655106/87OcbZNm_400x400.jpg",
                                     fit: BoxFit.cover,
                                   );
                                 },
@@ -166,7 +167,9 @@ class _HomePageState extends State<HomePage> {
                             color: Colors.white,
                           ),
                           featureName: "Chatbot AI",
-                          directPage: ChatBotPage(),
+                          directPage: ChatBotPage(
+                            profileImage: getDataProfile.profileImage,
+                          ),
                         ),
 
                         // CONTAINER FOR NEARBY CLINIC
@@ -195,14 +198,14 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.zero,
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount: drugs.length,
+                        itemCount: diseaseCategory.length,
                         itemBuilder: (_, index) {
-                          final getDataDisease = drugs[index];
+                          final getDataDisease = diseaseCategory[index];
                           return GestureDetector(
                             child: Padding(
                               padding:
-                                  getDataDisease.displayDrugName ==
-                                          "Sakit Perut"
+                                  getDataDisease.diseaseCategory ==
+                                          "Penyakit Perut"
                                       ? EdgeInsets.zero
                                       : EdgeInsets.only(right: 35),
                               child: Column(
@@ -227,8 +230,8 @@ class _HomePageState extends State<HomePage> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(15),
                                       child:
-                                          getDataDisease.drugCategory ==
-                                                  "Sakit Telinga"
+                                          getDataDisease.diseaseCategory ==
+                                                  "Penyakit Telinga"
                                               ? SvgPicture.asset(
                                                 "assets/ear.svg",
                                                 color: Colors.white,
@@ -241,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    getDataDisease.displayDrugName,
+                                    getDataDisease.displayDiseaseName,
                                     style: AppFonts().normalBlackFont,
                                     textAlign: TextAlign.center,
                                     overflow: TextOverflow.clip,
@@ -249,14 +252,14 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                             ),
-                            // onTap: () {
-                            //   Get.to(
-                            //     DrugsByCategoryPage(
-                            //       displayDrugName: getDataDrug.displayDrugName,
-                            //       drugCategory: getDataDrug.drugCategory,
-                            //     ),
-                            //   );
-                            // },
+                            onTap: () {
+                              Get.to(
+                                DiseaseByCategoryPage(
+                                  diseaseCategory:
+                                      getDataDisease.diseaseCategory,
+                                ),
+                              );
+                            },
                           );
                         },
                       ),

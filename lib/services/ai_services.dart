@@ -63,12 +63,9 @@ class AIServices {
                 .toList();
         return result;
       } catch (e) {
-        print("Gagal parsing JSON: $e");
-        throw Exception("Parsing gagal");
+        throw Exception("Catch Error: Parsing gagal");
       }
     } else {
-      print("Status: ${response.statusCode}");
-      print("Response body: ${response.body}");
       throw Exception("Gagal mengambil data dari server");
     }
   }
@@ -95,7 +92,7 @@ class AIServices {
         return "Gagal mendapatkan balasan: ${response.statusCode}";
       }
     } catch (e) {
-      throw Exception("Gemini tidak merespon: $e");
+      throw Exception("Catch Error Gemini tidak merespon: $e");
     }
   }
 }

@@ -1,9 +1,11 @@
-class DiseaseCategoryModel {
-  String displayDrugName;
-  String drugCategory;
+class DiseaseByCategoryModel {
+  String displayDiseaseName;
+  String diseaseCategory;
+  String? icon;
 
-  DiseaseCategoryModel({
-    required this.displayDrugName,
-    required this.drugCategory,
+  DiseaseByCategoryModel({
+    required this.displayDiseaseName,
+    required this.diseaseCategory,
+    required this.icon,
   });
 }

@@ -28,7 +28,7 @@ class NearbyFaskesServices {
         throw Exception("Gagal mengambil data faskes");
       }
     } catch (e) {
-      throw Exception("Error saat mengambil data faskes: $e");
+      throw Exception("Catch Error saat mengambil data faskes: $e");
     }
   }
 }

@@ -59,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Image.network(
-                              "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+                              "https://pbs.twimg.com/profile_images/1321030814436655106/87OcbZNm_400x400.jpg",
                               fit: BoxFit.cover,
                             );
                           },

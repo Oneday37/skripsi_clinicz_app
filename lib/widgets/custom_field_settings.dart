@@ -6,7 +6,7 @@ class CustomFieldSettings extends StatelessWidget {
   final dynamic prefixIcon;
   final String label;
   final VoidCallback onTap;
-  CustomFieldSettings({
+  const CustomFieldSettings({
     super.key,
     required this.prefixIcon,
     required this.label,

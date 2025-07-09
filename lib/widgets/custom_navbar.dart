@@ -43,8 +43,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
           BottomBarItem(
             icon:
                 selectedPage == 0
-                    ? Iconify(Mdi.home_outline, color: Colors.black)
-                    : Iconify(Mdi.home, color: AppColors.primaryColor),
+                    ? Iconify(Mdi.home, color: Colors.black)
+                    : Iconify(Mdi.home_outline, color: AppColors.primaryColor),
             title: Text(
               "Home",
               style:
@@ -63,12 +63,9 @@ class _CustomNavBarState extends State<CustomNavBar> {
             unSelectedColor: Colors.black,
             icon:
                 selectedPage == 1
-                    ? Iconify(
-                      Mdi.clipboard_text_history_outline,
-                      color: Colors.black,
-                    )
+                    ? Iconify(Mdi.clipboard_text_history, color: Colors.black)
                     : Iconify(
-                      Mdi.clipboard_text_history,
+                      Mdi.clipboard_text_history_outline,
                       color: AppColors.primaryColor,
                     ),
             title: Text(
@@ -88,8 +85,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
           BottomBarItem(
             icon:
                 selectedPage == 2
-                    ? Iconify(Ic.person_outline, color: Colors.black)
-                    : Iconify(Ic.person, color: AppColors.primaryColor),
+                    ? Iconify(Ic.person, color: Colors.black)
+                    : Iconify(Ic.person_outline, color: AppColors.primaryColor),
             title: Text(
               "Profil",
               style:
@@ -107,11 +104,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
           BottomBarItem(
             icon:
                 selectedPage == 3
-                    ? Iconify(Ci.settings, color: Colors.black)
-                    : Iconify(
-                      Ci.settings_filled,
-                      color: AppColors.primaryColor,
-                    ),
+                    ? Iconify(Ci.settings_filled, color: Colors.black)
+                    : Iconify(Ci.settings, color: AppColors.primaryColor),
             title: Text(
               "Pengaturan",
               style:
