@@ -30,7 +30,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   ImagePicker imagePicker = ImagePicker();
   File? imageProfile;
-
   String? selectedItem;
   String hintTanggal = "Tanggal / Bulan / Tahun";
   late DateTime dateNow;
@@ -91,14 +90,13 @@ class _SignUpPageState extends State<SignUpPage> {
     if (passwordController.text != confirmPasswordController.text) {
       Get.snackbar(
         "Peringatan",
-        "Password dan konfirmasi tidak cocok.",
+        "Password dan konfirmasi password tidak cocok.",
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
       return;
     }
 
-    String tanggalFormattedToJson;
     try {
       final parsedDate = DateFormat("d MMMM yyyy", "id_ID").parse(hintTanggal);
       tanggalFormattedToJson = DateFormat("yyyy-MM-dd").format(parsedDate);

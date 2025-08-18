@@ -1,37 +1,37 @@
 class OnlineSingleArticlesModel {
-  String id;
-  String title;
-  String date;
-  String content;
-  String img;
-  List tag;
-  DoctorModel doctor;
+  String idArticle;
+  String titleArticle;
+  String dateArticle;
+  String contentArticle;
+  String imageArticle;
+  List tagArticle;
+  DoctorModel doctorName;
   String source;
   String url;
 
   OnlineSingleArticlesModel({
-    required this.id,
-    required this.title,
-    required this.date,
-    required this.content,
-    required this.img,
-    required this.tag,
-    required this.doctor,
+    required this.idArticle,
+    required this.titleArticle,
+    required this.dateArticle,
+    required this.contentArticle,
+    required this.imageArticle,
+    required this.tagArticle,
+    required this.doctorName,
     required this.source,
     required this.url,
   });
 
   factory OnlineSingleArticlesModel.fromJson(Map<String, dynamic> json) {
     return OnlineSingleArticlesModel(
-      id: json['id'] ?? "Artikel tidak memiliki id",
-      title: json['title'] ?? "Artikel tidak memiliki judul",
-      date: json['date'] ?? "-",
-      content: json['content'] ?? "Artikel tidak memiliki konten",
-      img:
+      idArticle: json['id'] ?? "Artikel tidak memiliki id",
+      titleArticle: json['title'] ?? "Artikel tidak memiliki judul",
+      dateArticle: json['date'] ?? "-",
+      contentArticle: json['content'] ?? "Artikel tidak memiliki konten",
+      imageArticle:
           json['img'] ??
           "https://global.tamu.edu/getmedia/f8ee83c6-cb20-4df8-8221-dd8f9c995995/no_image.png?width=250&height=250&ext=.png",
-      tag: List<String>.from(json['tag']),
-      doctor: DoctorModel.fromJson(json['doctor']),
+      tagArticle: List<String>.from(json['tag']),
+      doctorName: DoctorModel.fromJson(json['doctor']),
       source: json['source'] ?? "-",
       url: json['url'] ?? "-",
     );

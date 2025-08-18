@@ -56,6 +56,12 @@ class AppFonts {
     fontWeight: FontWeight.bold,
   );
 
+  final normalBlackTagFont = GoogleFonts.robotoCondensed(
+    color: Colors.black,
+    fontSize: 13,
+    fontWeight: FontWeight.normal,
+  );
+
   final normalWhiteFont = GoogleFonts.robotoCondensed(
     color: Colors.white,
     fontSize: 17,
@@ -70,7 +76,7 @@ class AppFonts {
 
   final normalWhiteTagFont = GoogleFonts.robotoCondensed(
     color: Colors.white,
-    fontSize: 10,
+    fontSize: 13,
     fontWeight: FontWeight.normal,
   );
 

@@ -55,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(120),
                         child: Image.network(
-                          getDataProfile.profileImage,
+                          getDataProfile.profileImagePengguna,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Image.network(
@@ -72,18 +72,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   // CONTAINER FOR USERNAME
                   CustomProfile(
                     label: "Username",
-                    content: getDataProfile.username,
+                    content: getDataProfile.usernamePengguna,
                   ),
                   SizedBox(height: 20),
 
                   // CONTAINER FOR E-MAIL
-                  CustomProfile(label: "E-mail", content: getDataProfile.email),
+                  CustomProfile(
+                    label: "E-mail",
+                    content: getDataProfile.emailPengguna,
+                  ),
                   SizedBox(height: 20),
 
                   // CONTAINER FOR GENDER
                   CustomProfile(
                     label: "Jenis Kelamin",
-                    content: getDataProfile.gender,
+                    content: getDataProfile.genderPengguna,
                   ),
                   SizedBox(height: 20),
 
@@ -92,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     label: "Tanggal Lahir",
                     content: DateFormat(
                       "d MMMM yyyy",
-                    ).format(getDataProfile.dateOfBirth),
+                    ).format(getDataProfile.dateOfBirthPengguna),
                   ),
                 ],
               ),

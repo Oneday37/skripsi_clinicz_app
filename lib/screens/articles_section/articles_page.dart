@@ -83,7 +83,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(15),
                                     child: Image.network(
-                                      getSingleArticle.img,
+                                      getSingleArticle.imageArticle,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -96,7 +96,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                                     horizontal: 15,
                                   ),
                                   child: Text(
-                                    getSingleArticle.title,
+                                    getSingleArticle.titleArticle,
                                     style: AppFonts().subTitleFont,
                                     textAlign: TextAlign.justify,
                                   ),
@@ -118,7 +118,9 @@ class _ArticlesPageState extends State<ArticlesPage> {
                                           spacing: 8,
                                           runSpacing: 8,
                                           children:
-                                              getSingleArticle.tag.map((tag) {
+                                              getSingleArticle.tagArticle.map((
+                                                tag,
+                                              ) {
                                                 return ConstrainedBox(
                                                   constraints: BoxConstraints(
                                                     maxWidth:
@@ -129,9 +131,10 @@ class _ArticlesPageState extends State<ArticlesPage> {
                                                   ),
                                                   child: Container(
                                                     decoration: BoxDecoration(
-                                                      color:
-                                                          AppColors
-                                                              .primaryColor,
+                                                      color: Colors.white,
+                                                      border: Border.all(
+                                                        color: Colors.black,
+                                                      ),
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                             12,
@@ -157,7 +160,7 @@ class _ArticlesPageState extends State<ArticlesPage> {
                                                       "#$tag",
                                                       style:
                                                           AppFonts()
-                                                              .normalWhiteTagFont,
+                                                              .normalBlackTagFont,
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                     ),
@@ -172,7 +175,8 @@ class _ArticlesPageState extends State<ArticlesPage> {
                                           onTap: () {
                                             Get.to(
                                               DetailArticlePage(
-                                                articleId: getSingleArticle.id,
+                                                articleId:
+                                                    getSingleArticle.idArticle,
                                               ),
                                             );
                                           },
@@ -187,7 +191,9 @@ class _ArticlesPageState extends State<ArticlesPage> {
                         ),
                         onTap: () {
                           Get.to(
-                            DetailArticlePage(articleId: getSingleArticle.id),
+                            DetailArticlePage(
+                              articleId: getSingleArticle.idArticle,
+                            ),
                           );
                         },
                       );

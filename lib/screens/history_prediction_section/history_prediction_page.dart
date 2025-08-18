@@ -28,7 +28,7 @@ class _HistoryPredictionPageState extends State<HistoryPredictionPage> {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: FutureBuilder(
-          future: HistoryServices().getPredictionResult(),
+          future: HistoryServices().getHistoryPrediction(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Column(
@@ -41,68 +41,39 @@ class _HistoryPredictionPageState extends State<HistoryPredictionPage> {
             } else if (snapshot.hasError) {
               return Center(child: Text("Error: ${snapshot.error}"));
             } else {
-              final getDataForDrug = snapshot.data;
-              return FutureBuilder(
-                future: HistoryServices().getHistoryPrediction(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        LottieBuilder.asset(
-                          "assets/lottie_search_data_loading.json",
-                        ),
-                        Text(
-                          "Sedang memuat data...",
-                          style: AppFonts().titleFont,
-                        ),
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text("Error: ${snapshot.error}"));
-                  } else {
-                    final getDataForDisease = snapshot.data;
-                    if (getDataForDrug!.isEmpty) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LottieBuilder.asset("assets/lottie_not_found.json"),
-                          Text(
-                            "Anda belum melakukan prediksi penyakit",
-                            style: AppFonts().titleFont,
-                          ),
-                        ],
-                      );
-                    }
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: getDataForDrug.length,
-                      itemBuilder: (context, index) {
-                        final getSingleDataForDisease =
-                            getDataForDisease![index];
-                        final getSingleDataForDrug = getDataForDrug[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: CustomFieldSettings(
-                            prefixIcon: Icon(
-                              Icons.sick_outlined,
-                              color: Colors.white,
-                            ),
-                            label: getSingleDataForDrug.nama,
-                            onTap: () {
-                              Get.to(
-                                HistoryConclusionPage(
-                                  diseaseName: getSingleDataForDrug.nama,
-                                  diseaseID: getSingleDataForDisease.id,
-                                  drugID: getSingleDataForDrug.id,
-                                ),
-                              );
-                            },
+              final getDataForPrediction = snapshot.data!;
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: getDataForPrediction.length,
+                itemBuilder: (context, index) {
+                  print(
+                    "Panjang data yang ada: ${getDataForPrediction.length}",
+                  );
+                  final getSingleHistoryData = getDataForPrediction[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: CustomFieldSettings(
+                      prefixIcon: Icon(
+                        Icons.sick_outlined,
+                        color: Colors.white,
+                      ),
+                      label:
+                          getSingleHistoryData.detail.isNotEmpty
+                              ? getSingleHistoryData.detail.first.namaPenyakit
+                              : "Penyakit Tidak Terdeteksi",
+                      onTap: () {
+                        print(getSingleHistoryData.detail.first.namaPenyakit);
+                        Get.to(
+                          HistoryConclusionPage(
+                            diseaseName:
+                                getSingleHistoryData.detail.first.namaPenyakit,
+                            // diseaseID: getSingleDataForDisease.id,
+                            // drugID: getSingleDataForDrug.id,
                           ),
                         );
                       },
-                    );
-                  }
+                    ),
+                  );
                 },
               );
             }

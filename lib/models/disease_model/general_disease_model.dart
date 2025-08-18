@@ -1,19 +1,19 @@
 class GeneralDiseaseModel {
-  final String nama;
-  final String deskripsi;
-  String? kategori;
+  final String namaPenyakit;
+  final String deskripsiPenyakit;
+  String? kategoriPenyakit;
 
   GeneralDiseaseModel({
-    required this.nama,
-    required this.deskripsi,
-    this.kategori,
+    required this.namaPenyakit,
+    required this.deskripsiPenyakit,
+    this.kategoriPenyakit,
   });
 
   factory GeneralDiseaseModel.fromJson(Map<String, dynamic> json) {
     return GeneralDiseaseModel(
-      nama: json["nama"] ?? "",
-      deskripsi: json["deskripsi"] ?? "",
-      kategori: json["kategori"] ?? "",
+      namaPenyakit: json["nama"] ?? "-",
+      deskripsiPenyakit: json["deskripsi"] ?? "-",
+      kategoriPenyakit: json["kategori"] ?? "-",
     );
   }
 }

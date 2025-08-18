@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:skripsi_clinicz_app/models/disease_model/general_disease_model.dart';
 import 'package:skripsi_clinicz_app/models/disease_model/specific_disease_model.dart';
 

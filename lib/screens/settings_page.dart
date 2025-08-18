@@ -6,7 +6,6 @@ import 'package:iconify_flutter_plus/icons/line_md.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/about_us_page.dart';
-import 'package:skripsi_clinicz_app/screens/contact_us_page.dart';
 import 'package:skripsi_clinicz_app/screens/opening_section/login_page.dart';
 import 'package:skripsi_clinicz_app/services/authentication_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_input_pass.dart';
@@ -199,17 +198,17 @@ class _SettingPageState extends State<SettingPage> {
                 Get.to(AboutUsPage());
               },
             ),
-            SizedBox(height: 20),
 
-            // CONTAINER FOR CONTACT US
-            CustomFieldSettings(
-              prefixIcon: Icon(Icons.contact_phone, color: Colors.white),
-              label: "Hubungi Kami",
-              onTap: () {
-                Get.to(ContactUsPage());
-              },
-            ),
+            // SizedBox(height: 20),
 
+            // // CONTAINER FOR CONTACT US
+            // CustomFieldSettings(
+            //   prefixIcon: Icon(Icons.contact_phone, color: Colors.white),
+            //   label: "Hubungi Kami",
+            //   onTap: () {
+            //     Get.to(ContactUsPage());
+            //   },
+            // ),
             SizedBox(height: 50),
 
             Center(

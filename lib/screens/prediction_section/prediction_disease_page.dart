@@ -6,6 +6,7 @@ import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/prediction_section/prediction_result_page.dart';
 import 'package:skripsi_clinicz_app/services/ai_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class PredictionDiseasePage extends StatefulWidget {
   const PredictionDiseasePage({super.key});
@@ -15,24 +16,41 @@ class PredictionDiseasePage extends StatefulWidget {
 }
 
 class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
-  TextEditingController gejalaController = TextEditingController();
+  final TextEditingController areaPenyakitController = TextEditingController();
+  final TextEditingController gejalaController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
+  final List<String> listAreaPenyakit = [
+    "Tenggorokan",
+    "Hidung",
+    "Dada",
+    "Kepala",
+    "Perut",
+    "Leher",
+    "Wajah",
+    "Punggung",
+  ];
+
   void predictionHandler() async {
-    final message = gejalaController.text.trim();
-    if (message.isEmpty) {
+    final areaDisease = areaPenyakitController.text.trim();
+    final symptomsMessage = gejalaController.text.trim();
+    if (symptomsMessage.isEmpty) {
       Get.snackbar(
         "Peringatan",
         "Harap memasukkan gejala",
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
+      return;
     }
 
     setState(() => isLoading = true);
 
-    final prediction = await AIServices().getPrediction(message);
+    final prediction = await AIServices().getPrediction(
+      areaDisease,
+      symptomsMessage,
+    );
 
     setState(() => isLoading = false);
 
@@ -52,7 +70,7 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
             Get.back();
           },
@@ -65,58 +83,144 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: ListView(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // APPLICATION LOGO
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Image.asset(
-                    "assets/diagnocare_logo2.png",
-                    fit: BoxFit.cover,
+        child: Form(
+          key: formKey,
+          child: ListView(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // APPLICATION LOGO
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Image.asset(
+                      "assets/diagnocare_logo2.png",
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                Center(
-                  child: Text(
-                    "Prediksi Penyakitmu Sekarang !",
-                    style: AppFonts().normalGreetingFontInside,
+                  Center(
+                    child: Text(
+                      "Prediksi Penyakitmu Sekarang !",
+                      style: AppFonts().normalGreetingFontInside,
+                    ),
                   ),
-                ),
-                SizedBox(height: 40),
+                  const SizedBox(height: 40),
 
-                // DISEASE PREDICTION SECTION
-                Text(
-                  "Tuliskan gejala yang dirasakan pada tubuh anda secara spesifik",
-                  style: AppFonts().normalBlackFont,
-                  textAlign: TextAlign.justify,
-                ),
-                SizedBox(height: 10),
-
-                // DISEASE PREDICTION SECTION
-                Text(
-                  "(Contoh: Telinga nyeri, mata merah, hidung tersumbat)",
-                  style: AppFonts().normalBlackBoldFont,
-                  textAlign: TextAlign.justify,
-                ),
-                SizedBox(height: 30),
-
-                // CONTAINER FOR ENTERING SYMPTOMS OF DISEASE
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        blurRadius: 5,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
+                  // INSTRUCTIONS
+                  Text(
+                    "Tuliskan gejala yang dirasakan pada tubuh anda secara spesifik",
+                    style: AppFonts().normalBlackFont,
+                    textAlign: TextAlign.justify,
                   ),
-                  child: Form(
-                    key: formKey,
+                  const SizedBox(height: 10),
+                  Text(
+                    "(Contoh: Telinga nyeri, mata merah, hidung tersumbat)",
+                    style: AppFonts().normalBlackBoldFont,
+                    textAlign: TextAlign.justify,
+                  ),
+                  const SizedBox(height: 30),
+
+                  // CONTAINER FOR ENTERING DISEASE AREA
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 5,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: TypeAheadField<String>(
+                      controller: areaPenyakitController,
+                      hideOnEmpty: true,
+                      suggestionsCallback: (pattern) async {
+                        if (pattern.isEmpty) {
+                          return [];
+                        }
+
+                        return listAreaPenyakit
+                            .where(
+                              (item) => item.toLowerCase().contains(
+                                pattern.toLowerCase(),
+                              ),
+                            )
+                            .toList();
+                      },
+                      itemBuilder: (context, suggestion) {
+                        return ListTile(title: Text(suggestion));
+                      },
+                      onSelected: (suggestion) {
+                        List<String> parts = areaPenyakitController.text.split(
+                          ',',
+                        );
+                        parts[parts.length - 1] = suggestion;
+
+                        setState(() {
+                          areaPenyakitController.text = parts
+                              .map((e) => e.trim())
+                              .where((e) => e.isNotEmpty)
+                              .join(', ');
+                          areaPenyakitController
+                              .selection = TextSelection.fromPosition(
+                            TextPosition(
+                              offset: areaPenyakitController.text.length,
+                            ),
+                          );
+                        });
+                      },
+                      builder: (context, controller, focusNode) {
+                        return TextField(
+                          controller: controller,
+                          focusNode: focusNode,
+                          cursorHeight: 20,
+                          cursorColor:
+                              Colors
+                                  .blue, // ganti sesuai AppColors.primaryColor
+                          textCapitalization: TextCapitalization.sentences,
+                          textAlign: TextAlign.justify,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(width: 2),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            hintText: "Area Penyakit (pisahkan dengan koma)",
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+
+                  // CONTAINER FOR ENTERING SYMPTOMS OF DISEASE
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 5,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
                     child: TextFormField(
                       controller: gejalaController,
                       cursorHeight: 20,
@@ -126,67 +230,73 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                       textAlign: TextAlign.justify,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(width: 2),
+                          borderSide: const BorderSide(width: 2),
                           borderRadius: BorderRadius.circular(15),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 2),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                            width: 2,
+                          ),
                           borderRadius: BorderRadius.circular(15),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 2),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                            width: 2,
+                          ),
                           borderRadius: BorderRadius.circular(15),
                         ),
+                        hintText: "Masukkan gejala yang dirasakan",
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
                           return 'Input tidak boleh kosong';
                         }
-                        final gejalaList =
+                        final listGejala =
                             value
                                 .split(',')
                                 .map((e) => e.trim())
                                 .where((e) => e.isNotEmpty)
                                 .toList();
 
-                        if (gejalaList.length < 5) {
+                        if (listGejala.length < 5) {
                           return 'Masukkan minimal 5 gejala yang dipisahkan dengan koma';
                         }
-
                         return null;
                       },
                     ),
                   ),
-                ),
-                SizedBox(height: 70),
+                  const SizedBox(height: 70),
 
-                // ANALYSIS BUTTON FOR GET DISEASE FROM USER INPUT
-                isLoading
-                    ? Center(
-                      child: Column(
-                        children: [
-                          LottieBuilder.asset(
-                            "assets/lottie_analysis_loading.json",
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Sedang menganalisis gejala ...",
-                            style: AppFonts().normalBlackFont,
-                          ),
-                        ],
+                  // ANALYSIS BUTTON
+                  isLoading
+                      ? Center(
+                        child: Column(
+                          children: [
+                            LottieBuilder.asset(
+                              "assets/lottie_analysis_loading.json",
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              "Sedang menganalisis gejala ...",
+                              style: AppFonts().normalBlackFont,
+                            ),
+                          ],
+                        ),
+                      )
+                      : CustomButtonInside(
+                        label: "Prediksi",
+                        onTap: () {
+                          if (formKey.currentState!.validate()) {
+                            predictionHandler();
+                          }
+                        },
                       ),
-                    )
-                    : CustomButtonInside(
-                      label: "Prediksi",
-                      onTap: () {
-                        if (formKey.currentState!.validate()) {
-                          predictionHandler();
-                        }
-                      },
-                    ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

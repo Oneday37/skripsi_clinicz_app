@@ -76,29 +76,18 @@ class DetailDiseasePredictionPage extends StatelessWidget {
 
                             // DESCRIPTION OF DISEASE
                             Text(
-                              getDiseaseHistory!.output.first.deskripsi,
+                              "${getDiseaseHistory!.output.penyakit}",
                               style: AppFonts().normalBlackFont,
                               textAlign: TextAlign.justify,
                             ),
                             SizedBox(height: 30),
 
-                            Text("Penyebab", style: AppFonts().subTitleFont),
+                            Text("Pengobatan", style: AppFonts().subTitleFont),
                             SizedBox(height: 10),
 
                             // CAUSE OF DISEASE
                             Text(
-                              getDiseaseHistory.output.first.penyebab,
-                              style: AppFonts().normalBlackFont,
-                              textAlign: TextAlign.justify,
-                            ),
-                            SizedBox(height: 30),
-
-                            Text("Pencegahan", style: AppFonts().subTitleFont),
-                            SizedBox(height: 10),
-
-                            // PREVENTION OF DISEASE
-                            Text(
-                              getDiseaseHistory.output.first.pencegahan,
+                              getDiseaseHistory.output.pengobatanPenyakit,
                               style: AppFonts().normalBlackFont,
                               textAlign: TextAlign.justify,
                             ),
@@ -129,7 +118,10 @@ class DetailDiseasePredictionPage extends StatelessWidget {
                                 style: AppFonts().normalBlackBoldFont,
                                 children: [
                                   TextSpan(
-                                    text: getDiseaseHistory.output.first.sumber,
+                                    text:
+                                        getDiseaseHistory
+                                            .output
+                                            .sumberInformasi,
                                     style: AppFonts().normalBlackFont,
                                   ),
                                 ],

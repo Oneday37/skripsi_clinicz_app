@@ -148,7 +148,7 @@ class _DrugShopPageState extends State<DrugShopPage> {
                   return const Center(child: Text("Data obat tidak tersedia."));
                 } else {
                   final getDataDrugs = snapshot.data!;
-                  getDataDrugs.sort((a, b) => a.nama.compareTo(b.nama));
+                  getDataDrugs.sort((a, b) => a.namaObat.compareTo(b.namaObat));
                   return GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -164,15 +164,15 @@ class _DrugShopPageState extends State<DrugShopPage> {
                       final getSingleDataDrug = getDataDrugs[index];
                       final drugName =
                           selectedCategory == 'All'
-                              ? (getSingleDataDrug as OnlineShopModel).nama
+                              ? (getSingleDataDrug as OnlineShopModel).namaObat
                               : (getSingleDataDrug as OnlineShopByCategoryModel)
-                                  .nama;
+                                  .namaObat;
                       final drugImage =
                           selectedCategory == 'All'
-                              ? (getSingleDataDrug as OnlineShopModel).gambar
+                              ? (getSingleDataDrug as OnlineShopModel)
+                                  .gambarObat
                               : (getSingleDataDrug as OnlineShopByCategoryModel)
-                                  .gambar;
-
+                                  .gambarObat;
                       return GestureDetector(
                         child: Container(
                           decoration: BoxDecoration(
@@ -218,32 +218,28 @@ class _DrugShopPageState extends State<DrugShopPage> {
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 10,
                                     ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.info_outline,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width: 10),
-                                        Text(
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: Center(
+                                        child: Text(
                                           "Detail",
                                           style: AppFonts().normalWhiteBoldFont,
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
                                 onTap: () {
-                                  Get.to(DrugDetailPage(drugName: drugName));
+                                  Get.to(
+                                    DrugDetailShopPage(drugName: drugName),
+                                  );
                                 },
                               ),
                             ],
                           ),
                         ),
                         onTap: () {
-                          Get.to(DrugDetailPage(drugName: drugName));
+                          Get.to(DrugDetailShopPage(drugName: drugName));
                         },
                       );
                     },

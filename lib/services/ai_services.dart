@@ -1,16 +1,20 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:skripsi_clinicz_app/models/disease_prediction_model.dart';
-import 'package:skripsi_clinicz_app/models/drug_recommendation_model.dart';
+import 'package:skripsi_clinicz_app/models/drug_recommendation_model/detail_drug_recommendation_model.dart';
+import 'package:skripsi_clinicz_app/models/prediction_model/detail_disease_prediction_model.dart';
+import 'package:skripsi_clinicz_app/models/drug_recommendation_model/drug_recommendation_model.dart';
+import 'package:skripsi_clinicz_app/models/prediction_model/disease_prediction_model.dart';
 
 class AIServices {
   final String baseUrl =
       "https://unfortunate-odessa-tsukasa-org-926b4973.koyeb.app/bot";
 
-  // METHOD GET DISEASE PREDICTION
-  Future<DiseasePredictionModel?> getPrediction(String message) async {
+  // METHOD PREDICTION DISEASE
+  Future<List<DiseasePredictionModel>?> getPrediction(
+    String areaDisease,
+    String symptomsMessage,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
     if (token == null) return null;
@@ -21,20 +25,41 @@ class AIServices {
         'Content-Type': 'application/json',
         'Cookie': 'auth_token=$token',
       },
-      body: jsonEncode({'text': message}),
+      body: jsonEncode({"bagianTubuh": areaDisease, 'gejala': symptomsMessage}),
     );
 
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
-      final data = body['data'];
-      if (data != null && data.isNotEmpty) {
-        return DiseasePredictionModel.fromJson(data[0]);
-      }
+      final List data = body['data'];
+      return data.map((data) => DiseasePredictionModel.fromJson(data)).toList();
     } else {
-      print("Status: ${response.statusCode}");
-      print("Response body: ${response.body}");
+      throw Exception("Failed to load data prediction");
     }
-    return null;
+  }
+
+  // METHOD GET DETAIL PREDICT
+  Future<DetailDiseasePredictionModel?> getDetailPrediction(
+    String diseaseName,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token == null) return null;
+
+    final response = await http.get(
+      Uri.parse("$baseUrl/predict-penyakit-detail/$diseaseName"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': 'auth_token=$token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseBody = jsonDecode(response.body);
+      final detailBody = responseBody['data'];
+      return DetailDiseasePredictionModel.fromJson(detailBody);
+    } else {
+      throw Exception("Failed to load data prediction");
+    }
   }
 
   // METHOD DRUG RECOMMENDATION
@@ -67,6 +92,31 @@ class AIServices {
       }
     } else {
       throw Exception("Gagal mengambil data dari server");
+    }
+  }
+
+  // METHOD GET DETAIL DRUG RECOMMENDATION
+  Future<DetailDrugRecommendationModel?> getDetailDrugRecommendations(
+    String drugName,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token == null) return null;
+
+    final response = await http.get(
+      Uri.parse("$baseUrl/rekomendasi-obat/$drugName"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Cookie': 'auth_token=$token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseBody = jsonDecode(response.body);
+      final detailBody = responseBody['data'];
+      return DetailDrugRecommendationModel.fromJson(detailBody);
+    } else {
+      throw Exception("Failed to load data prediction");
     }
   }
 

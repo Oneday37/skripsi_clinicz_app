@@ -77,11 +77,12 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            getDataProfile.username,
-                            style: AppFonts().normalGreetingFontInside,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                          Expanded(
+                            child: Text(
+                              getDataProfile.usernamePengguna,
+                              style: AppFonts().normalGreetingFontInside,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                           SizedBox(width: 20),
                           Container(
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(120),
                               child: Image.network(
-                                getDataProfile.profileImage,
+                                getDataProfile.profileImagePengguna,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Image.network(
@@ -125,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                         style: AppFonts().greetingFontInside,
                         children: [
                           TextSpan(
-                            text: getDataProfile.username,
+                            text: getDataProfile.usernamePengguna,
                             style: AppFonts().normalGreetingFontInside,
                           ),
                         ],
@@ -166,9 +167,9 @@ class _HomePageState extends State<HomePage> {
                             "assets/chatbot.png",
                             color: Colors.white,
                           ),
-                          featureName: "Chatbot AI",
+                          featureName: "DiagnoCare Bot",
                           directPage: ChatBotPage(
-                            profileImage: getDataProfile.profileImage,
+                            profileImage: getDataProfile.profileImagePengguna,
                           ),
                         ),
 
@@ -353,7 +354,7 @@ class _HomePageState extends State<HomePage> {
                                               15,
                                             ),
                                             child: Image.network(
-                                              getSingleArticle.img,
+                                              getSingleArticle.imageArticle,
                                               fit: BoxFit.cover,
                                             ),
                                           ),
@@ -366,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                                             horizontal: 15,
                                           ),
                                           child: Text(
-                                            getSingleArticle.title,
+                                            getSingleArticle.titleArticle,
                                             style: AppFonts().subTitleFont,
                                             textAlign: TextAlign.justify,
                                           ),
@@ -390,7 +391,7 @@ class _HomePageState extends State<HomePage> {
                                                   spacing: 8,
                                                   runSpacing: 8,
                                                   children:
-                                                      getSingleArticle.tag.map((
+                                                      getSingleArticle.tagArticle.map((
                                                         tag,
                                                       ) {
                                                         return ConstrainedBox(
@@ -405,8 +406,12 @@ class _HomePageState extends State<HomePage> {
                                                           child: Container(
                                                             decoration: BoxDecoration(
                                                               color:
-                                                                  AppColors
-                                                                      .primaryColor,
+                                                                  Colors.white,
+                                                              border: Border.all(
+                                                                color:
+                                                                    Colors
+                                                                        .black,
+                                                              ),
                                                               borderRadius:
                                                                   BorderRadius.circular(
                                                                     12,
@@ -437,7 +442,7 @@ class _HomePageState extends State<HomePage> {
                                                               "#$tag",
                                                               style:
                                                                   AppFonts()
-                                                                      .normalWhiteTagFont,
+                                                                      .normalBlackTagFont,
                                                               overflow:
                                                                   TextOverflow
                                                                       .ellipsis,
@@ -454,7 +459,8 @@ class _HomePageState extends State<HomePage> {
                                                     Get.to(
                                                       DetailArticlePage(
                                                         articleId:
-                                                            getSingleArticle.id,
+                                                            getSingleArticle
+                                                                .idArticle,
                                                       ),
                                                     );
                                                   },
@@ -470,7 +476,7 @@ class _HomePageState extends State<HomePage> {
                                 onTap: () {
                                   Get.to(
                                     DetailArticlePage(
-                                      articleId: getSingleArticle.id,
+                                      articleId: getSingleArticle.idArticle,
                                     ),
                                   );
                                 },

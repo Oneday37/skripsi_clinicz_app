@@ -14,7 +14,10 @@ class DiseaseByCategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgColor,
-      appBar: AppBar(title: Text("List $diseaseCategory")),
+      appBar: AppBar(
+        backgroundColor: AppColors.bgColor,
+        title: Text("List $diseaseCategory"),
+      ),
       body: FutureBuilder(
         future: DiseaseService().getDiseaseByCategroy(diseaseCategory),
         builder: (context, snapshot) {
@@ -43,7 +46,9 @@ class DiseaseByCategoryPage extends StatelessWidget {
             return const Center(child: Text("Data obat tidak tersedia."));
           } else {
             final getDataDisease = snapshot.data!;
-            getDataDisease.sort((a, b) => a.nama.compareTo(b.nama));
+            getDataDisease.sort(
+              (a, b) => a.namaPenyakit.compareTo(b.namaPenyakit),
+            );
             return ListView.builder(
               itemCount: getDataDisease.length,
               itemBuilder: (context, index) {
@@ -73,14 +78,14 @@ class DiseaseByCategoryPage extends StatelessWidget {
                         children: [
                           // NAME OF DISEASE
                           Text(
-                            getSingleDataDisease.nama,
+                            getSingleDataDisease.namaPenyakit,
                             style: AppFonts().subTitleFont,
                           ),
                           const SizedBox(height: 20),
 
                           // DESCRIPTION OF DISEASE
                           Text(
-                            getSingleDataDisease.deskripsi,
+                            getSingleDataDisease.deskripsiPenyakit,
                             style: AppFonts().normalBlackFont,
                             textAlign: TextAlign.justify,
                             overflow: TextOverflow.ellipsis,
@@ -92,8 +97,9 @@ class DiseaseByCategoryPage extends StatelessWidget {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  color: AppColors.primaryColor,
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(color: Colors.black),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.black.withOpacity(0.3),
@@ -108,8 +114,8 @@ class DiseaseByCategoryPage extends StatelessWidget {
                                     horizontal: 20,
                                   ),
                                   child: Text(
-                                    "# ${getSingleDataDisease.kategori}",
-                                    style: AppFonts().normalWhiteTagFont,
+                                    "# ${getSingleDataDisease.kategoriPenyakit}",
+                                    style: AppFonts().normalBlackTagFont,
                                   ),
                                 ),
                               ),
@@ -131,25 +137,17 @@ class DiseaseByCategoryPage extends StatelessWidget {
                                       vertical: 10,
                                       horizontal: 20,
                                     ),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.info_outline,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(width: 10),
-                                        Text(
-                                          "Detail",
-                                          style: AppFonts().normalWhiteBoldFont,
-                                        ),
-                                      ],
+                                    child: Text(
+                                      "Detail",
+                                      style: AppFonts().normalWhiteBoldFont,
                                     ),
                                   ),
                                 ),
                                 onTap: () {
                                   Get.to(
                                     DetailDiseaseByCategoryPage(
-                                      diseaseName: getSingleDataDisease.nama,
+                                      diseaseName:
+                                          getSingleDataDisease.namaPenyakit,
                                     ),
                                   );
                                 },

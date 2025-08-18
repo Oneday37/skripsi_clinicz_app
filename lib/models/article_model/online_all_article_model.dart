@@ -1,25 +1,25 @@
 class OnlineArticlesModel {
-  String id;
-  String title;
-  String date;
-  String img;
-  List tag;
+  String idArticle;
+  String titleArticle;
+  String dateArticle;
+  String imageArticle;
+  List tagArticle;
 
   OnlineArticlesModel({
-    required this.id,
-    required this.title,
-    required this.date,
-    required this.img,
-    required this.tag,
+    required this.idArticle,
+    required this.titleArticle,
+    required this.dateArticle,
+    required this.imageArticle,
+    required this.tagArticle,
   });
 
   factory OnlineArticlesModel.fromJson(Map<String, dynamic> json) {
     return OnlineArticlesModel(
-      id: json['id'] ?? "Artikel tidak memiliki id",
-      title: json['title'] ?? "Artikel tidak memiliki judul",
-      date: json['date'] ?? "-",
-      img: json['img'],
-      tag: List.from(json["tag"].map((x) => x)),
+      idArticle: json['id'] ?? "Artikel tidak memiliki id",
+      titleArticle: json['title'] ?? "Artikel tidak memiliki judul",
+      dateArticle: json['date'] ?? "-",
+      imageArticle: json['img'],
+      tagArticle: List.from(json["tag"].map((x) => x)),
     );
   }
 }

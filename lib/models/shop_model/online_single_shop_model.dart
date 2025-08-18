@@ -1,36 +1,36 @@
 class OnlineSingleDrugModel {
-  String nama;
-  String deskripsi;
-  String kandungan;
-  String dosis;
-  String aturanPakai;
-  String efekSamping;
+  String namaObat;
+  String deskripsiObat;
+  String kandunganObat;
+  String dosisObat;
+  String aturanPakaiObat;
+  String efekSampingObat;
   List linkStoreSatu;
   List linkStoreDua;
   String sumber;
-  String gambar;
+  String gambarObat;
 
   OnlineSingleDrugModel({
-    required this.nama,
-    required this.deskripsi,
-    required this.kandungan,
-    required this.dosis,
-    required this.aturanPakai,
-    required this.efekSamping,
+    required this.namaObat,
+    required this.deskripsiObat,
+    required this.kandunganObat,
+    required this.dosisObat,
+    required this.aturanPakaiObat,
+    required this.efekSampingObat,
     required this.linkStoreSatu,
     required this.linkStoreDua,
     required this.sumber,
-    required this.gambar,
+    required this.gambarObat,
   });
 
   factory OnlineSingleDrugModel.fromJson(Map<String, dynamic> json) {
     return OnlineSingleDrugModel(
-      nama: json["nama"] ?? "Nama obat tidak teridentifikasi",
-      deskripsi: json["deskripsi"] ?? "Deskripsi obat tidak tersedia",
-      kandungan: json["kandungan"] ?? "-",
-      dosis: json["dosis"] ?? "-",
-      aturanPakai: json["aturanPakai"] ?? "-",
-      efekSamping: json["efekSamping"] ?? "-",
+      namaObat: json["nama"] ?? "Nama obat tidak teridentifikasi",
+      deskripsiObat: json["deskripsi"] ?? "Deskripsi obat tidak tersedia",
+      kandunganObat: json["kandungan"] ?? "-",
+      dosisObat: json["dosis"] ?? "-",
+      aturanPakaiObat: json["aturanPakai"] ?? "-",
+      efekSampingObat: json["efekSamping"] ?? "-",
       linkStoreSatu:
           (json["linkStoreSatu"] ?? [])
               .map<LinkStore>((x) => LinkStore.fromJson(x))
@@ -40,20 +40,20 @@ class OnlineSingleDrugModel {
               .map<LinkStore>((x) => LinkStore.fromJson(x))
               .toList(),
       sumber: json["sumber"] ?? "-",
-      gambar:
+      gambarObat:
           json["gambar"] ??
-          "https://global.tamu.edu/getmedia/f8ee83c6-cb20-4df8-8221-dd8f9c995995/no_image.png?width=250&height=250&ext=.png",
+          "https://kec-sipispis.serdangbedagaikab.go.id/administrator/assets/img/img_pelayanan/belumada2.jpg",
     );
   }
 }
 
 class LinkStore {
-  String toko;
-  String url;
+  String namaToko;
+  String urlToko;
 
-  LinkStore({required this.toko, required this.url});
+  LinkStore({required this.namaToko, required this.urlToko});
 
   factory LinkStore.fromJson(Map<String, dynamic> json) {
-    return LinkStore(toko: json["Toko"], url: json["Link"]);
+    return LinkStore(namaToko: json["Toko"], urlToko: json["Link"]);
   }
 }

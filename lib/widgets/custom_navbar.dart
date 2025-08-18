@@ -46,7 +46,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
                     ? Iconify(Mdi.home, color: Colors.black)
                     : Iconify(Mdi.home_outline, color: AppColors.primaryColor),
             title: Text(
-              "Home",
+              "Beranda",
               style:
                   selectedPage == 0
                       ? GoogleFonts.robotoCondensed(
@@ -88,7 +88,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
                     ? Iconify(Ic.person, color: Colors.black)
                     : Iconify(Ic.person_outline, color: AppColors.primaryColor),
             title: Text(
-              "Profil",
+              "Akun",
               style:
                   selectedPage == 2
                       ? GoogleFonts.robotoCondensed(

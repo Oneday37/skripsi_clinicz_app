@@ -4,9 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/screens/drug_section/drug_detail_shop_page.dart';
+import 'package:skripsi_clinicz_app/data/disease_exception_output_data.dart';
+import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_detail_page.dart';
+import 'package:skripsi_clinicz_app/screens/nearby_faskes_page.dart';
 import 'package:skripsi_clinicz_app/services/history_services.dart';
 import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
+import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
 class DetailDrugRecommendationPage extends StatefulWidget {
   final String getDataID, diseaseName;
@@ -65,17 +68,25 @@ class _DetailDrugRecommendationPageState
               return Center(
                 child: Text("Terjadi kesalahan: ${snapshot.hasError}"),
               );
-            } else if (widget.diseaseName == "Hepatitis") {
-              return Center(
-                child: Text(
-                  "Pengobatan Hepatits bergantung pada jenis hepatitis yang diderita Harap konsultasikan ke dokter terlebih dahulu.",
-                  style: GoogleFonts.oswald(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.normal,
+            } else if (diseaseExceptionOutput.contains(widget.diseaseName)) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Pengobatan ${widget.diseaseName} dianjurkan untuk berkonsultasi ke dokter terlebih dahulu",
+                    style: GoogleFonts.oswald(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
+                  SizedBox(height: 30),
+                  CustomButtonInside(
+                    label: "Deteksi Faskes Terdekat",
+                    onTap: () => Get.to(NearbyFaskesPage()),
+                  ),
+                ],
               );
             } else {
               final getData = snapshot.data;
@@ -85,7 +96,7 @@ class _DetailDrugRecommendationPageState
                   final getSingleDataDrug = getData.output[index];
                   return FutureBuilder(
                     future: OnlineShopServices().getSingleDrusShop(
-                      getSingleDataDrug.obat,
+                      getSingleDataDrug.namaObat,
                     ),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -122,14 +133,14 @@ class _DetailDrugRecommendationPageState
                                       children: [
                                         // NAME OF DRUG
                                         Text(
-                                          getSingleDataDrug.obat,
+                                          getSingleDataDrug.namaObat,
                                           style: AppFonts().subTitleFont,
                                         ),
                                         const SizedBox(height: 20),
 
                                         // DESCRIPTION
                                         Text(
-                                          getSingleDataDrug.deskripsi,
+                                          getSingleDataDrug.deskripsiObat,
                                           style: AppFonts().normalBlackFont,
                                           maxLines: 5,
                                           overflow: TextOverflow.ellipsis,
@@ -159,7 +170,7 @@ class _DetailDrugRecommendationPageState
                                                   context,
                                                 ).size.width /
                                                 4,
-                                            getSingleDataDrug2!.gambar,
+                                            getSingleDataDrug2!.gambarObat,
                                             // fit: BoxFit.cover,
                                           ),
                                         ),
@@ -203,9 +214,9 @@ class _DetailDrugRecommendationPageState
                                           ),
                                           onTap: () {
                                             Get.to(
-                                              DrugDetailPage(
+                                              DrugRecommendationDetailPage(
                                                 drugName:
-                                                    getSingleDataDrug.obat,
+                                                    getSingleDataDrug.namaObat,
                                               ),
                                             );
                                           },

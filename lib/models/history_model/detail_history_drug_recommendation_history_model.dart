@@ -1,4 +1,4 @@
-class DetailDrugRecommendationModel {
+class DetailHistoryDrugRecommendationModel {
   String id;
   String userId;
   String type;
@@ -7,7 +7,7 @@ class DetailDrugRecommendationModel {
   DateTime createdAt;
   int v;
 
-  DetailDrugRecommendationModel({
+  DetailHistoryDrugRecommendationModel({
     required this.id,
     required this.userId,
     required this.type,
@@ -17,8 +17,10 @@ class DetailDrugRecommendationModel {
     required this.v,
   });
 
-  factory DetailDrugRecommendationModel.fromJson(Map<String, dynamic> json) {
-    return DetailDrugRecommendationModel(
+  factory DetailHistoryDrugRecommendationModel.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return DetailHistoryDrugRecommendationModel(
       id: json["_id"],
       userId: json["userId"],
       type: json["type"],
@@ -40,38 +42,38 @@ class Input {
 }
 
 class Output {
-  String obat;
-  String deskripsi;
-  String kandungan;
-  String dosis;
-  String aturanPakai;
-  String efekSamping;
+  String namaObat;
+  String deskripsiObat;
+  String kandunganObat;
+  String dosisObat;
+  String aturanPakaiObat;
+  String efekSampingObat;
   List<LinkStore> tokoOnline1;
   List<LinkStore> tokoOnline2;
-  double? similarity;
+  double? similarityObat;
   String pesan;
 
   Output({
-    required this.obat,
-    required this.deskripsi,
-    required this.kandungan,
-    required this.dosis,
-    required this.aturanPakai,
-    required this.efekSamping,
+    required this.namaObat,
+    required this.deskripsiObat,
+    required this.kandunganObat,
+    required this.dosisObat,
+    required this.aturanPakaiObat,
+    required this.efekSampingObat,
     required this.tokoOnline1,
     required this.tokoOnline2,
-    required this.similarity,
+    required this.similarityObat,
     required this.pesan,
   });
 
   factory Output.fromJson(Map<String, dynamic> json) {
     return Output(
-      obat: json["obat"] ?? "Tidak ada nama obat untuk penyakit ini",
-      deskripsi: json["deskripsi"] ?? "Deskripsi obat tidak tersedia",
-      kandungan: json["kandungan"] ?? "-",
-      dosis: json["dosis"] ?? "-",
-      aturanPakai: json["aturanPakai"] ?? "-",
-      efekSamping: json["efekSamping"] ?? "-",
+      namaObat: json["obat"] ?? "Tidak ada nama obat untuk penyakit ini",
+      deskripsiObat: json["deskripsi"] ?? "Deskripsi obat tidak tersedia",
+      kandunganObat: json["kandungan"] ?? "-",
+      dosisObat: json["dosis"] ?? "-",
+      aturanPakaiObat: json["aturanPakai"] ?? "-",
+      efekSampingObat: json["efekSamping"] ?? "-",
       tokoOnline1:
           (json["tokoOnline1"] ?? [])
               .map<LinkStore>((x) => LinkStore.fromJson(x))
@@ -80,19 +82,19 @@ class Output {
           (json["tokoOnline2"] ?? [])
               .map<LinkStore>((x) => LinkStore.fromJson(x))
               .toList(),
-      similarity: json["similarity"]?.toDouble(),
+      similarityObat: json["similarity"]?.toDouble(),
       pesan: json["pesan"] ?? "",
     );
   }
 }
 
 class LinkStore {
-  String toko;
-  String url;
+  String namaToko;
+  String urlToko;
 
-  LinkStore({required this.toko, required this.url});
+  LinkStore({required this.namaToko, required this.urlToko});
 
   factory LinkStore.fromJson(Map<String, dynamic> json) {
-    return LinkStore(toko: json["Toko"], url: json["Link"]);
+    return LinkStore(namaToko: json["Toko"], urlToko: json["Link"]);
   }
 }

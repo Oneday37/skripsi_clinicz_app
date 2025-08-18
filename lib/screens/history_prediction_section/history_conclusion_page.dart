@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/medical_icon.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/screens/history_prediction_section/detail_disease_prediction_history_page.dart';
-import 'package:skripsi_clinicz_app/screens/history_prediction_section/detail_drug_recommendation_history_page.dart';
-import 'package:skripsi_clinicz_app/screens/history_prediction_section/symptoms_user_input_history_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_settings.dart';
 
 class HistoryConclusionPage extends StatelessWidget {
   final String diseaseName;
-  final dynamic diseaseID;
-  final dynamic drugID;
+  // final dynamic diseaseID;
+  // final dynamic drugID;
   const HistoryConclusionPage({
     super.key,
     required this.diseaseName,
-    required this.diseaseID,
-    required this.drugID,
+    // required this.diseaseID,
+    // required this.drugID,
   });
 
   @override
@@ -27,10 +23,7 @@ class HistoryConclusionPage extends StatelessWidget {
       backgroundColor: AppColors.bgColor,
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
-        title: Text(
-          "Detail History Prediksi $diseaseName",
-          style: AppFonts().titleFont,
-        ),
+        title: Text(diseaseName, style: AppFonts().titleFont),
         centerTitle: true,
       ),
       body: Padding(
@@ -42,12 +35,12 @@ class HistoryConclusionPage extends StatelessWidget {
               prefixIcon: Iconify(Mdi.face_sick_outline, color: Colors.white),
               label: "History Gejala",
               onTap: () {
-                Get.to(
-                  SymptomsUserInputPage(
-                    getDataID: diseaseID,
-                    diseaseName: diseaseName,
-                  ),
-                );
+                // Get.to(
+                //   SymptomsUserInputPage(
+                //     getDataID: diseaseID,
+                //     diseaseName: diseaseName,
+                //   ),
+                // );
               },
             ),
             SizedBox(height: 20),
@@ -60,12 +53,12 @@ class HistoryConclusionPage extends StatelessWidget {
               ),
               label: "Prediksi Penyakit",
               onTap: () {
-                Get.to(
-                  DetailDiseasePredictionPage(
-                    getDataID: diseaseID,
-                    diseaseName: diseaseName,
-                  ),
-                );
+                // Get.to(
+                //   DetailDiseasePredictionPage(
+                //     getDataID: diseaseID,
+                //     diseaseName: diseaseName,
+                //   ),
+                // );
               },
             ),
             SizedBox(height: 20),
@@ -75,12 +68,12 @@ class HistoryConclusionPage extends StatelessWidget {
               prefixIcon: Iconify(Mdi.drugs, color: Colors.white),
               label: "Rekomendasi Obat",
               onTap: () {
-                Get.to(
-                  DetailDrugRecommendationPage(
-                    getDataID: drugID,
-                    diseaseName: diseaseName,
-                  ),
-                );
+                // Get.to(
+                //   DetailDrugRecommendationPage(
+                //     getDataID: drugID,
+                //     diseaseName: diseaseName,
+                //   ),
+                // );
               },
             ),
           ],

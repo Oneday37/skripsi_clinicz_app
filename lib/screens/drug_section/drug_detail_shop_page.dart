@@ -5,20 +5,19 @@ import 'package:iconify_flutter_plus/icons/la.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/models/shop_model/online_single_shop_model.dart';
 import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_detail_drug.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class DrugDetailPage extends StatefulWidget {
+class DrugDetailShopPage extends StatefulWidget {
   final String drugName;
-  const DrugDetailPage({super.key, required this.drugName});
+  const DrugDetailShopPage({super.key, required this.drugName});
 
   @override
-  State<DrugDetailPage> createState() => _DrugDetailPageState();
+  State<DrugDetailShopPage> createState() => _DrugDetailShopPageState();
 }
 
-class _DrugDetailPageState extends State<DrugDetailPage> {
+class _DrugDetailShopPageState extends State<DrugDetailShopPage> {
   String getLogoAssetFromStoreName(String storeName) {
     String fileName = storeName.toLowerCase().replaceAll(' ', '');
     return 'assets/${fileName}_logo.png';
@@ -46,7 +45,7 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
             body: Center(child: Text("Error: ${snapshot.error}")),
           );
         } else {
-          final getSingleDataDrug = snapshot.data as OnlineSingleDrugModel;
+          final getSingleDataDrug = snapshot.data;
           return Scaffold(
             backgroundColor: AppColors.bgColor,
             appBar: AppBar(
@@ -59,7 +58,10 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
               ),
 
               // NAME OF DISEASE
-              title: Text(getSingleDataDrug.nama, style: AppFonts().titleFont),
+              title: Text(
+                getSingleDataDrug!.namaObat,
+                style: AppFonts().titleFont,
+              ),
               centerTitle: true,
             ),
             body: Padding(
@@ -86,35 +88,35 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
                           // CONTAINER FOR IMAGE
                           AspectRatio(
                             aspectRatio: 16 / 9,
-                            child: Image.network(getSingleDataDrug.gambar),
+                            child: Image.network(getSingleDataDrug.gambarObat),
                           ),
                           SizedBox(height: 30),
 
                           // DESCRIPTION OF TREATMENT
                           CustomDetailDrug(
                             label: "Deskripsi Obat:",
-                            content: getSingleDataDrug.deskripsi,
+                            content: getSingleDataDrug.deskripsiObat,
                           ),
                           SizedBox(height: 30),
 
                           // MEDICINE INGREDIENTS
                           CustomDetailDrug(
                             label: "Kandungan:",
-                            content: getSingleDataDrug.kandungan,
+                            content: getSingleDataDrug.kandunganObat,
                           ),
                           SizedBox(height: 30),
 
                           // TREATMENT DOSAGE
                           CustomDetailDrug(
                             label: "Dosis Penggunaan:",
-                            content: getSingleDataDrug.dosis,
+                            content: getSingleDataDrug.dosisObat,
                           ),
                           SizedBox(height: 30),
 
                           // TERMS OF USE
                           CustomDetailDrug(
                             label: "Aturan Pakai:",
-                            content: getSingleDataDrug.aturanPakai,
+                            content: getSingleDataDrug.aturanPakaiObat,
                           ),
                         ],
                       ),
@@ -201,14 +203,14 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
                                               ),
                                               child: Image.asset(
                                                 getLogoAssetFromStoreName(
-                                                  store.toko,
+                                                  store.namaToko,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(width: 10),
                                             Expanded(
                                               child: Text(
-                                                store.toko,
+                                                store.namaToko,
                                                 style:
                                                     AppFonts()
                                                         .normalBlackBoldFont,
@@ -218,7 +220,7 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
                                         ),
                                       ),
                                       onTap: () {
-                                        launchUrl(Uri.parse(store.url));
+                                        launchUrl(Uri.parse(store.urlToko));
                                       },
                                     ),
                                   );
@@ -256,14 +258,14 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
                                               ),
                                               child: Image.asset(
                                                 getLogoAssetFromStoreName(
-                                                  store.toko,
+                                                  store.namaToko,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(width: 10),
                                             Expanded(
                                               child: Text(
-                                                store.toko,
+                                                store.namaToko,
                                                 style:
                                                     AppFonts()
                                                         .normalBlackBoldFont,
@@ -273,7 +275,7 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
                                         ),
                                       ),
                                       onTap: () {
-                                        launchUrl(Uri.parse(store.url));
+                                        launchUrl(Uri.parse(store.urlToko));
                                       },
                                     ),
                                   );

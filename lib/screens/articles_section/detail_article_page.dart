@@ -57,7 +57,7 @@ class _DetailArticlePageState extends State<DetailArticlePage> {
                 AspectRatio(
                   aspectRatio: 16 / 9,
                   child: Image.network(
-                    getDataArticle!.img,
+                    getDataArticle!.imageArticle,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
@@ -71,18 +71,18 @@ class _DetailArticlePageState extends State<DetailArticlePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        getDataArticle.title,
+                        getDataArticle.titleArticle,
                         style: AppFonts().subTitleFont,
                         textAlign: TextAlign.justify,
                       ),
                       SizedBox(height: 10),
                       Text(
-                        getDataArticle.date,
+                        getDataArticle.dateArticle,
                         style: AppFonts().normalBlackFont,
                       ),
                       SizedBox(height: 5),
                       Text(
-                        "Penulis: ${getDataArticle.doctor.name}",
+                        "Penulis: ${getDataArticle.doctorName.name}",
                         style: AppFonts().normalBlackFont,
                       ),
                     ],
@@ -93,7 +93,7 @@ class _DetailArticlePageState extends State<DetailArticlePage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Html(
-                    data: getDataArticle.content,
+                    data: getDataArticle.contentArticle,
                     onLinkTap: (url, attributes, element) async {
                       if (url != null) {
                         final uri = Uri.parse(url);
@@ -141,7 +141,7 @@ class _DetailArticlePageState extends State<DetailArticlePage> {
                     spacing: 8,
                     runSpacing: 8,
                     children:
-                        getDataArticle.tag.map((tag) {
+                        getDataArticle.tagArticle.map((tag) {
                           return ConstrainedBox(
                             constraints: BoxConstraints(
                               maxWidth: MediaQuery.of(context).size.width / 2,

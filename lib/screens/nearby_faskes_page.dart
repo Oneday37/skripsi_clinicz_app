@@ -11,6 +11,7 @@ import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/models/nearby_faskes_model.dart';
 import 'package:skripsi_clinicz_app/services/nearby_faskes_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
+import 'package:skripsi_clinicz_app/widgets/custom_navbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NearbyFaskesPage extends StatefulWidget {
@@ -86,7 +87,7 @@ class _NearbyFaskesPageState extends State<NearbyFaskesPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
-            Get.back();
+            Get.off(CustomNavBar());
           },
         ),
 
