@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/medical_icon.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
+import 'package:skripsi_clinicz_app/screens/history_prediction_section/detail_disease_prediction_history_page.dart';
+import 'package:skripsi_clinicz_app/screens/history_prediction_section/detail_drug_recommendation_history_page.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_field_settings.dart';
 
 class HistoryConclusionPage extends StatelessWidget {
   final String diseaseName;
-  // final dynamic diseaseID;
-  // final dynamic drugID;
-  const HistoryConclusionPage({
-    super.key,
-    required this.diseaseName,
-    // required this.diseaseID,
-    // required this.drugID,
-  });
+  const HistoryConclusionPage({super.key, required this.diseaseName});
 
   @override
   Widget build(BuildContext context) {
@@ -30,35 +26,15 @@ class HistoryConclusionPage extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // SYMPTOMS HISTORY AREA
-            CustomFieldSettings(
-              prefixIcon: Iconify(Mdi.face_sick_outline, color: Colors.white),
-              label: "History Gejala",
-              onTap: () {
-                // Get.to(
-                //   SymptomsUserInputPage(
-                //     getDataID: diseaseID,
-                //     diseaseName: diseaseName,
-                //   ),
-                // );
-              },
-            ),
-            SizedBox(height: 20),
-
             // DISEASE PREDICTION HISTORY AREA
             CustomFieldSettings(
               prefixIcon: Iconify(
                 MedicalIcon.i_medical_library,
                 color: Colors.white,
               ),
-              label: "Prediksi Penyakit",
+              label: "Riwayat Prediksi Penyakit",
               onTap: () {
-                // Get.to(
-                //   DetailDiseasePredictionPage(
-                //     getDataID: diseaseID,
-                //     diseaseName: diseaseName,
-                //   ),
-                // );
+                Get.to(DetailDiseasePredictionPage(diseaseName: diseaseName));
               },
             ),
             SizedBox(height: 20),
@@ -66,14 +42,9 @@ class HistoryConclusionPage extends StatelessWidget {
             // DRUG RECOMMENDATION HISTORY AREA
             CustomFieldSettings(
               prefixIcon: Iconify(Mdi.drugs, color: Colors.white),
-              label: "Rekomendasi Obat",
+              label: "Riwayat Rekomendasi Obat",
               onTap: () {
-                // Get.to(
-                //   DetailDrugRecommendationPage(
-                //     getDataID: drugID,
-                //     diseaseName: diseaseName,
-                //   ),
-                // );
+                Get.to(DetailDrugRecommendationPage(diseaseName: diseaseName));
               },
             ),
           ],

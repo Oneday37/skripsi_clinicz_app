@@ -53,4 +53,18 @@ class OnlineShopServices {
       throw Exception("Failed to load data");
     }
   }
+
+  // METHOD GET DRUG IMAGE
+  Future<String?> getGambarByNama(String diseaseName) async {
+    List<OnlineShopModel> daftarObat = await getAllDrugsShop();
+
+    try {
+      OnlineShopModel drugImage = daftarObat.firstWhere(
+        (obat) => obat.namaObat == diseaseName,
+      );
+      return drugImage.gambarObat;
+    } catch (e) {
+      return null;
+    }
+  }
 }

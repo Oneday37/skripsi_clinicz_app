@@ -6,7 +6,6 @@ import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/prediction_section/prediction_result_page.dart';
 import 'package:skripsi_clinicz_app/services/ai_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class PredictionDiseasePage extends StatefulWidget {
   const PredictionDiseasePage({super.key});
@@ -16,25 +15,26 @@ class PredictionDiseasePage extends StatefulWidget {
 }
 
 class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
-  final TextEditingController areaPenyakitController = TextEditingController();
   final TextEditingController gejalaController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  List selectedAreas = [];
 
   final List<String> listAreaPenyakit = [
-    "Tenggorokan",
-    "Hidung",
     "Dada",
+    "Hidung",
     "Kepala",
-    "Perut",
     "Leher",
-    "Wajah",
+    "Perut",
     "Punggung",
+    "Tenggorokan",
+    "Wajah",
   ];
 
+  // METHOD FOR PREDICTION HANDLER
   void predictionHandler() async {
-    final areaDisease = areaPenyakitController.text.trim();
     final symptomsMessage = gejalaController.text.trim();
+
     if (symptomsMessage.isEmpty) {
       Get.snackbar(
         "Peringatan",
@@ -45,10 +45,20 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
       return;
     }
 
+    if (selectedAreas.isEmpty) {
+      Get.snackbar(
+        "Peringatan",
+        "Harap pilih minimal 1 area penyakit",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
     setState(() => isLoading = true);
 
     final prediction = await AIServices().getPrediction(
-      areaDisease,
+      selectedAreas,
       symptomsMessage,
     );
 
@@ -120,7 +130,14 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                   ),
                   const SizedBox(height: 30),
 
-                  // CONTAINER FOR ENTERING DISEASE AREA
+                  // CONTAINER FOR DISEASE AREA (MULTI SELECT)
+                  Text(
+                    "Pilih Area Penyakit",
+                    style: AppFonts().normalBlackBoldFont,
+                  ),
+
+                  const SizedBox(height: 10),
+
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -133,78 +150,57 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                         ),
                       ],
                     ),
-                    child: TypeAheadField<String>(
-                      controller: areaPenyakitController,
-                      hideOnEmpty: true,
-                      suggestionsCallback: (pattern) async {
-                        if (pattern.isEmpty) {
-                          return [];
-                        }
-
-                        return listAreaPenyakit
-                            .where(
-                              (item) => item.toLowerCase().contains(
-                                pattern.toLowerCase(),
-                              ),
-                            )
-                            .toList();
-                      },
-                      itemBuilder: (context, suggestion) {
-                        return ListTile(title: Text(suggestion));
-                      },
-                      onSelected: (suggestion) {
-                        List<String> parts = areaPenyakitController.text.split(
-                          ',',
-                        );
-                        parts[parts.length - 1] = suggestion;
-
-                        setState(() {
-                          areaPenyakitController.text = parts
-                              .map((e) => e.trim())
-                              .where((e) => e.isNotEmpty)
-                              .join(', ');
-                          areaPenyakitController
-                              .selection = TextSelection.fromPosition(
-                            TextPosition(
-                              offset: areaPenyakitController.text.length,
-                            ),
+                    child: DropdownButtonFormField<String>(
+                      value: null,
+                      decoration: InputDecoration(
+                        hintText: "Pilih area penyakit",
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 12,
+                        ),
+                      ),
+                      items:
+                          listAreaPenyakit.map((area) {
+                            return DropdownMenuItem<String>(
+                              value: area,
+                              child: Text(area),
+                            );
+                          }).toList(),
+                      selectedItemBuilder: (context) {
+                        // Selalu tampilkan placeholder meskipun ada pilihan
+                        return listAreaPenyakit.map((_) {
+                          return const Text(
+                            "Pilih area penyakit",
+                            style: TextStyle(color: Colors.grey),
                           );
-                        });
+                        }).toList();
                       },
-                      builder: (context, controller, focusNode) {
-                        return TextField(
-                          controller: controller,
-                          focusNode: focusNode,
-                          cursorHeight: 20,
-                          cursorColor:
-                              Colors
-                                  .blue, // ganti sesuai AppColors.primaryColor
-                          textCapitalization: TextCapitalization.sentences,
-                          textAlign: TextAlign.justify,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(width: 2),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                                width: 2,
-                              ),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                                width: 2,
-                              ),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            hintText: "Area Penyakit (pisahkan dengan koma)",
-                          ),
-                        );
+                      onChanged: (value) {
+                        if (value != null && !selectedAreas.contains(value)) {
+                          setState(() {
+                            selectedAreas.add(value);
+                          });
+                        }
                       },
                     ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  Wrap(
+                    spacing: 8.0,
+                    children:
+                        selectedAreas.map((area) {
+                          return Chip(
+                            label: Text(area),
+                            deleteIcon: const Icon(Icons.close),
+                            onDeleted: () {
+                              setState(() {
+                                selectedAreas.remove(area);
+                              });
+                            },
+                          );
+                        }).toList(),
                   ),
                   const SizedBox(height: 30),
 
@@ -247,7 +243,8 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                           ),
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        hintText: "Masukkan gejala yang dirasakan",
+                        hintText:
+                            "Masukkan gejala yang dirasakan (Minimal 5 gejala)",
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
@@ -288,6 +285,8 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                       : CustomButtonInside(
                         label: "Prediksi",
                         onTap: () {
+                          print(selectedAreas);
+                          print(gejalaController.text);
                           if (formKey.currentState!.validate()) {
                             predictionHandler();
                           }

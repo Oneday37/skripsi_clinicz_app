@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/services/history_services.dart';
+import 'package:skripsi_clinicz_app/services/ai_services.dart';
 
 class DetailDiseasePredictionPage extends StatelessWidget {
-  final String getDataID, diseaseName;
-  const DetailDiseasePredictionPage({
-    super.key,
-    required this.getDataID,
-    required this.diseaseName,
-  });
+  final String diseaseName;
+  const DetailDiseasePredictionPage({super.key, required this.diseaseName});
 
   @override
   Widget build(BuildContext context) {
@@ -19,36 +14,27 @@ class DetailDiseasePredictionPage extends StatelessWidget {
       backgroundColor: AppColors.bgColor,
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
-          onPressed: () {
-            Get.back();
-          },
-        ),
         title: Text(diseaseName, style: AppFonts().titleFont),
         centerTitle: true,
       ),
-
-      // CONTAINER OF PREDICTION RESULT
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: FutureBuilder(
-          future: HistoryServices().getDetailDiseasePredictionHistory(
-            getDataID,
-          ),
+          future: AIServices().getDetailPrediction(diseaseName),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   LottieBuilder.asset("assets/lottie_search_data_loading.json"),
-                  Text("Sedang memuat data...", style: AppFonts().titleFont),
+                  SizedBox(height: 20),
+                  Text("Sedang memuat data ...", style: AppFonts().titleFont),
                 ],
               );
             } else if (snapshot.hasError) {
               return Center(child: Text("Error: ${snapshot.error}"));
             } else {
-              final getDiseaseHistory = snapshot.data;
+              final getDetailDataPrediction = snapshot.data;
               return ListView(
                 children: [
                   Container(
@@ -70,13 +56,13 @@ class DetailDiseasePredictionPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // NAME OF DISEASE
+                            // DESCRIPTION OF DISEASE
                             Text("Deskripsi", style: AppFonts().subTitleFont),
                             SizedBox(height: 10),
 
                             // DESCRIPTION OF DISEASE
                             Text(
-                              "${getDiseaseHistory!.output.penyakit}",
+                              getDetailDataPrediction!.deskripsiPenyakit,
                               style: AppFonts().normalBlackFont,
                               textAlign: TextAlign.justify,
                             ),
@@ -87,7 +73,7 @@ class DetailDiseasePredictionPage extends StatelessWidget {
 
                             // CAUSE OF DISEASE
                             Text(
-                              getDiseaseHistory.output.pengobatanPenyakit,
+                              getDetailDataPrediction.pengobatanPenyakit,
                               style: AppFonts().normalBlackFont,
                               textAlign: TextAlign.justify,
                             ),
@@ -119,9 +105,7 @@ class DetailDiseasePredictionPage extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text:
-                                        getDiseaseHistory
-                                            .output
-                                            .sumberInformasi,
+                                        getDetailDataPrediction.sumberInformasi,
                                     style: AppFonts().normalBlackFont,
                                   ),
                                 ],

@@ -41,12 +41,23 @@ class _SettingPageState extends State<SettingPage> {
                   CustomFieldInputPass(
                     inputController: currentPassController,
                     hintText: "Password Lama",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password lama tidak boleh kosong';
+                      }
+                      return null;
+                    },
                   ),
-
                   const SizedBox(height: 10),
                   CustomFieldInputPass(
                     inputController: newPassController,
                     hintText: "Password Baru",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password baru tidak boleh kosong';
+                      }
+                      return null;
+                    },
                   ),
                 ],
               ),
@@ -59,9 +70,19 @@ class _SettingPageState extends State<SettingPage> {
               ElevatedButton(
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
+                    if (newPassController.text == currentPassController.text) {
+                      Get.snackbar(
+                        "Peringatan",
+                        "Password baru tidak boleh sama dengan password lama",
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
+                      );
+                      return;
+                    }
+
                     setState(() => isLoading = true);
                     try {
-                      AuthenticationServices().updatePassword(
+                      await AuthenticationServices().updatePassword(
                         currentPassController.text,
                         newPassController.text,
                       );
@@ -199,16 +220,6 @@ class _SettingPageState extends State<SettingPage> {
               },
             ),
 
-            // SizedBox(height: 20),
-
-            // // CONTAINER FOR CONTACT US
-            // CustomFieldSettings(
-            //   prefixIcon: Icon(Icons.contact_phone, color: Colors.white),
-            //   label: "Hubungi Kami",
-            //   onTap: () {
-            //     Get.to(ContactUsPage());
-            //   },
-            // ),
             SizedBox(height: 50),
 
             Center(

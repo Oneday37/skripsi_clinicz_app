@@ -12,8 +12,8 @@ class AIServices {
 
   // METHOD PREDICTION DISEASE
   Future<List<DiseasePredictionModel>?> getPrediction(
-    String areaDisease,
-    String symptomsMessage,
+    dynamic areaDisease,
+    dynamic symptomsMessage,
   ) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');

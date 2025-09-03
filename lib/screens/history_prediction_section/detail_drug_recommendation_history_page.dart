@@ -7,17 +7,13 @@ import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/data/disease_exception_output_data.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_detail_page.dart';
 import 'package:skripsi_clinicz_app/screens/nearby_faskes_page.dart';
-import 'package:skripsi_clinicz_app/services/history_services.dart';
+import 'package:skripsi_clinicz_app/services/ai_services.dart';
 import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
 class DetailDrugRecommendationPage extends StatefulWidget {
-  final String getDataID, diseaseName;
-  const DetailDrugRecommendationPage({
-    super.key,
-    required this.getDataID,
-    required this.diseaseName,
-  });
+  final String diseaseName;
+  const DetailDrugRecommendationPage({super.key, required this.diseaseName});
 
   @override
   State<DetailDrugRecommendationPage> createState() =>
@@ -26,6 +22,29 @@ class DetailDrugRecommendationPage extends StatefulWidget {
 
 class _DetailDrugRecommendationPageState
     extends State<DetailDrugRecommendationPage> {
+  final OnlineShopServices drugService = OnlineShopServices();
+  Map<String, String?> drugImages = {};
+  bool isLoadingImages = true;
+
+  late Future<List<dynamic>> futureDrugList;
+
+  @override
+  void initState() {
+    super.initState();
+    futureDrugList = AIServices().getDrugRecommendations(widget.diseaseName);
+    futureDrugList.then((drugs) async {
+      Map<String, String?> tempImages = {};
+      for (var drug in drugs) {
+        final imageUrl = await drugService.getGambarByNama(drug.namaObat);
+        tempImages[drug.namaObat] = imageUrl;
+      }
+      setState(() {
+        drugImages = tempImages;
+        isLoadingImages = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +52,7 @@ class _DetailDrugRecommendationPageState
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
             Get.back();
           },
@@ -44,15 +63,14 @@ class _DetailDrugRecommendationPageState
         ),
         centerTitle: true,
       ),
-      // CONTAINER OF PREDICTION RESULT
+
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: FutureBuilder(
-          future: HistoryServices().getDetailDrugRecommendationHistory(
-            widget.getDataID,
-          ),
+          future: futureDrugList,
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                isLoadingImages) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -60,13 +78,17 @@ class _DetailDrugRecommendationPageState
                     LottieBuilder.asset(
                       "assets/lottie_search_data_loading.json",
                     ),
-                    Text("Sedang memuat data...", style: AppFonts().titleFont),
+                    Text("Harap Menunggu...", style: AppFonts().titleFont),
+                    Text(
+                      "Permintaan Anda Sedang diproses",
+                      style: AppFonts().titleFont,
+                    ),
                   ],
                 ),
               );
             } else if (snapshot.hasError) {
               return Center(
-                child: Text("Terjadi kesalahan: ${snapshot.hasError}"),
+                child: Text("Terjadi kesalahan: ${snapshot.error}"),
               );
             } else if (diseaseExceptionOutput.contains(widget.diseaseName)) {
               return Column(
@@ -81,7 +103,7 @@ class _DetailDrugRecommendationPageState
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 50),
                   CustomButtonInside(
                     label: "Deteksi Faskes Terdekat",
                     onTap: () => Get.to(NearbyFaskesPage()),
@@ -89,148 +111,146 @@ class _DetailDrugRecommendationPageState
                 ],
               );
             } else {
-              final getData = snapshot.data;
+              final getDrugData = snapshot.data;
               return ListView.builder(
-                itemCount: getData!.output.length,
+                itemCount: 3,
                 itemBuilder: (context, index) {
-                  final getSingleDataDrug = getData.output[index];
-                  return FutureBuilder(
-                    future: OnlineShopServices().getSingleDrusShop(
-                      getSingleDataDrug.namaObat,
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container();
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else {
-                        final getSingleDataDrug2 = snapshot.data;
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 5),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                  final getSingleDrugData = getDrugData![index];
+                  final imageUrl = drugImages[getSingleDrugData.namaObat];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 5,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // NAME & DESC OF DRUG
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        // NAME OF DRUG
-                                        Text(
-                                          getSingleDataDrug.namaObat,
-                                          style: AppFonts().subTitleFont,
-                                        ),
-                                        const SizedBox(height: 20),
-
-                                        // DESCRIPTION
-                                        Text(
-                                          getSingleDataDrug.deskripsiObat,
-                                          style: AppFonts().normalBlackFont,
-                                          maxLines: 5,
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.justify,
-                                        ),
-                                        const SizedBox(height: 20),
-                                      ],
-                                    ),
+                                  Text(
+                                    getSingleDrugData.namaObat,
+                                    style: AppFonts().subTitleFont,
                                   ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    getSingleDrugData.deskripsiObat,
+                                    style: AppFonts().normalBlackFont,
+                                    maxLines: 5,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                  const SizedBox(height: 20),
+                                ],
+                              ),
+                            ),
 
-                                  Container(),
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        ClipRRect(
+                            const SizedBox(width: 15),
+
+                            // PICTURE OF DRUG
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child:
+                                        imageUrl != null
+                                            ? Image.network(
+                                              imageUrl,
+                                              height:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  4,
+                                              width:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  4,
+                                              fit: BoxFit.cover,
+                                            )
+                                            : Image.network(
+                                              "https://kec-sipispis.serdangbedagaikab.go.id/administrator/assets/img/img_pelayanan/belumada2.jpg",
+                                              height:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  4,
+                                              width:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  4,
+                                              fit: BoxFit.cover,
+                                            ),
+                                  ),
+                                  const SizedBox(height: 10),
+
+                                  // DETAIL BUTTON
+                                  GestureDetector(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 30,
+                                      ),
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primaryColor,
                                           borderRadius: BorderRadius.circular(
                                             15,
                                           ),
-                                          child: Image.network(
-                                            height:
-                                                MediaQuery.of(
-                                                  context,
-                                                ).size.width /
-                                                4,
-                                            width:
-                                                MediaQuery.of(
-                                                  context,
-                                                ).size.width /
-                                                4,
-                                            getSingleDataDrug2!.gambarObat,
-                                            // fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        // DETAIL BUTTON
-                                        GestureDetector(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: AppColors.primaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black
-                                                      .withOpacity(0.3),
-                                                  blurRadius: 5,
-                                                  offset: const Offset(0, 5),
-                                                ),
-                                              ],
-                                            ),
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 10,
-                                              horizontal: 20,
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                const Icon(
-                                                  Icons.info_outline,
-                                                  color: Colors.white,
-                                                ),
-                                                const SizedBox(width: 10),
-                                                Text(
-                                                  "Detail",
-                                                  style:
-                                                      AppFonts()
-                                                          .normalWhiteBoldFont,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          onTap: () {
-                                            Get.to(
-                                              DrugRecommendationDetailPage(
-                                                drugName:
-                                                    getSingleDataDrug.namaObat,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withOpacity(
+                                                0.3,
                                               ),
-                                            );
-                                          },
+                                              blurRadius: 5,
+                                              offset: const Offset(0, 5),
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                          horizontal: 20,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "Detail",
+                                            style:
+                                                AppFonts().normalWhiteBoldFont,
+                                          ),
+                                        ),
+                                      ),
                                     ),
+                                    onTap: () {
+                                      Get.to(
+                                        DrugRecommendationDetailPage(
+                                          drugName: getSingleDrugData.namaObat,
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                        );
-                      }
-                    },
+                          ],
+                        ),
+                      ),
+                    ),
                   );
                 },
               );

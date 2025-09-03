@@ -9,11 +9,42 @@ import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_det
 import 'package:skripsi_clinicz_app/screens/nearby_faskes_page.dart';
 import 'package:skripsi_clinicz_app/services/ai_services.dart';
 import 'package:skripsi_clinicz_app/services/disease_service.dart';
+import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
-class DetailDiseaseByCategoryPage extends StatelessWidget {
+class DetailDiseaseByCategoryPage extends StatefulWidget {
   final String diseaseName;
   const DetailDiseaseByCategoryPage({super.key, required this.diseaseName});
+
+  @override
+  State<DetailDiseaseByCategoryPage> createState() =>
+      _DetailDiseaseByCategoryPageState();
+}
+
+class _DetailDiseaseByCategoryPageState
+    extends State<DetailDiseaseByCategoryPage> {
+  final OnlineShopServices drugService = OnlineShopServices();
+  Map<String, String?> drugImages = {};
+  bool isLoadingImages = true;
+
+  late Future<List<dynamic>> futureDrugList;
+
+  @override
+  void initState() {
+    super.initState();
+    futureDrugList = AIServices().getDrugRecommendations(widget.diseaseName);
+    futureDrugList.then((drugs) async {
+      Map<String, String?> tempImages = {};
+      for (var drug in drugs) {
+        final imageUrl = await drugService.getGambarByNama(drug.namaObat);
+        tempImages[drug.namaObat] = imageUrl;
+      }
+      setState(() {
+        drugImages = tempImages;
+        isLoadingImages = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +58,7 @@ class DetailDiseaseByCategoryPage extends StatelessWidget {
             Get.back();
           },
         ),
-        title: Text(diseaseName, style: AppFonts().titleFont),
+        title: Text(widget.diseaseName, style: AppFonts().titleFont),
         centerTitle: true,
       ),
 
@@ -35,7 +66,7 @@ class DetailDiseaseByCategoryPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: FutureBuilder(
-          future: DiseaseService().getSingleDiseaseDetail(diseaseName),
+          future: DiseaseService().getSingleDiseaseDetail(widget.diseaseName),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Column(
@@ -151,23 +182,139 @@ class DetailDiseaseByCategoryPage extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                LottieBuilder.asset(
-                                  "assets/lottie_search_data_loading.json",
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: 20,
+                                  right: 20,
                                 ),
-                                Text(
-                                  "Harap Menunggu...",
-                                  style: AppFonts().titleFont,
+                                child: Container(
+                                  height: MediaQuery.of(context).size.width / 3,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.5,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.3),
+                                        blurRadius: 5,
+                                        offset: const Offset(0, 5),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        // NAME & DESC OF DRUG
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Container(
+                                                height: 30,
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[300],
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 20),
+
+                                              Expanded(
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[300],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          15,
+                                                        ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 20),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(width: 15),
+
+                                        // PICTURE OF DRUG
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                child: Container(
+                                                  height:
+                                                      MediaQuery.of(
+                                                        context,
+                                                      ).size.width /
+                                                      4,
+                                                  width:
+                                                      MediaQuery.of(
+                                                        context,
+                                                      ).size.width /
+                                                      4,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[300],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          15,
+                                                        ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+
+                                              // DETAIL BUTTON
+                                              GestureDetector(
+                                                child: Container(
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[300],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          15,
+                                                        ),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.black
+                                                            .withOpacity(0.3),
+                                                        blurRadius: 5,
+                                                        offset: const Offset(
+                                                          0,
+                                                          5,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 20,
+                                                      ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                                Text(
-                                  "Permintaan Anda Sedang diproses",
-                                  style: AppFonts().titleFont,
-                                ),
-                              ],
-                            ),
+                              );
+                            },
                           );
                         } else if (snapshot.hasError) {
                           return Center(
@@ -204,6 +351,8 @@ class DetailDiseaseByCategoryPage extends StatelessWidget {
                             itemCount: 3,
                             itemBuilder: (context, index) {
                               final getSingleDrugData = getDrugData[index];
+                              final imageUrl =
+                                  drugImages[getSingleDrugData.namaObat];
                               return Padding(
                                 padding: const EdgeInsets.only(
                                   bottom: 20,
@@ -230,20 +379,19 @@ class DetailDiseaseByCategoryPage extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
+                                        // NAME & DESC OF DRUG
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              // NAME OF DRUG
                                               Text(
                                                 getSingleDrugData.namaObat,
                                                 style: AppFonts().subTitleFont,
                                               ),
                                               const SizedBox(height: 20),
 
-                                              // DESCRIPTION OF DRUG
                                               Expanded(
                                                 child: Text(
                                                   getSingleDrugData
@@ -261,6 +409,7 @@ class DetailDiseaseByCategoryPage extends StatelessWidget {
                                             ],
                                           ),
                                         ),
+                                        SizedBox(width: 15),
 
                                         // PICTURE OF DRUG
                                         Expanded(
@@ -269,27 +418,43 @@ class DetailDiseaseByCategoryPage extends StatelessWidget {
                                               ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(15),
-                                                child: Image.network(
-                                                  height:
-                                                      MediaQuery.of(
-                                                        context,
-                                                      ).size.width /
-                                                      4,
-                                                  width:
-                                                      MediaQuery.of(
-                                                        context,
-                                                      ).size.width /
-                                                      4,
-                                                  getSingleDrugData
-                                                      .deskripsiObat, // GANTI DENGAN GAMBAR
-                                                  // fit: BoxFit.cover,
-                                                ),
+                                                child:
+                                                    imageUrl != null
+                                                        ? Image.network(
+                                                          imageUrl,
+                                                          height:
+                                                              MediaQuery.of(
+                                                                context,
+                                                              ).size.width /
+                                                              4,
+                                                          width:
+                                                              MediaQuery.of(
+                                                                context,
+                                                              ).size.width /
+                                                              4,
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                        : Image.network(
+                                                          "https://kec-sipispis.serdangbedagaikab.go.id/administrator/assets/img/img_pelayanan/belumada2.jpg",
+                                                          height:
+                                                              MediaQuery.of(
+                                                                context,
+                                                              ).size.width /
+                                                              4,
+                                                          width:
+                                                              MediaQuery.of(
+                                                                context,
+                                                              ).size.width /
+                                                              4,
+                                                          fit: BoxFit.cover,
+                                                        ),
                                               ),
-                                              SizedBox(height: 10),
+                                              const SizedBox(height: 10),
 
                                               // DETAIL BUTTON
                                               GestureDetector(
                                                 child: Container(
+                                                  width: double.infinity,
                                                   decoration: BoxDecoration(
                                                     color:
                                                         AppColors.primaryColor,
@@ -314,22 +479,13 @@ class DetailDiseaseByCategoryPage extends StatelessWidget {
                                                         vertical: 10,
                                                         horizontal: 20,
                                                       ),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.info_outline,
-                                                        color: Colors.white,
-                                                      ),
-                                                      const SizedBox(width: 10),
-                                                      Text(
-                                                        "Detail",
-                                                        style:
-                                                            AppFonts()
-                                                                .normalWhiteBoldFont,
-                                                      ),
-                                                    ],
+                                                  child: Center(
+                                                    child: Text(
+                                                      "Detail",
+                                                      style:
+                                                          AppFonts()
+                                                              .normalWhiteBoldFont,
+                                                    ),
                                                   ),
                                                 ),
                                                 onTap: () {

@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_page.dart';
+import 'package:skripsi_clinicz_app/screens/nearby_faskes_page.dart';
 import 'package:skripsi_clinicz_app/services/ai_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 
@@ -158,13 +159,26 @@ class _PredictionDiseaseDetailPageState
                         ),
                       )
                       : CustomButtonInside(
-                        label: "Dapatkan Pengobatan",
+                        label: "Rekomendasi Pengobatan",
                         onTap: () {
                           drugRecommendationSHandler(
                             getDetailDataPrediction.namaPenyakit,
                           );
                         },
                       ),
+
+                  SizedBox(height: 30),
+
+                  CustomButtonInside(
+                    label: "Periksa Lokasi Sekitar",
+                    onTap: () {
+                      if (mounted) {
+                        Get.to(NearbyFaskesPage());
+                      } else {
+                        print("Tombol tidak dapat diakses");
+                      }
+                    },
+                  ),
                 ],
               );
             }

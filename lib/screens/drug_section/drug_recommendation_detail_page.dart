@@ -17,11 +17,6 @@ class DrugRecommendationDetailPage extends StatefulWidget {
 
 class _DrugRecommendationDetailPageState
     extends State<DrugRecommendationDetailPage> {
-  String getLogoAssetFromStoreName(String storeName) {
-    String fileName = storeName.toLowerCase().replaceAll(' ', '');
-    return 'assets/${fileName}_logo.png';
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +79,7 @@ class _DrugRecommendationDetailPageState
 
                           // DESCRIPTION OF TREATMENT
                           CustomDetailDrug(
-                            label: "Deskripsi Obat:",
+                            label: "Deskripsi:",
                             content: getSingleDataDrug.deskripsiObat,
                           ),
                           SizedBox(height: 30),
@@ -104,10 +99,10 @@ class _DrugRecommendationDetailPageState
                           SizedBox(height: 30),
 
                           // TERMS OF USE
-                          CustomDetailDrug(
-                            label: "Aturan Pakai:",
-                            content: getSingleDataDrug.dosisObat,
-                          ),
+                          // CustomDetailDrug(
+                          //   label: "Aturan Pakai:",
+                          //   content: getSingleDataDrug.,
+                          // ),
                         ],
                       ),
                     ),

@@ -8,6 +8,7 @@ import 'package:skripsi_clinicz_app/data/disease_exception_output_data.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_detail_page.dart';
 import 'package:skripsi_clinicz_app/screens/nearby_faskes_page.dart';
 import 'package:skripsi_clinicz_app/services/ai_services.dart';
+import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_navbar.dart';
 
@@ -20,6 +21,31 @@ class DrugRecommendationPage extends StatefulWidget {
 }
 
 class _DrugRecommendationPageState extends State<DrugRecommendationPage> {
+  final OnlineShopServices drugService = OnlineShopServices();
+  Map<String, String?> drugImages = {};
+  bool isLoadingImages = true;
+
+  late Future<List<dynamic>> futureDrugList;
+
+  @override
+  void initState() {
+    super.initState();
+    futureDrugList = AIServices().getDrugRecommendations(
+      widget.diseaseNameForDrug,
+    );
+    futureDrugList.then((drugs) async {
+      Map<String, String?> tempImages = {};
+      for (var drug in drugs) {
+        final imageUrl = await drugService.getGambarByNama(drug.namaObat);
+        tempImages[drug.namaObat] = imageUrl;
+      }
+      setState(() {
+        drugImages = tempImages;
+        isLoadingImages = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,15 +64,13 @@ class _DrugRecommendationPageState extends State<DrugRecommendationPage> {
         ),
         centerTitle: true,
       ),
-      // CONTAINER OF PREDICTION RESULT
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: FutureBuilder(
-          future: AIServices().getDrugRecommendations(
-            widget.diseaseNameForDrug,
-          ),
+          future: futureDrugList,
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                isLoadingImages) {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +88,7 @@ class _DrugRecommendationPageState extends State<DrugRecommendationPage> {
               );
             } else if (snapshot.hasError) {
               return Center(
-                child: Text("Terjadi kesalahan: ${snapshot.hasError}"),
+                child: Text("Terjadi kesalahan: ${snapshot.error}"),
               );
             } else if (diseaseExceptionOutput.contains(
               widget.diseaseNameForDrug,
@@ -81,7 +105,7 @@ class _DrugRecommendationPageState extends State<DrugRecommendationPage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   CustomButtonInside(
                     label: "Deteksi Faskes Terdekat",
                     onTap: () => Get.to(NearbyFaskesPage()),
@@ -90,11 +114,11 @@ class _DrugRecommendationPageState extends State<DrugRecommendationPage> {
               );
             } else {
               final getDrugData = snapshot.data;
-              // LIST OF DRUG RECOMMENDATION
               return ListView.builder(
                 itemCount: 3,
                 itemBuilder: (context, index) {
                   final getSingleDrugData = getDrugData![index];
+                  final imageUrl = drugImages[getSingleDrugData.namaObat];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Container(
@@ -114,19 +138,17 @@ class _DrugRecommendationPageState extends State<DrugRecommendationPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            // NAME & DESC OF DRUG
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  // NAME OF DRUG
                                   Text(
                                     getSingleDrugData.namaObat,
                                     style: AppFonts().subTitleFont,
                                   ),
                                   const SizedBox(height: 20),
-
-                                  // DESCRIPTION OF DRUG
                                   Text(
                                     getSingleDrugData.deskripsiObat,
                                     style: AppFonts().normalBlackFont,
@@ -139,58 +161,81 @@ class _DrugRecommendationPageState extends State<DrugRecommendationPage> {
                               ),
                             ),
 
-                            // PICTURE OF DRUG
+                            const SizedBox(width: 15),
+
+                            // PICTURE OF DRUG & BUTTON DETAIL
                             Expanded(
                               child: Column(
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(15),
-                                    child: Image.network(
-                                      height:
-                                          MediaQuery.of(context).size.width / 4,
-                                      width:
-                                          MediaQuery.of(context).size.width / 4,
-                                      getSingleDrugData
-                                          .deskripsiObat, // GANTI DENGAN GAMBAR
-                                      // fit: BoxFit.cover,
-                                    ),
+                                    child:
+                                        imageUrl != null
+                                            ? Image.network(
+                                              imageUrl,
+                                              height:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  4,
+                                              width:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  4,
+                                              fit: BoxFit.cover,
+                                            )
+                                            : Image.network(
+                                              "https://kec-sipispis.serdangbedagaikab.go.id/administrator/assets/img/img_pelayanan/belumada2.jpg",
+                                              height:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  4,
+                                              width:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width /
+                                                  4,
+                                              fit: BoxFit.cover,
+                                            ),
                                   ),
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
 
                                   // DETAIL BUTTON
                                   GestureDetector(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: AppColors.primaryColor,
-                                        borderRadius: BorderRadius.circular(15),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withOpacity(
-                                              0.3,
-                                            ),
-                                            blurRadius: 5,
-                                            offset: const Offset(0, 5),
-                                          ),
-                                        ],
-                                      ),
+                                    child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                        vertical: 10,
-                                        horizontal: 20,
+                                        horizontal: 30,
                                       ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const Icon(
-                                            Icons.info_outline,
-                                            color: Colors.white,
+                                      child: Container(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primaryColor,
+                                          borderRadius: BorderRadius.circular(
+                                            15,
                                           ),
-                                          const SizedBox(width: 10),
-                                          Text(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withOpacity(
+                                                0.3,
+                                              ),
+                                              blurRadius: 5,
+                                              offset: const Offset(0, 5),
+                                            ),
+                                          ],
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 10,
+                                          horizontal: 20,
+                                        ),
+                                        child: Center(
+                                          child: Text(
                                             "Detail",
                                             style:
                                                 AppFonts().normalWhiteBoldFont,
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                     onTap: () {

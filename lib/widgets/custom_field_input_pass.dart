@@ -5,10 +5,12 @@ import 'package:skripsi_clinicz_app/constants/fonts.dart';
 class CustomFieldInputPass extends StatefulWidget {
   final TextEditingController inputController;
   final String hintText;
+  final FormFieldValidator<String>? validator;
   const CustomFieldInputPass({
     super.key,
     required this.inputController,
     required this.hintText,
+    this.validator,
   });
 
   @override
@@ -30,6 +32,7 @@ class _CustomFieldInputPassState extends State<CustomFieldInputPass> {
       controller: widget.inputController,
       cursorColor: AppColors.primaryColor,
       obscureText: visibilityButton == true ? true : false,
+      validator: widget.validator,
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.lock_outline),
         prefixIconColor: AppColors.iconColor,

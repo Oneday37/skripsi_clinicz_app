@@ -42,13 +42,22 @@ class _HistoryPredictionPageState extends State<HistoryPredictionPage> {
               return Center(child: Text("Error: ${snapshot.error}"));
             } else {
               final getDataForPrediction = snapshot.data!;
+              if (getDataForPrediction.isEmpty) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LottieBuilder.asset("assets/lottie_not_found.json"),
+                    Text(
+                      "Anda belum melakukan prediksi penyakit",
+                      style: AppFonts().titleFont,
+                    ),
+                  ],
+                );
+              }
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: getDataForPrediction.length,
                 itemBuilder: (context, index) {
-                  print(
-                    "Panjang data yang ada: ${getDataForPrediction.length}",
-                  );
                   final getSingleHistoryData = getDataForPrediction[index];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 20),
@@ -62,13 +71,10 @@ class _HistoryPredictionPageState extends State<HistoryPredictionPage> {
                               ? getSingleHistoryData.detail.first.namaPenyakit
                               : "Penyakit Tidak Terdeteksi",
                       onTap: () {
-                        print(getSingleHistoryData.detail.first.namaPenyakit);
                         Get.to(
                           HistoryConclusionPage(
                             diseaseName:
                                 getSingleHistoryData.detail.first.namaPenyakit,
-                            // diseaseID: getSingleDataForDisease.id,
-                            // drugID: getSingleDataForDrug.id,
                           ),
                         );
                       },
