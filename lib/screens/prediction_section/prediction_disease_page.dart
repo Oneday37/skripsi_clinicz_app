@@ -22,12 +22,26 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
 
   final List<String> listAreaPenyakit = [
     "Dada",
+    "Gigi",
     "Hidung",
+    "Kaki",
+    "Kelopak Mata",
     "Kepala",
+    "Kuku",
+    "Kulit",
     "Leher",
+    "Lengan",
+    "Mata",
+    "Mulut",
+    "Otot",
+    "Pencernaan",
     "Perut",
-    "Punggung",
+    "Rambut",
+    "Saraf",
+    "Sendi",
+    "Telinga",
     "Tenggorokan",
+    "Umum",
     "Wajah",
   ];
 
@@ -38,7 +52,7 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
     if (symptomsMessage.isEmpty) {
       Get.snackbar(
         "Peringatan",
-        "Harap memasukkan gejala",
+        "Harap Memasukkan Gejala",
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
@@ -48,7 +62,7 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
     if (selectedAreas.isEmpty) {
       Get.snackbar(
         "Peringatan",
-        "Harap pilih minimal 1 area penyakit",
+        "Harap Memilih Area Panyekit (Minimal 1)",
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
@@ -119,16 +133,10 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                   // INSTRUCTIONS
                   Text(
                     "Tuliskan gejala yang dirasakan pada tubuh anda secara spesifik",
-                    style: AppFonts().normalBlackFont,
+                    style: AppFonts().normalRedFont,
                     textAlign: TextAlign.justify,
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "(Contoh: Telinga nyeri, mata merah, hidung tersumbat)",
-                    style: AppFonts().normalBlackBoldFont,
-                    textAlign: TextAlign.justify,
-                  ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
 
                   // CONTAINER FOR DISEASE AREA (MULTI SELECT)
                   Text(
@@ -151,6 +159,7 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                       ],
                     ),
                     child: DropdownButtonFormField<String>(
+                      menuMaxHeight: 300,
                       value: null,
                       decoration: InputDecoration(
                         hintText: "Pilih area penyakit",
@@ -243,8 +252,20 @@ class _PredictionDiseasePageState extends State<PredictionDiseasePage> {
                           ),
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        hintText:
-                            "Masukkan gejala yang dirasakan (Minimal 5 gejala)",
+                        hint: RichText(
+                          text: TextSpan(
+                            text:
+                                "Masukkan gejala yang dirasakan (Minimal 5 gejala yang dipisahkan dengan tanda koma)\n\n",
+                            style: AppFonts().inputFieldFont,
+                            children: [
+                              TextSpan(
+                                text:
+                                    "(Contoh: Sakit, Nyeri, Kaku, Berdenyut dengan intensitas sedang, Sensitif cahaya, Sensitif suara)",
+                                style: AppFonts().normalRedFont,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {

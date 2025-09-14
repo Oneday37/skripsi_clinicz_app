@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                     RichText(
                       textAlign: TextAlign.justify,
                       text: TextSpan(
-                        text: "Hello ",
+                        text: "Halo ",
                         style: AppFonts().greetingFontInside,
                         children: [
                           TextSpan(

@@ -181,7 +181,7 @@ class _SettingPageState extends State<SettingPage> {
             // CONTAINER FOR CHANGE PASSWORD
             CustomFieldSettings(
               prefixIcon: Icon(Icons.key, color: Colors.white),
-              label: "Ganti Password",
+              label: "Ganti Kata Sandi",
               onTap: () {
                 showChangePasswordDialog();
               },
@@ -225,7 +225,7 @@ class _SettingPageState extends State<SettingPage> {
             Center(
               child: GestureDetector(
                 child: Container(
-                  width: MediaQuery.of(context).size.width / 3.5,
+                  // width: Min,
                   decoration: BoxDecoration(
                     color: Colors.red,
                     borderRadius: BorderRadius.circular(15),
@@ -233,11 +233,12 @@ class _SettingPageState extends State<SettingPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(15),
                     child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Iconify(Ci.log_out, color: Colors.white),
                         SizedBox(width: 20),
-                        Text("Logout", style: AppFonts().normalWhiteFont),
+                        Text("Keluar Akun", style: AppFonts().normalWhiteFont),
                       ],
                     ),
                   ),

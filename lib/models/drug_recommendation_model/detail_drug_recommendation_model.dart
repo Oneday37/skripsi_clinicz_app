@@ -5,6 +5,7 @@ class DetailDrugRecommendationModel {
   final String deskripsiObat;
   final String kandunganObat;
   final String dosisObat;
+  final String aturanPakai;
   final String sumberInformasi;
   final String gambarObat;
 
@@ -15,6 +16,7 @@ class DetailDrugRecommendationModel {
     required this.deskripsiObat,
     required this.kandunganObat,
     required this.dosisObat,
+    required this.aturanPakai,
     required this.sumberInformasi,
     required this.gambarObat,
   });
@@ -27,6 +29,7 @@ class DetailDrugRecommendationModel {
       deskripsiObat: json["Deskripsi"] ?? "Deskripsi obat tidak tersedia",
       kandunganObat: json["Kandungan"] ?? "Kandungan obat tidak tersedia",
       dosisObat: json["Dosis"] ?? "Dosis obat tidak tersedia",
+      aturanPakai: json["AturanPakai"] ?? "Aturan Pakai obat tidak tersedia",
       sumberInformasi: json["Sumber"] ?? "-",
       gambarObat:
           json["Gambar"] ??

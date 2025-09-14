@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: AppColors.bgColor,
         automaticallyImplyLeading: false,
-        title: Text("Profile", style: AppFonts().titleFont),
+        title: Text("Informasi Pengguna", style: AppFonts().titleFont),
         centerTitle: true,
       ),
       body: FutureBuilder(
@@ -71,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                   // CONTAINER FOR USERNAME
                   CustomProfile(
-                    label: "Username",
+                    label: "Nama Akun",
                     content: getDataProfile.usernamePengguna,
                   ),
                   SizedBox(height: 20),

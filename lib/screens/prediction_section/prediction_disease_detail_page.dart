@@ -159,7 +159,7 @@ class _PredictionDiseaseDetailPageState
                         ),
                       )
                       : CustomButtonInside(
-                        label: "Rekomendasi Pengobatan",
+                        label: "Rekomendasi Obat",
                         onTap: () {
                           drugRecommendationSHandler(
                             getDetailDataPrediction.namaPenyakit,

@@ -26,61 +26,61 @@ class _LoginPageState extends State<LoginPage> {
   String? errorMessage;
 
   // METHOD FOR VALIDATION
-  void validationForm() async {
-    if (!formKey.currentState!.validate()) return;
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return Center(
-          child: LottieBuilder.asset("assets/lottie_loading_animation.json"),
-        );
-      },
-    );
+void validationForm() async {
+  if (!formKey.currentState!.validate()) return;
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return Center(
+        child: LottieBuilder.asset("assets/lottie_loading_animation.json"),
+      );
+    },
+  );
 
-    final authService = AuthenticationServices();
-    final success = await authService.loginUser(
-      usernameController.text.trim(),
-      passwordController.text.trim(),
-    );
+  final authService = AuthenticationServices();
+  final success = await authService.loginUser(
+    usernameController.text.trim(),
+    passwordController.text.trim(),
+  );
 
-    if (context.mounted) {
-      Get.back();
-    }
-
-    if (success) {
-      if (context.mounted) {
-        Get.to(CustomNavBar());
-      }
-    } else {
-      setState(() {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Column(
-                children: [
-                  Text("Login Failed !", style: AppFonts().titleFont),
-                  SizedBox(height: 5),
-                  LottieBuilder.asset(
-                    height: MediaQuery.of(context).size.width / 6,
-                    width: MediaQuery.of(context).size.width / 6,
-                    "assets/lottie_failed_animation.json",
-                    repeat: true,
-                  ),
-                ],
-              ),
-              content: Text(
-                "Data yang anda masukan tidak sesuai. Harap memasukkan username dan password sesuai dengan yang anda daftarkan",
-                style: AppFonts().normalBlackFont,
-                textAlign: TextAlign.center,
-              ),
-            );
-          },
-        );
-      });
-    }
+  if (context.mounted) {
+    Get.back();
   }
+
+  if (success) {
+    if (context.mounted) {
+      Get.to(CustomNavBar());
+    }
+  } else {
+    setState(() {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Column(
+              children: [
+                Text("Gagal Masuk!", style: AppFonts().titleFont),
+                SizedBox(height: 5),
+                LottieBuilder.asset(
+                  height: MediaQuery.of(context).size.width / 6,
+                  width: MediaQuery.of(context).size.width / 6,
+                  "assets/lottie_failed_animation.json",
+                  repeat: true,
+                ),
+              ],
+            ),
+            content: Text(
+              "Data yang anda masukan tidak sesuai. Harap memasukkan username dan password sesuai dengan yang anda daftarkan",
+              style: AppFonts().normalBlackFont,
+              textAlign: TextAlign.center,
+            ),
+          );
+        },
+      );
+    });
+  }
+}
 
   @override
   void initState() {
@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Hello!", style: AppFonts().greetingFontOutside),
+                Text("Halo!", style: AppFonts().greetingFontOutside),
                 Text(
                   "Selamat Datang di DiagnoCare",
                   style: AppFonts().normalGreetingFontOutside,
@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Login",
+                              "Masuk",
                               style: AppFonts().greetingFontOutside2,
                             ),
                             const SizedBox(height: 30),
@@ -165,20 +165,20 @@ class _LoginPageState extends State<LoginPage> {
                                 Icons.account_circle_outlined,
                               ),
                               inputController: usernameController,
-                              hintText: "Username",
+                              hintText: "Nama Akun",
                             ),
                             const SizedBox(height: 20),
 
                             // CONTAINER FOR INPUT PASSWORD
                             CustomFieldInputPass(
                               inputController: passwordController,
-                              hintText: "Password",
+                              hintText: "Kata Sandi",
                             ),
                             const SizedBox(height: 50),
 
                             // BUTTON FOR LOGIN
                             CustomButtonOutside(
-                              label: "Login",
+                              label: "Masuk",
                               onTap: () {
                                 validationForm();
                               },
@@ -191,11 +191,11 @@ class _LoginPageState extends State<LoginPage> {
                       Center(
                         child: RichText(
                           text: TextSpan(
-                            text: "Don't have any account? ",
+                            text: "Belum memiliki akun? ",
                             style: const TextStyle(color: Colors.black),
                             children: [
                               TextSpan(
-                                text: "Sign Up",
+                                text: "Registrasi Akun",
                                 style: TextStyle(color: AppColors.primaryColor),
                                 recognizer:
                                     TapGestureRecognizer()

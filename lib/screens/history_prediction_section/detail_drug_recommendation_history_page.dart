@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/data/disease_exception_output_data.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_detail_page.dart';
 import 'package:skripsi_clinicz_app/screens/nearby_faskes_page.dart';
 import 'package:skripsi_clinicz_app/services/ai_services.dart';
@@ -90,7 +89,27 @@ class _DetailDrugRecommendationPageState
               return Center(
                 child: Text("Terjadi kesalahan: ${snapshot.error}"),
               );
-            } else if (diseaseExceptionOutput.contains(widget.diseaseName)) {
+            } else if (widget.diseaseName == "Stroke" ||
+                widget.diseaseName == "Meningitis" ||
+                widget.diseaseName == "Ensefalitis" ||
+                widget.diseaseName == "Gendang telinga pecah" ||
+                widget.diseaseName == "Kolesteatoma" ||
+                widget.diseaseName == "Otosklerosis" ||
+                widget.diseaseName == "Mastoiditis" ||
+                widget.diseaseName == "Barotrauma" ||
+                widget.diseaseName == "Keratitis Herpes Simpleks" ||
+                widget.diseaseName == "Keratitis Jamur" ||
+                widget.diseaseName == "Chalazion" ||
+                widget.diseaseName == "Demam Berdarah" ||
+                widget.diseaseName == "Serangan Jantung" ||
+                widget.diseaseName == "Gagal Jantung" ||
+                widget.diseaseName == "Endokarditis" ||
+                widget.diseaseName == "Angina pektoris" ||
+                widget.diseaseName == "Penyakit Jantung Rematik" ||
+                widget.diseaseName == "Penyakit Katup Jantung" ||
+                widget.diseaseName == "Emfisema" ||
+                widget.diseaseName == "Ambeien" ||
+                widget.diseaseName == "Irritable Bowel Syndrome (IBS)") {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -9,7 +9,8 @@ class DiseasePredictionModel {
 
   factory DiseasePredictionModel.fromJson(Map<String, dynamic> json) {
     return DiseasePredictionModel(
-      namaPenyakit: json['penyakit'] ?? "Nama Penyakit tidak tercantum",
+      namaPenyakit:
+          json['prediksi penyakit'] ?? "Nama Penyakit tidak tercantum",
       deskripsiPenyakit:
           json['deskripsi'] ?? "Deskripsi Penyakit tidak tercantum",
     );

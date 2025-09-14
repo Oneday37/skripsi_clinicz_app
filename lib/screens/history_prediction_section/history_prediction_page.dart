@@ -48,7 +48,7 @@ class _HistoryPredictionPageState extends State<HistoryPredictionPage> {
                   children: [
                     LottieBuilder.asset("assets/lottie_not_found.json"),
                     Text(
-                      "Anda belum melakukan prediksi penyakit",
+                      "Anda Belum Pernah Melakukan Prediksi Penyakit",
                       style: AppFonts().titleFont,
                     ),
                   ],

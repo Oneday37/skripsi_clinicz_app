@@ -142,7 +142,7 @@ class _DrugDetailShopPageState extends State<DrugDetailShopPage> {
                           children: [
                             Expanded(
                               child: Text(
-                                "Go To Market",
+                                "Beli Obat",
                                 style: AppFonts().normalWhiteBoldFont,
                               ),
                             ),

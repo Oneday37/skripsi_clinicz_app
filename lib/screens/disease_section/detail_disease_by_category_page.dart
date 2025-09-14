@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/data/disease_exception_output_data.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_detail_page.dart';
 import 'package:skripsi_clinicz_app/screens/nearby_faskes_page.dart';
 import 'package:skripsi_clinicz_app/services/ai_services.dart';
@@ -322,9 +321,32 @@ class _DetailDiseaseByCategoryPageState
                               "Terjadi kesalahan: ${snapshot.hasError}",
                             ),
                           );
-                        } else if (diseaseExceptionOutput.contains(
-                          getDataDisease.namaPenyakit,
-                        )) {
+                        } else if (getDataDisease.namaPenyakit == "Stroke" ||
+                            getDataDisease.namaPenyakit == "Meningitis" ||
+                            getDataDisease.namaPenyakit == "Ensefalitis" ||
+                            getDataDisease.namaPenyakit ==
+                                "Gendang telinga pecah" ||
+                            getDataDisease.namaPenyakit == "Kolesteatoma" ||
+                            getDataDisease.namaPenyakit == "Otosklerosis" ||
+                            getDataDisease.namaPenyakit == "Mastoiditis" ||
+                            getDataDisease.namaPenyakit == "Barotrauma" ||
+                            getDataDisease.namaPenyakit ==
+                                "Keratitis Herpes Simpleks" ||
+                            getDataDisease.namaPenyakit == "Keratitis Jamur" ||
+                            getDataDisease.namaPenyakit == "Chalazion" ||
+                            getDataDisease.namaPenyakit == "Demam Berdarah" ||
+                            getDataDisease.namaPenyakit == "Serangan Jantung" ||
+                            getDataDisease.namaPenyakit == "Gagal Jantung" ||
+                            getDataDisease.namaPenyakit == "Endokarditis" ||
+                            getDataDisease.namaPenyakit == "Angina pektoris" ||
+                            getDataDisease.namaPenyakit ==
+                                "Penyakit Jantung Rematik" ||
+                            getDataDisease.namaPenyakit ==
+                                "Penyakit Katup Jantung" ||
+                            getDataDisease.namaPenyakit == "Emfisema" ||
+                            getDataDisease.namaPenyakit == "Ambeien" ||
+                            getDataDisease.namaPenyakit ==
+                                "Irritable Bowel Syndrome (IBS)") {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

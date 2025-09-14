@@ -99,10 +99,10 @@ class _DrugRecommendationDetailPageState
                           SizedBox(height: 30),
 
                           // TERMS OF USE
-                          // CustomDetailDrug(
-                          //   label: "Aturan Pakai:",
-                          //   content: getSingleDataDrug.,
-                          // ),
+                          CustomDetailDrug(
+                            label: "Aturan Pakai:",
+                            content: getSingleDataDrug.aturanPakai,
+                          ),
                         ],
                       ),
                     ),

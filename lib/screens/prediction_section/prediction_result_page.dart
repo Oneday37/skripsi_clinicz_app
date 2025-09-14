@@ -4,6 +4,7 @@ import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
 import 'package:skripsi_clinicz_app/models/prediction_model/disease_prediction_model.dart';
 import 'package:skripsi_clinicz_app/screens/prediction_section/prediction_disease_detail_page.dart';
+import 'package:skripsi_clinicz_app/widgets/custom_navbar.dart';
 
 class PredictionResultPage extends StatefulWidget {
   final List<DiseasePredictionModel> prediction;
@@ -23,7 +24,7 @@ class _PredictionResultPageState extends State<PredictionResultPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
-            Get.back();
+            Get.offAll(CustomNavBar());
           },
         ),
         title: Text(

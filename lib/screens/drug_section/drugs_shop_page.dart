@@ -110,7 +110,7 @@ class _DrugShopPageState extends State<DrugShopPage> {
                       ),
                     ),
                     onTap: () {
-                      fetchDrugsByCategory(getDrugCategory.drugCategory);
+                      fetchDrugsByCategory(getDrugCategory.displayDrugName);
                     },
                   );
                 },
@@ -145,7 +145,12 @@ class _DrugShopPageState extends State<DrugShopPage> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text("Error: ${snapshot.error}"));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text("Data obat tidak tersedia."));
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Mohon Maaf. Tidak Ada Obat Untuk Penyakit Ini"),
+                    ],
+                  );
                 } else {
                   final getDataDrugs = snapshot.data!;
                   getDataDrugs.sort((a, b) => a.namaObat.compareTo(b.namaObat));
@@ -195,7 +200,15 @@ class _DrugShopPageState extends State<DrugShopPage> {
                                 ),
                                 child: AspectRatio(
                                   aspectRatio: 4 / 3,
-                                  child: Image.network(drugImage),
+                                  child: Image.network(
+                                    drugImage,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.network(
+                                        "https://kec-sipispis.serdangbedagaikab.go.id/administrator/assets/img/img_pelayanan/belumada2.jpg",
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 10),

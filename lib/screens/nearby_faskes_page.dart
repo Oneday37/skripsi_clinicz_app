@@ -234,7 +234,7 @@ class _NearbyFaskesPageState extends State<NearbyFaskesPage> {
                                   children: [
                                     TextSpan(
                                       text:
-                                          "${item.distance.toStringAsFixed(2)} meter",
+                                          "${item.distance.toStringAsFixed(2)} KM",
                                       style: GoogleFonts.robotoCondensed(
                                         fontWeight: FontWeight.normal,
                                       ),
@@ -245,7 +245,7 @@ class _NearbyFaskesPageState extends State<NearbyFaskesPage> {
                               Expanded(child: Container()),
                               Expanded(
                                 child: CustomButtonInside(
-                                  label: "See On Maps",
+                                  label: "Lihat Lokasi",
                                   onTap: () {
                                     launchUrl(Uri.parse(item.mapLink));
                                   },

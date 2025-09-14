@@ -4,26 +4,26 @@ List<DrugByCategroyModel> drugsByCategory = [
   DrugByCategroyModel(displayDrugName: "All", drugCategory: "All"),
   DrugByCategroyModel(
     displayDrugName: "Penyakit Kepala",
-    drugCategory: "Sakit Kepala",
+    drugCategory: "Penyakit Kepala",
   ),
   DrugByCategroyModel(
     displayDrugName: "Penyakit Telinga",
-    drugCategory: "Sakit Telinga",
+    drugCategory: "Penyakit Telinga",
   ),
   DrugByCategroyModel(
     displayDrugName: "Penyakit Mata",
-    drugCategory: "Sakit Mata",
+    drugCategory: "Penyakit Mata",
   ),
   DrugByCategroyModel(
-    displayDrugName: "Penyakit Pernapasan",
-    drugCategory: "Sakit Pernafasan",
+    displayDrugName: "Penyakit Pernafasan",
+    drugCategory: "Penyakit Pernafasan",
   ),
   DrugByCategroyModel(
     displayDrugName: "Penyakit Jantung",
-    drugCategory: "Sakit Jantung",
+    drugCategory: "Penyakit Jantung",
   ),
   DrugByCategroyModel(
     displayDrugName: "Penyakit Pencernaan",
-    drugCategory: "Sakit Perut",
+    drugCategory: "Penyakit Perut",
   ),
 ];

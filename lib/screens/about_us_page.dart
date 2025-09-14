@@ -38,7 +38,6 @@ class AboutUsPage extends StatelessWidget {
           } else if (!snapshot.hasData || snapshot.data == null) {
             return const Center(child: Text('Gagal memuat data profil'));
           } else {
-            // Buang <h1>...</h1> dan <hr> dari HTML
             final rawData = snapshot.data ?? '';
             final filteredData = rawData
                 .replaceAll(RegExp(r'<h1[^>]*>.*?<\/h1>', dotAll: true), '')

@@ -4,13 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/data/disease_exception_output_data.dart';
 import 'package:skripsi_clinicz_app/screens/drug_section/drug_recommendation_detail_page.dart';
 import 'package:skripsi_clinicz_app/screens/nearby_faskes_page.dart';
 import 'package:skripsi_clinicz_app/services/ai_services.dart';
 import 'package:skripsi_clinicz_app/services/online_shop_services.dart';
 import 'package:skripsi_clinicz_app/widgets/custom_button_inside.dart';
-import 'package:skripsi_clinicz_app/widgets/custom_navbar.dart';
 
 class DrugRecommendationPage extends StatefulWidget {
   final String diseaseNameForDrug;
@@ -55,11 +53,11 @@ class _DrugRecommendationPageState extends State<DrugRecommendationPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black),
           onPressed: () {
-            Get.off(CustomNavBar());
+            Get.back();
           },
         ),
         title: Text(
-          "Rekomendasi Pengobatan",
+          "Rekomendasi Obat",
           style: AppFonts().normalGreetingFontInside,
         ),
         centerTitle: true,
@@ -90,9 +88,27 @@ class _DrugRecommendationPageState extends State<DrugRecommendationPage> {
               return Center(
                 child: Text("Terjadi kesalahan: ${snapshot.error}"),
               );
-            } else if (diseaseExceptionOutput.contains(
-              widget.diseaseNameForDrug,
-            )) {
+            } else if (widget.diseaseNameForDrug == "Stroke" ||
+                widget.diseaseNameForDrug == "Meningitis" ||
+                widget.diseaseNameForDrug == "Ensefalitis" ||
+                widget.diseaseNameForDrug == "Gendang telinga pecah" ||
+                widget.diseaseNameForDrug == "Kolesteatoma" ||
+                widget.diseaseNameForDrug == "Otosklerosis" ||
+                widget.diseaseNameForDrug == "Mastoiditis" ||
+                widget.diseaseNameForDrug == "Barotrauma" ||
+                widget.diseaseNameForDrug == "Keratitis Herpes Simpleks" ||
+                widget.diseaseNameForDrug == "Keratitis Jamur" ||
+                widget.diseaseNameForDrug == "Chalazion" ||
+                widget.diseaseNameForDrug == "Demam Berdarah" ||
+                widget.diseaseNameForDrug == "Serangan Jantung" ||
+                widget.diseaseNameForDrug == "Gagal Jantung" ||
+                widget.diseaseNameForDrug == "Endokarditis" ||
+                widget.diseaseNameForDrug == "Angina pektoris" ||
+                widget.diseaseNameForDrug == "Penyakit Jantung Rematik" ||
+                widget.diseaseNameForDrug == "Penyakit Katup Jantung" ||
+                widget.diseaseNameForDrug == "Emfisema" ||
+                widget.diseaseNameForDrug == "Ambeien" ||
+                widget.diseaseNameForDrug == "Irritable Bowel Syndrome (IBS)") {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

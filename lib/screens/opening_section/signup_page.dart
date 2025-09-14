@@ -79,8 +79,8 @@ class _SignUpPageState extends State<SignUpPage> {
         imageProfile == null ||
         selectedItem == null) {
       Get.snackbar(
-        "Peringatan",
-        "Semua data harus diisi.",
+        "Peringatan!",
+        "Semua Data Harus Diisi.",
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
@@ -89,8 +89,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
     if (passwordController.text != confirmPasswordController.text) {
       Get.snackbar(
-        "Peringatan",
-        "Password dan konfirmasi password tidak cocok.",
+        "Peringatan!",
+        "Kolom Kata Sandi dan Konfirmasi Kata Sandi Tidak Cocok.",
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
@@ -127,7 +127,7 @@ class _SignUpPageState extends State<SignUpPage> {
       if (message.contains("already exists")) {
         Get.snackbar(
           "Gagal",
-          "Username atau email sudah digunakan.",
+          "Nama Akun atau E-mail Sudah Digunakan.",
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
@@ -204,7 +204,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               const Icon(Icons.arrow_back),
                               const SizedBox(width: 10),
                               Text(
-                                "Back to login",
+                                "Kembali",
                                 style: AppFonts().normalBlackFont,
                               ),
                             ],
@@ -213,7 +213,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: Text(
-                            "Sign Up",
+                            "Registrasi Akun",
                             style: AppFonts().greetingFontOutside2,
                           ),
                         ),
@@ -221,7 +221,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         CustomFieldInput(
                           fieldIcon: const Icon(Icons.account_circle_outlined),
                           inputController: usernameController,
-                          hintText: "Username",
+                          hintText: "Nama Akun",
                         ),
                         const SizedBox(height: 20),
 
@@ -328,7 +328,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             hintText:
                                 imageProfile == null
                                     ? "Ambil Foto Anda di Gallery"
-                                    : "Foto Profile.jpg",
+                                    : "Foto Profil.jpg",
                             hintStyle:
                                 imageProfile == null
                                     ? TextStyle(color: AppColors.iconColor)
@@ -356,20 +356,20 @@ class _SignUpPageState extends State<SignUpPage> {
 
                         CustomFieldInputPass(
                           inputController: passwordController,
-                          hintText: "Password",
+                          hintText: "Kata Sandi",
                         ),
                         const SizedBox(height: 20),
 
                         CustomFieldInputPass(
                           inputController: confirmPasswordController,
-                          hintText: "Confirm Password",
+                          hintText: "Konfirmasi Kata Sandi",
                         ),
                         const SizedBox(height: 50),
 
                         loadingToSendData
                             ? const Center(child: CircularProgressIndicator())
                             : CustomButtonOutside(
-                              label: "Sign Up",
+                              label: "Daftarkan Akun",
                               onTap: () {
                                 registerUser();
                               },
