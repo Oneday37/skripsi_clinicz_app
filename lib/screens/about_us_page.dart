@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:skripsi_clinicz_app/constants/colors.dart';
 import 'package:skripsi_clinicz_app/constants/fonts.dart';
-import 'package:skripsi_clinicz_app/services/setting_service.dart';
+import 'package:skripsi_clinicz_app/data/about_us_Data.dart';
 
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
@@ -24,43 +22,68 @@ class AboutUsPage extends StatelessWidget {
         title: Text("Tentang Kami", style: AppFonts().titleFont),
         centerTitle: true,
       ),
-      body: FutureBuilder(
-        future: SettingService().getAboutUsContent(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                LottieBuilder.asset("assets/lottie_loading_animation.json"),
-                Text("Sedang memuat profile...", style: AppFonts().titleFont),
-              ],
-            );
-          } else if (!snapshot.hasData || snapshot.data == null) {
-            return const Center(child: Text('Gagal memuat data profil'));
-          } else {
-            final rawData = snapshot.data ?? '';
-            final filteredData = rawData
-                .replaceAll(RegExp(r'<h1[^>]*>.*?<\/h1>', dotAll: true), '')
-                .replaceAll(RegExp(r'<hr[^>]*>', dotAll: true), '');
-
-            return ListView(
-              children: [
-                Html(
-                  data: filteredData,
-                  style: {
-                    "body": Style(
-                      margin: Margins(top: Margin.zero()),
-
-                      padding: HtmlPaddings.symmetric(vertical: 0),
-                    ),
-                    'h1': Style(fontSize: FontSize(50)),
-                    "strong": Style(fontWeight: FontWeight.bold),
-                  },
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: ListView(
+          children: [
+            Text(
+              AboutUsData().introduction,
+              style: AppFonts().normalBlackFont,
+              textAlign: TextAlign.justify,
+            ),
+            SizedBox(height: 30),
+            Text("Fitur Aplikasi", style: AppFonts().subTitleFont),
+            SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 10),
+                    // blurStyle: BlurStyle.inner,
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  AboutUsData().featureApps,
+                  style: AppFonts().normalBlackFont,
+                  textAlign: TextAlign.justify,
                 ),
-              ],
-            );
-          }
-        },
+              ),
+            ),
+            SizedBox(height: 30),
+            Text("Teknologi Utama", style: AppFonts().subTitleFont),
+            SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 10),
+                    // blurStyle: BlurStyle.inner,
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  AboutUsData().coreTech,
+                  style: AppFonts().normalBlackFont,
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+            ),
+            Container(height: 20),
+          ],
+        ),
       ),
     );
   }
